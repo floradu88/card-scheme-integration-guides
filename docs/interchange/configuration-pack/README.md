@@ -47,5 +47,6 @@ The proposed engine therefore supports:
 - Interchange index: [`../README.md`](../README.md)
 - Phase 2 engineering handbook: [`../phase2-engineering-handbook/`](../phase2-engineering-handbook/)
 - Visa options (D/E): [`../../visa/integration-options/`](../../visa/integration-options/)
+- Visa country fees / dynamic updates: [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
 - Mastercard adapter mirror: [`../../mastercard/adapter/`](../../mastercard/adapter/)
 - Source archive: [`../../../archives/interchange_configuration_pack.zip`](../../../archives/interchange_configuration_pack.zip)

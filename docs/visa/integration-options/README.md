@@ -16,3 +16,4 @@ Choose one option folder below. Standalone A–F ZIP archives under [`../../../a
 - NFR / security / operations: [`../nfr-security-operations/`](../nfr-security-operations/)
 - Platform network phase: [`../../platform/02-network-integration/`](../../platform/02-network-integration/)
 - Interchange (esp. options D/E): [`../../interchange/`](../../interchange/)
+- Visa interchange fees / dynamic per-country updates: [`../interchange-fees/`](../interchange-fees/)

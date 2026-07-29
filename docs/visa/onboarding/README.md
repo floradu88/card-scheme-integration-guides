@@ -10,3 +10,4 @@ Related deeper Visa packs:
 
 - Integration options: [`../integration-options/`](../integration-options/)
 - NFR / security / operations: [`../nfr-security-operations/`](../nfr-security-operations/)
+- Interchange fees / dynamic per-country updates: [`../interchange-fees/`](../interchange-fees/)

@@ -6,3 +6,5 @@ Copied from the interchange phase-2 engineering handbook for scheme-first naviga
 - [`official-source-index.md`](official-source-index.md)
 
 Full interchange design: [`../../interchange/phase2-engineering-handbook/`](../../interchange/phase2-engineering-handbook/).
+
+Country-scoped Visa fee packages: [`../interchange-fees/`](../interchange-fees/).

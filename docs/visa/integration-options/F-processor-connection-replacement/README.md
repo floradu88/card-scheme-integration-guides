@@ -70,4 +70,5 @@ Confirm the organization's role, acquiring sponsor, processor relationship, targ
 - Visa NFR / security / operations: [`../../nfr-security-operations/`](../../nfr-security-operations/)
 - Platform network integration: [`../../../platform/02-network-integration/`](../../../platform/02-network-integration/)
 - Interchange packs: [`../../../interchange/`](../../../interchange/)
+- Visa country fees / dynamic updates: [`../../interchange-fees/`](../../interchange-fees/)
 - Source archives: [`../../../../archives/`](../../../../archives/)

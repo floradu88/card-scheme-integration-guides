@@ -20,3 +20,9 @@ Published Visa interchange schedules, domestic supplements, and participant-spec
 - Reconciliation option: [`../integration-options/E-clearing-reconciliation-only/`](../integration-options/E-clearing-reconciliation-only/)
 - Shared interchange engine: [`../../interchange/`](../../interchange/)
 - Visa adapter: [`../adapter/`](../adapter/)
+
+## Status
+
+- Added: 2026-07-29
+- Covers Visa interchange fee axes, IFR context, country package model, and operational update/rollback runbook
+- Samples are illustrative only

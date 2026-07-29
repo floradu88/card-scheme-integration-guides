@@ -15,6 +15,7 @@ Browse by **card scheme** or by **shared topic**. Original ZIP archives live in 
 |-------|-------|
 | Payment platform handbook v3 | [`platform/`](platform/) |
 | Interchange (Visa + Mastercard) | [`interchange/`](interchange/) |
+| Visa interchange fees (per country) | [`visa/interchange-fees/`](visa/interchange-fees/) |
 
 ## Suggested paths
 

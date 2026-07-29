@@ -18,3 +18,5 @@ Mastercard-specific material in this corpus is **thinner** than Visa. There is n
 - Full network phase: [`../platform/02-network-integration/`](../platform/02-network-integration/)
 - Interchange configuration & engine: [`../interchange/`](../interchange/)
 - Mastercard adapter (canonical): [`../interchange/phase2-engineering-handbook/04-network-integration/mastercard-adapter.md`](../interchange/phase2-engineering-handbook/04-network-integration/mastercard-adapter.md)
+
+For Visa-specific country fee package patterns (adaptable to Mastercard catalogs), see [`../visa/interchange-fees/`](../visa/interchange-fees/).

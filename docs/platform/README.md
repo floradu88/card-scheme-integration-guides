@@ -21,4 +21,5 @@ Related deeper packs:
 
 - Visa options & NFR: [`../visa/`](../visa/)
 - Interchange (Visa + Mastercard): [`../interchange/`](../interchange/)
+- Visa country fees / dynamic updates: [`../visa/interchange-fees/`](../visa/interchange-fees/)
 - Archives: [`../../archives/`](../../archives/)

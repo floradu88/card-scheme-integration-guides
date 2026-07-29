@@ -22,4 +22,5 @@ Visa, Mastercard, adapters, clearing, settlement, certification, and reconciliat
 - Previous: [`../01-foundation/`](../01-foundation/)
 - Next: [`../03-security-compliance/`](../03-security-compliance/)
 - Visa scheme pack: [`../../visa/`](../../visa/)
+- Visa country fees / dynamic updates: [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
 - Mastercard scheme pack: [`../../mastercard/`](../../mastercard/)

@@ -47,4 +47,5 @@ Public Visa material does not contain every proprietary implementation mapping, 
 - Integration options A–F: [`../integration-options/`](../integration-options/)
 - Platform handbook: [`../../platform/`](../../platform/)
 - Interchange: [`../../interchange/`](../../interchange/)
+- Visa country fees / dynamic updates: [`../interchange-fees/`](../interchange-fees/)
 - Source archive: [`../../../archives/visa_integration_nfr_security_plan.zip`](../../../archives/visa_integration_nfr_security_plan.zip)

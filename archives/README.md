@@ -16,3 +16,9 @@ Original ZIP packs copied from Downloads for provenance. Prefer the extracted tr
 | `visa_integration_nfr_security_plan.zip` | [`docs/visa/nfr-security-operations/`](../docs/visa/nfr-security-operations/) |
 | `interchange_configuration_pack.zip` | [`docs/interchange/configuration-pack/`](../docs/interchange/configuration-pack/) |
 | `interchange_phase2_engineering_handbook.zip` | [`docs/interchange/phase2-engineering-handbook/`](../docs/interchange/phase2-engineering-handbook/) |
+
+## Docs without ZIP provenance
+
+| Docs path | Notes |
+|-----------|-------|
+| [`docs/visa/interchange-fees/`](../docs/visa/interchange-fees/) | Added in-repo: Visa interchange fees and dynamic per-country updates |

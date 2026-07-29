@@ -8,7 +8,7 @@ Start here: [`docs/README.md`](docs/README.md)
 
 | Scheme | Docs | Notes |
 |--------|------|-------|
-| **Visa** | [`docs/visa/`](docs/visa/) | Onboarding, adapter, six integration options (A-F), NFR / security / operations |
+| **Visa** | [`docs/visa/`](docs/visa/) | Onboarding, adapter, interchange fees (per country), options A-F, NFR / security / operations |
 | **Mastercard** | [`docs/mastercard/`](docs/mastercard/) | Onboarding and interchange adapter notes (thinner coverage than Visa) |
 | Other schemes | — | No Amex / Discover / UnionPay / JCB packs in this corpus |
 
@@ -19,6 +19,7 @@ Start here: [`docs/README.md`](docs/README.md)
 | Docs hub | [`docs/`](docs/) |
 | Payment Platform Architecture Handbook v3 (shared) | [`docs/platform/`](docs/platform/) |
 | Dynamic interchange (Visa + Mastercard) | [`docs/interchange/`](docs/interchange/) |
+| Visa interchange fees (per country) | [`docs/visa/interchange-fees/`](docs/visa/interchange-fees/) |
 | Original ZIP archives | [`archives/`](archives/) |
 
 ## Recommended reading order (platform)
