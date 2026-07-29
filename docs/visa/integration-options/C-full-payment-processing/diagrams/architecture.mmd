@@ -1,0 +1,9 @@
+flowchart LR
+    A[Business/System Input] --> B[Internal Adapter]
+    B --> C[Visa Integration or Existing Feed]
+    B --> D[Normalized Transaction Context]
+    D --> E[Interchange/Decision Capability]
+    E --> F[Decision Store]
+    C --> G[Actual/Network Result]
+    G --> H[Reconciliation]
+    F --> H

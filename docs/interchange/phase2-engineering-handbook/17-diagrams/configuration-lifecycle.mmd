@@ -1,0 +1,10 @@
+stateDiagram-v2
+ [*] --> Draft
+ Draft --> Validated
+ Validated --> Simulated
+ Simulated --> Approved
+ Approved --> Scheduled
+ Scheduled --> Active
+ Active --> Superseded
+ Active --> RolledBack
+ Superseded --> Retired

@@ -1,0 +1,72 @@
+{
+  "generated": "2026-07-29",
+  "option": "F-processor-connection-replacement",
+  "title": "Option F \u2014 Replace an Existing Visa Processor Connection",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "cb187ded0bdfc9863268b859c380f203673c02b2b792f3d785f155a2beb7d976",
+      "size": 2086
+    },
+    {
+      "path": "diagrams/architecture.mmd",
+      "sha256": "fae83144cb840ff9b2009d9459c9ddea723ab37b0373d382c061f04d8cee5adc",
+      "size": 305
+    },
+    {
+      "path": "docs/01-visa-onboarding.md",
+      "sha256": "e1073402ae6eca9cd417204e8b55fba7ff78072c75d945d060c5c4070b9faeeb",
+      "size": 1561
+    },
+    {
+      "path": "docs/02-implementation-plan.md",
+      "sha256": "99264f712e4226e6450d8cd97cee6efdee52a96f71ec7c0c2c6324b62044e5fa",
+      "size": 1199
+    },
+    {
+      "path": "docs/03-backlog.md",
+      "sha256": "62dba05dd52076210c2e281128f0912ce12467f1d0574ff9c2423168b5a59c58",
+      "size": 840
+    },
+    {
+      "path": "docs/04-risks-and-controls.md",
+      "sha256": "c3cdbc0fce6c53e1e22f99f331b2bc8a9dd2fc95b0ee751f785406b6e1694e78",
+      "size": 845
+    },
+    {
+      "path": "docs/05-option-specific-notes.md",
+      "sha256": "343505ffaa22d3bae41ae9b082d5e223c23d364273a5f102ad8b2f7ac249223e",
+      "size": 360
+    },
+    {
+      "path": "examples/VisaClientFactory.cs",
+      "sha256": "e5ac971e9e5962b75eaf22aecfc158bc11758f8d4f27934358805c4a42a3aa74",
+      "size": 619
+    },
+    {
+      "path": "examples/appsettings.sample.json",
+      "sha256": "7c69d5c3db6c7c1a5720b6489c9fd165e8efbae62bfd13ce62f9dfc3889819d4",
+      "size": 586
+    },
+    {
+      "path": "references/official-links.md",
+      "sha256": "5d7a05b51d699e9572591778be1c625da86dbc5d42f3a6ff6f9b4c834a21f182",
+      "size": 1670
+    },
+    {
+      "path": "templates/environment-checklist.md",
+      "sha256": "a91b7e2e3c8b3b35945b2f982b301d2d08d296ea570d8120feb6720ddef5e49e",
+      "size": 826
+    },
+    {
+      "path": "templates/field-mapping.csv",
+      "sha256": "f6bc65812c27bb14592e1bb6335d0f8edbaf866ae98e03f3ab5593f086791d87",
+      "size": 710
+    },
+    {
+      "path": "templates/test-matrix.csv",
+      "sha256": "7561fc6913e94ded7eb47d04f775faff54ef19e399f88267ae7965fc5069d817",
+      "size": 558
+    }
+  ]
+}

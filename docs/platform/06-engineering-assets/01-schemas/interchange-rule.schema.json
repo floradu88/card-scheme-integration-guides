@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InterchangeRule",
+  "type": "object",
+  "required": [
+    "ruleId",
+    "priority",
+    "conditions",
+    "rate"
+  ],
+  "properties": {
+    "ruleId": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "integer"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "rate": {
+      "type": "object"
+    }
+  }
+}

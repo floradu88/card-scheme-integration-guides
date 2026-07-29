@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "package_id": "mc-eu-sample",
+    "version": "1.0.0",
+    "network": "MASTERCARD",
+    "region": "EUROPE",
+    "effective_from": "2026-01-01T00:00:00Z",
+    "effective_to": null,
+    "environment": "TEST",
+    "source_references": [
+      "https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html",
+      "https://www.mastercard.com/content/dam/mccom/shared/business/support/rules-pdfs/transaction-processing-rules.pdf"
+    ],
+    "checksum": "3118db8ba1b5f3efe9713221387da83fad342eabf7fc20e631d17032f2d2dafb"
+  },
+  "programs": [
+    {
+      "id": "MC-EU-CONSUMER-CREDIT-CP-SAMPLE",
+      "network_code": null,
+      "name": "Sample consumer credit card-present program",
+      "network": "MASTERCARD",
+      "region": "EUROPE",
+      "description": "Illustrative only; replace with authorized current rate data.",
+      "effective_from": "2026-01-01T00:00:00Z",
+      "effective_to": null,
+      "fallback": false
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule-sample-001",
+      "program_id": "MC-EU-CONSUMER-CREDIT-CP-SAMPLE",
+      "priority": 1000,
+      "conditions": {
+        "all": [
+          {
+            "field": "network",
+            "operator": "equals",
+            "value": "MASTERCARD"
+          },
+          {
+            "field": "region_relation",
+            "operator": "equals",
+            "value": "INTRA_EEA"
+          },
+          {
+            "field": "funding_type",
+            "operator": "equals",
+            "value": "CREDIT"
+          },
+          {
+            "field": "cardholder_type",
+            "operator": "equals",
+            "value": "CONSUMER"
+          },
+          {
+            "field": "channel",
+            "operator": "equals",
+            "value": "CARD_PRESENT"
+          }
+        ]
+      },
+      "rate": {
+        "percentage_bps": 30,
+        "fixed_minor_units": 0,
+        "currency": null,
+        "minimum_minor_units": null,
+        "maximum_minor_units": null,
+        "rounding_policy": "HALF_UP_MINOR_UNIT"
+      },
+      "effective_from": "2026-01-01T00:00:00Z",
+      "effective_to": null,
+      "source_reference": "https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html",
+      "tags": [
+        "SAMPLE",
+        "CONSUMER",
+        "CARD_PRESENT"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "name": "sample exact match",
+      "transaction": {
+        "network": "MASTERCARD",
+        "region_relation": "INTRA_EEA",
+        "funding_type": "CREDIT",
+        "cardholder_type": "CONSUMER",
+        "channel": "CARD_PRESENT",
+        "amount_minor_units": 10000,
+        "currency": "EUR"
+      },
+      "expected_program_id": "MC-EU-CONSUMER-CREDIT-CP-SAMPLE",
+      "expected_fee_minor_units": 30
+    }
+  ]
+}

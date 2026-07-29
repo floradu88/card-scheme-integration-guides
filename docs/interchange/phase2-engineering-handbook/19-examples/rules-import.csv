@@ -1,0 +1,3 @@
+rule_id,program_id,priority,network,region_relation,cardholder_type,funding_type,channel,mccs,percentage_bps,fixed_minor_units,fixed_currency,effective_from,effective_to,source_reference
+R100,SAMPLE-MC-CONSUMER-CREDIT-CP,1000,MASTERCARD,INTRA_EEA,CONSUMER,CREDIT,CARD_PRESENT,,30,0,,2026-01-01T00:00:00Z,,https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html
+R999,SAMPLE-MC-FALLBACK,1,MASTERCARD,,,,,,0,0,,2026-01-01T00:00:00Z,,INTERNAL-SAMPLE

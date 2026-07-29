@@ -1,0 +1,9 @@
+flowchart LR
+ Internet --> Edge[Edge / Gateway Zone]
+ Edge --> Payment[Payment Processing Zone]
+ Payment --> Visa[Visa mTLS Endpoint]
+ Payment --> Vault[Secrets / HSM]
+ Payment --> Data[Cardholder / Financial Data Zone]
+ Admin[Privileged Admin Zone] --> Control[Configuration Control Plane]
+ Control --> Data
+ Control --> Audit[Immutable Audit]

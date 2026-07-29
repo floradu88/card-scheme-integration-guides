@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info:
+  title: Payment Platform API
+  version: 1.0.0
+paths:
+  /payments/authorizations:
+    post:
+      summary: Create authorization
+      responses:
+        '200':
+          description: Authorization result

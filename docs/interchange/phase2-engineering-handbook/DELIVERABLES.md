@@ -1,0 +1,31 @@
+# Deliverables Checklist
+
+- [x] Business capability and operating model
+- [x] RACI and release lifecycle
+- [x] Normalized domain model
+- [x] Program/rule model
+- [x] Target architecture
+- [x] Nonfunctional requirements
+- [x] Authorization/clearing/settlement integration
+- [x] Visa adapter guidance
+- [x] Mastercard adapter guidance
+- [x] Current-system field mapping template
+- [x] Configuration specification
+- [x] Qualification engine design
+- [x] Performance design
+- [x] .NET implementation patterns and C# examples
+- [x] SQL reference model
+- [x] Import/export design
+- [x] Validation catalog
+- [x] Reconciliation and downgrade diagnostics
+- [x] Admin console design
+- [x] Observability
+- [x] Testing and certification strategy
+- [x] Security/PCI considerations
+- [x] Deployment and rollout
+- [x] Operational runbooks
+- [x] Mermaid diagrams
+- [x] OpenAPI definition
+- [x] JSON Schema
+- [x] JSON and CSV examples
+- [x] Official source index

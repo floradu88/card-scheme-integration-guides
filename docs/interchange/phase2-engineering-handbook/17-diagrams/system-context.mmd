@@ -1,0 +1,11 @@
+flowchart LR
+ Merchant --> Gateway
+ Gateway --> AcquirerPlatform
+ AcquirerPlatform --> Visa
+ AcquirerPlatform --> Mastercard
+ Visa --> Issuer
+ Mastercard --> Issuer
+ AcquirerPlatform --> InterchangeEngine
+ InterchangeEngine --> DecisionStore
+ ClearingFeeds --> Reconciliation
+ DecisionStore --> Reconciliation

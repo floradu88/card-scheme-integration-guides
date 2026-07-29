@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  title: Interchange Configuration and Evaluation API
+  version: 1.0.0
+paths:
+  /v1/interchange/evaluate:
+    post:
+      summary: Evaluate a normalized transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Qualification result
+  /v1/config/packages/import:
+    post:
+      summary: Import a configuration package into draft state
+      requestBody:
+        required: true
+        content:
+          application/zip:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '202':
+          description: Import accepted for validation
+  /v1/config/packages/{packageId}/validate:
+    post:
+      summary: Run schema, semantic, overlap, gap and regression validation
+      parameters:
+        - name: packageId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Validation report
+  /v1/config/packages/{packageId}/activate:
+    post:
+      summary: Atomically activate an approved package
+      parameters:
+        - name: packageId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Activation result
+  /v1/config/packages/{packageId}/export:
+    get:
+      summary: Export a package
+      parameters:
+        - name: packageId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Configuration ZIP
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary

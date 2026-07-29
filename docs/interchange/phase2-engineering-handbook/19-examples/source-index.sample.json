@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "id": "VISA-RULES-2026-04-18",
+      "title": "Visa Core Rules and Visa Product and Service Rules",
+      "url": "https://usa.visa.com/dam/VCOM/download/about-visa/visa-rules-public.pdf",
+      "publication_date": "2026-04-18",
+      "access": "PUBLIC"
+    },
+    {
+      "id": "MC-RULES-2026-06-02",
+      "title": "Mastercard Rules",
+      "url": "https://www.mastercard.com/content/dam/mccom/shared/business/support/rules-pdfs/mastercard-rules.pdf",
+      "publication_date": "2026-06-02",
+      "access": "PUBLIC"
+    },
+    {
+      "id": "MC-TPR-2025-12-09",
+      "title": "Transaction Processing Rules",
+      "url": "https://www.mastercard.com/content/dam/mccom/shared/business/support/rules-pdfs/transaction-processing-rules.pdf",
+      "publication_date": "2025-12-09",
+      "access": "PUBLIC"
+    }
+  ]
+}

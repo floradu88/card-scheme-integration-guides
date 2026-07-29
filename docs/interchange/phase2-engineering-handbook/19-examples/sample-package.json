@@ -1,0 +1,125 @@
+{
+  "manifest": {
+    "package_id": "sample-mc-europe-2026",
+    "version": "2.0.0",
+    "network": "MASTERCARD",
+    "region": "EUROPE",
+    "effective_from": "2026-01-01T00:00:00Z",
+    "effective_to": null,
+    "sources": [
+      "https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html",
+      "https://www.mastercard.com/content/dam/mccom/shared/business/support/rules-pdfs/transaction-processing-rules.pdf"
+    ],
+    "notice": "Illustrative only; replace with authorized current production data."
+  },
+  "programs": [
+    {
+      "id": "SAMPLE-MC-CONSUMER-CREDIT-CP",
+      "name": "Illustrative consumer credit card-present",
+      "effective_from": "2026-01-01T00:00:00Z",
+      "fallback": false
+    },
+    {
+      "id": "SAMPLE-MC-FALLBACK",
+      "name": "Illustrative fallback",
+      "effective_from": "2026-01-01T00:00:00Z",
+      "fallback": true
+    }
+  ],
+  "rules": [
+    {
+      "id": "R100",
+      "program_id": "SAMPLE-MC-CONSUMER-CREDIT-CP",
+      "priority": 1000,
+      "conditions": {
+        "all": [
+          {
+            "field": "network",
+            "operator": "equals",
+            "value": "MASTERCARD"
+          },
+          {
+            "field": "region_relation",
+            "operator": "equals",
+            "value": "INTRA_EEA"
+          },
+          {
+            "field": "cardholder_type",
+            "operator": "equals",
+            "value": "CONSUMER"
+          },
+          {
+            "field": "funding_type",
+            "operator": "equals",
+            "value": "CREDIT"
+          },
+          {
+            "field": "channel",
+            "operator": "equals",
+            "value": "CARD_PRESENT"
+          }
+        ]
+      },
+      "rate": {
+        "percentage_bps": 30,
+        "fixed_minor_units": 0,
+        "fixed_currency": null,
+        "rounding": "HALF_UP_MINOR_UNIT"
+      },
+      "effective_from": "2026-01-01T00:00:00Z",
+      "effective_to": null,
+      "source_reference": "https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html"
+    },
+    {
+      "id": "R999",
+      "program_id": "SAMPLE-MC-FALLBACK",
+      "priority": 1,
+      "conditions": {
+        "all": [
+          {
+            "field": "network",
+            "operator": "equals",
+            "value": "MASTERCARD"
+          }
+        ]
+      },
+      "rate": {
+        "percentage_bps": 0,
+        "fixed_minor_units": 0,
+        "fixed_currency": null,
+        "rounding": "HALF_UP_MINOR_UNIT"
+      },
+      "effective_from": "2026-01-01T00:00:00Z",
+      "effective_to": null,
+      "source_reference": "INTERNAL-SAMPLE"
+    }
+  ],
+  "tests": [
+    {
+      "name": "exact match",
+      "transaction": {
+        "network": "MASTERCARD",
+        "region_relation": "INTRA_EEA",
+        "cardholder_type": "CONSUMER",
+        "funding_type": "CREDIT",
+        "channel": "CARD_PRESENT",
+        "amount_minor_units": 10000,
+        "currency": "EUR"
+      },
+      "expected_program_id": "SAMPLE-MC-CONSUMER-CREDIT-CP"
+    },
+    {
+      "name": "fallback",
+      "transaction": {
+        "network": "MASTERCARD",
+        "region_relation": "INTERREGIONAL",
+        "cardholder_type": "CONSUMER",
+        "funding_type": "CREDIT",
+        "channel": "CARD_PRESENT",
+        "amount_minor_units": 10000,
+        "currency": "EUR"
+      },
+      "expected_program_id": "SAMPLE-MC-FALLBACK"
+    }
+  ]
+}

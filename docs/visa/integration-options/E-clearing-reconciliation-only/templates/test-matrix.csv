@@ -1,0 +1,8 @@
+test_id,environment,scenario,expected_http,expected_business_result,evidence,status
+T001,SANDBOX,Connectivity and mTLS,200,Connection established,,
+T002,SANDBOX,Valid authorization,2xx,Approved or expected sandbox result,,
+T003,SANDBOX,Invalid required field,4xx,Validation error mapped,,
+T004,SANDBOX,Invalid credential,401/403,Authentication error mapped,,
+T005,SANDBOX,Timeout simulation,,No unsafe blind retry,,
+T006,CERTIFICATION,Acquirer/Visa scenario,,Expected certified outcome,,
+T007,PRODUCTION,Shadow comparison,,No customer-impacting divergence,,

@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Interchange Phase 2 Package",
+  "type": "object",
+  "required": [
+    "manifest",
+    "programs",
+    "rules",
+    "tests"
+  ],
+  "properties": {
+    "manifest": {
+      "type": "object",
+      "required": [
+        "package_id",
+        "version",
+        "network",
+        "region",
+        "effective_from",
+        "sources"
+      ],
+      "properties": {
+        "package_id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "network": {
+          "enum": [
+            "VISA",
+            "MASTERCARD"
+          ]
+        },
+        "region": {
+          "type": "string"
+        },
+        "effective_from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "effective_to": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "programs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "effective_from"
+        ]
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "$defs": {
+    "condition": {
+      "type": "object",
+      "required": [
+        "field",
+        "operator"
+      ],
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "equals",
+            "not_equals",
+            "in",
+            "not_in",
+            "exists",
+            "missing",
+            "gt",
+            "gte",
+            "lt",
+            "lte",
+            "range",
+            "prefix",
+            "member_of_dictionary"
+          ]
+        },
+        "value": {},
+        "values": {
+          "type": "array"
+        },
+        "min": {},
+        "max": {}
+      }
+    },
+    "conditionGroup": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "all": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/condition"
+              },
+              {
+                "$ref": "#/$defs/conditionGroup"
+              }
+            ]
+          }
+        },
+        "any": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/condition"
+              },
+              {
+                "$ref": "#/$defs/conditionGroup"
+              }
+            ]
+          }
+        },
+        "none": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/condition"
+              },
+              {
+                "$ref": "#/$defs/conditionGroup"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "id",
+        "program_id",
+        "priority",
+        "conditions",
+        "rate",
+        "effective_from",
+        "source_reference"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "program_id": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "conditions": {
+          "$ref": "#/$defs/conditionGroup"
+        },
+        "rate": {
+          "type": "object",
+          "required": [
+            "percentage_bps",
+            "fixed_minor_units",
+            "rounding"
+          ],
+          "properties": {
+            "percentage_bps": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "fixed_minor_units": {
+              "type": "integer"
+            },
+            "fixed_currency": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "rounding": {
+              "type": "string"
+            }
+          }
+        },
+        "effective_from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "effective_to": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "source_reference": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

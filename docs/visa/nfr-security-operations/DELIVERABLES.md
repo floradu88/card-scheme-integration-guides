@@ -1,0 +1,28 @@
+# Deliverables
+
+- [x] Visa end-to-end onboarding plan
+- [x] Sandbox checklist
+- [x] Target architecture
+- [x] Service boundaries
+- [x] Complete NFR catalog
+- [x] SLO/SLI/error-budget plan
+- [x] Monitoring plan
+- [x] Metrics catalog
+- [x] Logging and tracing plan
+- [x] Alerting plan
+- [x] Security plan
+- [x] Compliance plan
+- [x] Threat model
+- [x] Resilience and disaster recovery
+- [x] Chaos engineering plan
+- [x] Deployment and release plan
+- [x] Capacity planning
+- [x] Testing and certification plan
+- [x] Operations plan
+- [x] Runbook index
+- [x] Emergency rollback runbook
+- [x] Risk register
+- [x] RACI
+- [x] NFR, alert, readiness, and monitoring templates
+- [x] Mermaid diagrams
+- [x] Official Visa links

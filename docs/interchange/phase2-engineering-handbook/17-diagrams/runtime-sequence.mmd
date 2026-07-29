@@ -1,0 +1,12 @@
+sequenceDiagram
+ participant P as Payment Pipeline
+ participant A as Network Adapter
+ participant E as Engine
+ participant S as Snapshot
+ participant D as Decision Store
+ P->>A: raw authorization/clearing
+ A->>E: normalized transaction
+ E->>S: get(event date, network, region)
+ S-->>E: immutable compiled partition
+ E-->>P: decision + explanation
+ E-->>D: persist decision

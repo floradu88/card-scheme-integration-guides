@@ -1,0 +1,72 @@
+{
+  "generated": "2026-07-29",
+  "option": "D-interchange-estimation-only",
+  "title": "Option D \u2014 Interchange Estimation Only",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "c1e14ca8126110918e26f436b66d573cca2b1bd6a0e6032596daddc58553b8ec",
+      "size": 1893
+    },
+    {
+      "path": "diagrams/architecture.mmd",
+      "sha256": "fae83144cb840ff9b2009d9459c9ddea723ab37b0373d382c061f04d8cee5adc",
+      "size": 305
+    },
+    {
+      "path": "docs/01-visa-onboarding.md",
+      "sha256": "4a00e75765c28efc953e32e044854e502f9dc1fc307c2aa46948d6e1db3cbfbb",
+      "size": 1543
+    },
+    {
+      "path": "docs/02-implementation-plan.md",
+      "sha256": "5319844cf3b6056bd68586343c7c4e86fe8e9279e8801c6a2ae85a0224386051",
+      "size": 1181
+    },
+    {
+      "path": "docs/03-backlog.md",
+      "sha256": "ac25f57d076de4c0d21bd4fb63db75fd3b0cdd7c677542d1ae94775e296af39f",
+      "size": 798
+    },
+    {
+      "path": "docs/04-risks-and-controls.md",
+      "sha256": "c3cdbc0fce6c53e1e22f99f331b2bc8a9dd2fc95b0ee751f785406b6e1694e78",
+      "size": 845
+    },
+    {
+      "path": "docs/05-option-specific-notes.md",
+      "sha256": "b1a002d587320f9197ae0e78b71a2d31d99492fb75fa0d9dfea13c2e213ac6bd",
+      "size": 276
+    },
+    {
+      "path": "examples/VisaClientFactory.cs",
+      "sha256": "e5ac971e9e5962b75eaf22aecfc158bc11758f8d4f27934358805c4a42a3aa74",
+      "size": 619
+    },
+    {
+      "path": "examples/appsettings.sample.json",
+      "sha256": "7c69d5c3db6c7c1a5720b6489c9fd165e8efbae62bfd13ce62f9dfc3889819d4",
+      "size": 586
+    },
+    {
+      "path": "references/official-links.md",
+      "sha256": "5d7a05b51d699e9572591778be1c625da86dbc5d42f3a6ff6f9b4c834a21f182",
+      "size": 1670
+    },
+    {
+      "path": "templates/environment-checklist.md",
+      "sha256": "a91b7e2e3c8b3b35945b2f982b301d2d08d296ea570d8120feb6720ddef5e49e",
+      "size": 826
+    },
+    {
+      "path": "templates/field-mapping.csv",
+      "sha256": "f6bc65812c27bb14592e1bb6335d0f8edbaf866ae98e03f3ab5593f086791d87",
+      "size": 710
+    },
+    {
+      "path": "templates/test-matrix.csv",
+      "sha256": "7561fc6913e94ded7eb47d04f775faff54ef19e399f88267ae7965fc5069d817",
+      "size": 558
+    }
+  ]
+}

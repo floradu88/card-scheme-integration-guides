@@ -1,0 +1,241 @@
+{
+  "generated": "2026-07-29",
+  "package": "interchange_phase2_engineering_handbook",
+  "files": [
+    {
+      "path": "00-governance/implementation-charter.md",
+      "sha256": "2608dea0ffde0afdd109257d75e7d120f8f19990d3f6ca09a9af5fcf92168d49",
+      "size": 1754
+    },
+    {
+      "path": "01-business/business-capability-and-value.md",
+      "sha256": "139c5107395df82521c1d2031cd5ebf3aafcf52e8831f821033e7ffccff88619",
+      "size": 2061
+    },
+    {
+      "path": "01-business/raci-and-process.md",
+      "sha256": "7d1d09dab5eb90f66af60afef3bfb79baa8a245c183aff8394d89b859a26c0ec",
+      "size": 796
+    },
+    {
+      "path": "02-domain/normalized-transaction-model.md",
+      "sha256": "05527a0a3ba847c0a038a2a152b48aea12582f9305604a22d8f5a19c7f94bc5a",
+      "size": 2131
+    },
+    {
+      "path": "02-domain/program-and-rule-model.md",
+      "sha256": "278a9a5e89dac15a2695bb9cd4637686c34400a12e72b3ca142cf04ea8050f29",
+      "size": 1027
+    },
+    {
+      "path": "03-architecture/nonfunctional-requirements.md",
+      "sha256": "7747afda2252600bc9c25cfa8c467e8ee515b96e866d4809fbc4934e228c6b5b",
+      "size": 976
+    },
+    {
+      "path": "03-architecture/target-architecture.md",
+      "sha256": "e7a32be475a6000d241d5d41de82b9246315c80fc5696135e3332ccf1338695e",
+      "size": 1737
+    },
+    {
+      "path": "04-network-integration/authorization-clearing-settlement.md",
+      "sha256": "3ad6ea3aa5324c96b77552c6a298ce3635ac783aab17b0f95ef4ce7d7f138b92",
+      "size": 1339
+    },
+    {
+      "path": "04-network-integration/field-mapping-template.md",
+      "sha256": "1a1646c64bd368bef5da13682c1dac99f15eb993c9332d7c433cba3eb220ba54",
+      "size": 923
+    },
+    {
+      "path": "04-network-integration/mastercard-adapter.md",
+      "sha256": "c8de7ebdad021052152c6c3c6d0a1e8fb5f9d8ba79969ed94bbd67096682817b",
+      "size": 1681
+    },
+    {
+      "path": "04-network-integration/visa-adapter.md",
+      "sha256": "508c7f1ad76459444210af35d619fa5143fe5a882955c7ab1f026209cc46677c",
+      "size": 1592
+    },
+    {
+      "path": "05-configuration/configuration-schema-notes.md",
+      "sha256": "62da019b6eb965de3ac8b45aadb76b208384d8e32d2eb8bb3b37e675f4c82697",
+      "size": 795
+    },
+    {
+      "path": "05-configuration/configuration-specification.md",
+      "sha256": "e5228f888a72709da87eda4fa70b1e724b8bb681fbe0b2b8fde40e17af91606c",
+      "size": 1149
+    },
+    {
+      "path": "06-engine/performance-design.md",
+      "sha256": "7901ce947e6543801a3f770293a8a275128917a4046163753d1f2a75d903af31",
+      "size": 1081
+    },
+    {
+      "path": "06-engine/qualification-engine.md",
+      "sha256": "55322794793d9a3a3dbe3567f066e5b71cced0fc644f37604172eeb77f787992",
+      "size": 1361
+    },
+    {
+      "path": "07-dotnet-reference/evaluator-example.cs",
+      "sha256": "053a5e4585462e644fc393030b2e80a92f22d96494c2593f746f9aa94a4cdb1f",
+      "size": 1427
+    },
+    {
+      "path": "07-dotnet-reference/implementation-guide.md",
+      "sha256": "933c53ee1463ee5f5746ae3fa48214aae4b6e13ad73929b3ededc81a7cd42be7",
+      "size": 2064
+    },
+    {
+      "path": "07-dotnet-reference/import-validation-example.cs",
+      "sha256": "573ac5a4a153ea733c55b5b1c747af2124ffb84c8d2a7380a3a87e18a6bc7689",
+      "size": 861
+    },
+    {
+      "path": "07-dotnet-reference/rule-compiler-example.cs",
+      "sha256": "0e9c9a1359d273c68bc431a28b32a8967ed8099aa2c1ab9fba551069613e6922",
+      "size": 1254
+    },
+    {
+      "path": "08-data/reference-data-model.md",
+      "sha256": "c79daf4d39cc5a5ec6278648fa418acfdd19eebf6b3c462d380b11beaf527181",
+      "size": 962
+    },
+    {
+      "path": "08-data/reference-schema.sql",
+      "sha256": "7892743d470e4e474c8b62393a532532b95319b57d58113b754fb0053b401104",
+      "size": 1667
+    },
+    {
+      "path": "09-import-export/import-export-design.md",
+      "sha256": "7176aa6bf4f0177ba15c2b9d44cfae36bd291493cc85efa941f7fcd4b585744d",
+      "size": 1360
+    },
+    {
+      "path": "09-import-export/validation-catalog.md",
+      "sha256": "fac7346dead747dda5d09b5d021a4ba3139d4561d0d9213b845151b5b20c93dd",
+      "size": 974
+    },
+    {
+      "path": "10-reconciliation/downgrade-diagnostics.md",
+      "sha256": "2026f010e272264d927ed296e1d563682eb9f974f53e4e4c6e7057a81b2acf62",
+      "size": 811
+    },
+    {
+      "path": "10-reconciliation/reconciliation-design.md",
+      "sha256": "612554b865a970cb1eef21403f0892e693cd7e3a29a438ab25ad95e1cab59932",
+      "size": 1073
+    },
+    {
+      "path": "11-admin-ui/admin-console-design.md",
+      "sha256": "15c58ac7d8ddfac2d5e91dd50735dba09450a840c6fac7dfdd595e66d8fbf412",
+      "size": 1019
+    },
+    {
+      "path": "12-observability/metrics-logging-alerting.md",
+      "sha256": "4f34d5f6179ee2b6173c15d450f88c0a699c506601a762a6640b768bd0240a9e",
+      "size": 947
+    },
+    {
+      "path": "13-testing-certification/test-matrix.csv",
+      "sha256": "28bc4bdd0eed896e63231493ae75e7753c75b2647a4cde9cdfaa983bca7472ac",
+      "size": 617
+    },
+    {
+      "path": "13-testing-certification/test-strategy.md",
+      "sha256": "787c8463b56b7397a01319b2161fb0b8591bf5517a676aace25c5a00805c24f0",
+      "size": 1100
+    },
+    {
+      "path": "14-security-compliance/security-and-pci.md",
+      "sha256": "7891921c40d72c9dbef0e5d0b3c2429c2d77ba8c6fcce6dafbb3e42652fe0dd2",
+      "size": 776
+    },
+    {
+      "path": "15-deployment/deployment-and-rollout.md",
+      "sha256": "5e5d6412e62dd2c210323a327b8b037854b945a6d76486122cec58ae10576abe",
+      "size": 922
+    },
+    {
+      "path": "16-runbooks/configuration-release-runbook.md",
+      "sha256": "182ccb1a134110fe5904936201fa0990d694e049ba857300d709d2c488c83bf8",
+      "size": 537
+    },
+    {
+      "path": "16-runbooks/incident-runbook.md",
+      "sha256": "e913a861f3cb5e6bc3ef471b0756ec30d67f12d1317c010cc7866b5345660f7a",
+      "size": 751
+    },
+    {
+      "path": "17-diagrams/configuration-lifecycle.mmd",
+      "sha256": "2917eb21c1082706735fd2088463fb2b6610043529fa1ee8591fb28e9dbb217b",
+      "size": 217
+    },
+    {
+      "path": "17-diagrams/import-sequence.mmd",
+      "sha256": "001c32c6c61d8e2370558ddfaaf516678ace6625bca2075dbe6e1303725c306f",
+      "size": 367
+    },
+    {
+      "path": "17-diagrams/runtime-sequence.mmd",
+      "sha256": "3e0e505888568f5cf524253a5da42066677a5d0f906ddaece56d5bf3d2a603ac",
+      "size": 373
+    },
+    {
+      "path": "17-diagrams/system-context.mmd",
+      "sha256": "0207ec56318140096c62ac75be19da8298618e8ee09f7e0b7ca749edbd07ae4a",
+      "size": 310
+    },
+    {
+      "path": "18-api/openapi.yaml",
+      "sha256": "0b39010306b5b02c3ed9884d7bcb15d4c2654b20b1721478258f8b1d2d8700c0",
+      "size": 2798
+    },
+    {
+      "path": "19-examples/rules-import.csv",
+      "sha256": "25ec59fc3fe59b2b70e01c61bd51febeedc7813ce661f704b2f3ae11713f32bf",
+      "size": 476
+    },
+    {
+      "path": "19-examples/sample-package.json",
+      "sha256": "567648911d0f730e5f849a222bce2c63b11f346ca21726b7c456fc464897d823",
+      "size": 3399
+    },
+    {
+      "path": "19-examples/source-index.sample.json",
+      "sha256": "201d508f26c0adc9d2f53ef3c1ada219586b7433676d595b1e16dad070a6f938",
+      "size": 846
+    },
+    {
+      "path": "20-official-references/official-source-index.md",
+      "sha256": "d77f37e6790ed3c25ae152b57be192ff67a00bdf135f16250089e40bcc2e64f4",
+      "size": 2875
+    },
+    {
+      "path": "20-official-references/research-findings.md",
+      "sha256": "58132772016da61b019321aacdc26903b1f4b2651fecdacccd8cb6a4b41e69e5",
+      "size": 1599
+    },
+    {
+      "path": "DELIVERABLES.md",
+      "sha256": "0299a2700cfe06cc7de8ad384062c15a3ebc650af0e0cbcc57b5db3a9e2fbd4a",
+      "size": 946
+    },
+    {
+      "path": "README.md",
+      "sha256": "25a2772aef612b912250144a531b548b81ce0f7cb905694f29463f39c143b526",
+      "size": 2399
+    },
+    {
+      "path": "schemas/package.schema.json",
+      "sha256": "11d2b8cf7820e0201a36588490739ababdee7d3f661241d00e9c0f9a6449206a",
+      "size": 4636
+    },
+    {
+      "path": "tools/validate_sample.py",
+      "sha256": "d9af9366de70d3027fc663af89538744adc1b10c7d82dc2647882a23b4140b60",
+      "size": 738
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: Interchange Control Plane and Evaluation API
+  version: 2.0.0
+paths:
+  /v2/evaluations:
+    post:
+      summary: Evaluate a normalized transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/NormalizedTransaction'}
+      responses:
+        '200':
+          description: Decision
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Decision'}
+  /v2/packages:
+    post:
+      summary: Import a configuration package
+      requestBody:
+        required: true
+        content:
+          application/zip:
+            schema: {type: string, format: binary}
+      responses:
+        '202': {description: Accepted}
+  /v2/packages/{id}/validate:
+    post:
+      parameters:
+        - {name: id, in: path, required: true, schema: {type: string}}
+      responses:
+        '200': {description: Validation report}
+  /v2/packages/{id}/activate:
+    post:
+      parameters:
+        - {name: id, in: path, required: true, schema: {type: string}}
+      responses:
+        '200': {description: Activation result}
+  /v2/packages/{id}/export:
+    get:
+      parameters:
+        - {name: id, in: path, required: true, schema: {type: string}}
+      responses:
+        '200':
+          description: ZIP
+          content:
+            application/zip:
+              schema: {type: string, format: binary}
+components:
+  schemas:
+    NormalizedTransaction:
+      type: object
+      required: [transaction_id,event_timestamp,network,amount,merchant,card,acceptance]
+      additionalProperties: false
+      properties:
+        transaction_id: {type: string}
+        event_timestamp: {type: string, format: date-time}
+        network: {enum: [VISA, MASTERCARD]}
+        amount:
+          type: object
+          required: [minor_units,currency]
+          properties:
+            minor_units: {type: integer, format: int64}
+            currency: {type: string, pattern: '^[A-Z]{3}$'}
+        merchant: {type: object, additionalProperties: true}
+        card: {type: object, additionalProperties: true}
+        acceptance: {type: object, additionalProperties: true}
+        authentication: {type: object, additionalProperties: true}
+        timing: {type: object, additionalProperties: true}
+        extensions: {type: object, additionalProperties: true}
+    Decision:
+      type: object
+      required: [decision_id,configuration_version,is_fallback,reason_codes]
+      properties:
+        decision_id: {type: string, format: uuid}
+        configuration_version: {type: string}
+        program_id: {type: [string,'null']}
+        rule_id: {type: [string,'null']}
+        is_fallback: {type: boolean}
+        reason_codes: {type: array, items: {type: string}}

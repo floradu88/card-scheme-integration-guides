@@ -1,0 +1,9 @@
+flowchart LR
+ Git --> CI
+ CI --> Registry
+ Registry --> Test
+ Test --> Cert
+ Cert --> Prod
+ Prod --> Metrics
+ Prod --> Logs
+ Prod --> Traces

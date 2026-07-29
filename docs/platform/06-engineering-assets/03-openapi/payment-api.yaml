@@ -1,0 +1,15 @@
+openapi: 3.0.3
+info:
+  title: Enterprise Payment API
+  version: 1.0.0
+paths:
+  /authorizations:
+    post:
+      operationId: authorize
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: Authorization result
+        '409':
+          description: Idempotency conflict

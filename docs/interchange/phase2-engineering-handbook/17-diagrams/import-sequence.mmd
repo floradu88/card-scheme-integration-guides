@@ -1,0 +1,14 @@
+sequenceDiagram
+ participant O as Operator
+ participant C as Control Plane
+ participant V as Validator
+ participant R as Repository
+ participant N as Runtime Nodes
+ O->>C: upload signed ZIP
+ C->>V: validate/compile/test
+ V-->>C: report
+ O->>C: approve + activate
+ C->>R: store immutable package
+ C->>N: preload checksum
+ N-->>C: ready
+ C->>N: atomic activation epoch

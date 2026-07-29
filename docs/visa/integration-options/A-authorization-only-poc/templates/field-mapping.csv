@@ -1,0 +1,12 @@
+normalized_field,current_system_source,visa_source,stage,required,transformation,confidence,owner,notes
+network,,,AUTHORIZATION,true,constant/routing,,,
+merchant.mcc,,,AUTHORIZATION,true,left-pad-4,,,
+merchant.country,,,AUTHORIZATION,true,ISO-alpha-2,,,
+issuer.country,,,AUTHORIZATION,false,BIN-lookup,,,
+card.funding_type,,,AUTHORIZATION,true,product-lookup,,,
+acceptance.entry_mode,,,AUTHORIZATION,true,mapping-table,,,
+authentication.three_ds,,,AUTHORIZATION,false,derive,,,
+credential.tokenized,,,AUTHORIZATION,false,derive,,,
+timing.clearing_delay_hours,,,CLEARING,false,calculate,,,
+actual.program_code,,,SETTLEMENT,false,authorized-mapping,,,
+actual.interchange_amount,,,SETTLEMENT,false,minor-units,,,

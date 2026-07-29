@@ -1,0 +1,35 @@
+{
+  "generated": "2026-07-29",
+  "files": [
+    {
+      "name": "payment_platform_v3_phase_01_foundation.zip",
+      "sha256": "0614b030c30c77bafd41e5b45a5d23e40a9abf4a5abc09ea732123fe5798e2c0",
+      "size": 4332
+    },
+    {
+      "name": "payment_platform_v3_phase_02_network_integration.zip",
+      "sha256": "74824e624ad367f60de6b0c0fd5c798f1d8e81dd7bffef6eda30712c8bbaebc9",
+      "size": 4332
+    },
+    {
+      "name": "payment_platform_v3_phase_03_security_compliance.zip",
+      "sha256": "b056d4474efa47e89c705a923283be444f02c86aab2a184d65b616fdd0295194",
+      "size": 5320
+    },
+    {
+      "name": "payment_platform_v3_phase_04_platform_engineering.zip",
+      "sha256": "7d8d011d5f697d21983439162434ea440cd847003001283defe6234d10d70e28",
+      "size": 3993
+    },
+    {
+      "name": "payment_platform_v3_phase_05_operations.zip",
+      "sha256": "32f3691acd70a2402cb59e76b69098a3a97cf043108c6cdb0a9b4a26d784a13a",
+      "size": 3660
+    },
+    {
+      "name": "payment_platform_v3_phase_06_engineering_assets.zip",
+      "sha256": "30c337a8df6fcb9a190621d398502b226b9ed5a525a280f5da953917e12d8052",
+      "size": 4025
+    }
+  ]
+}

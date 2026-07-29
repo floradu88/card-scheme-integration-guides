@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant M as Merchant
+    participant P as Platform
+    participant N as Network
+    M->>P: Authorization request
+    P->>P: Validate and normalize
+    P->>N: Network authorization
+    N-->>P: Network response
+    P->>P: Persist lifecycle and estimate
+    P-->>M: Authorization result

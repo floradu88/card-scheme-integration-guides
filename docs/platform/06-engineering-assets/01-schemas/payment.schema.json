@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PaymentAuthorizationRequest",
+  "type": "object",
+  "required": [
+    "merchantId",
+    "amount",
+    "currency"
+  ],
+  "properties": {
+    "merchantId": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 3
+    },
+    "idempotencyKey": {
+      "type": "string"
+    }
+  }
+}
