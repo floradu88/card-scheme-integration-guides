@@ -37,6 +37,7 @@ Start here: [`docs/README.md`](docs/README.md)
 2. Choose an option under [`docs/visa/integration-options/`](docs/visa/integration-options/)
 3. Read [`docs/visa/nfr-security-operations/`](docs/visa/nfr-security-operations/) for NFR, monitoring, security, and runbooks
 4. Adapter / interchange: [`docs/visa/adapter/`](docs/visa/adapter/), [`docs/interchange/`](docs/interchange/)
+5. Interchange fees and dynamic per-country updates: [`docs/visa/interchange-fees/`](docs/visa/interchange-fees/)
 
 ## Mastercard quick start
 

@@ -12,4 +12,6 @@ Vendor-neutral packs for configuring, validating, and executing interchange qual
 - Visa: [`phase2-engineering-handbook/04-network-integration/visa-adapter.md`](phase2-engineering-handbook/04-network-integration/visa-adapter.md) (also [`../visa/adapter/`](../visa/adapter/))
 - Mastercard: [`phase2-engineering-handbook/04-network-integration/mastercard-adapter.md`](phase2-engineering-handbook/04-network-integration/mastercard-adapter.md) (also [`../mastercard/adapter/`](../mastercard/adapter/))
 
+Visa country-fee updates: [`../visa/interchange-fees/`](../visa/interchange-fees/)
+
 Original ZIPs: [`../../archives/interchange_configuration_pack.zip`](../../archives/interchange_configuration_pack.zip), [`../../archives/interchange_phase2_engineering_handbook.zip`](../../archives/interchange_phase2_engineering_handbook.zip)

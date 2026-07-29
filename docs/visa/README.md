@@ -6,6 +6,7 @@ Visa-specific integration packs extracted and organized in this repository.
 |------|------|---------|
 | Onboarding | [`onboarding/`](onboarding/) | Platform phase-02 Visa onboarding checklist |
 | Adapter | [`adapter/`](adapter/) | Interchange Visa adapter notes |
+| Interchange fees (per country) | [`interchange-fees/`](interchange-fees/) | Visa interchange fees and dynamic country fee updates |
 | Integration options A–F | [`integration-options/`](integration-options/) | Scope choices from auth PoC through processor replacement |
 | NFR, security & operations | [`nfr-security-operations/`](nfr-security-operations/) | Sandbox/cert path, NFRs, monitoring, security, DR, runbooks |
 
@@ -23,4 +24,5 @@ Visa-specific integration packs extracted and organized in this repository.
 - Platform Visa onboarding (canonical): [`../platform/02-network-integration/01-visa/`](../platform/02-network-integration/01-visa/)
 - Interchange Visa adapter (canonical): [`../interchange/phase2-engineering-handbook/04-network-integration/visa-adapter.md`](../interchange/phase2-engineering-handbook/04-network-integration/visa-adapter.md)
 - Interchange packs: [`../interchange/`](../interchange/)
+- Dynamic country fees: [`interchange-fees/`](interchange-fees/)
 - Original ZIPs: [`../../archives/`](../../archives/)
