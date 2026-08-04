@@ -60,6 +60,7 @@ Actual duration depends on current-system access, scheme documentation access, c
 
 - Interchange index: [`../README.md`](../README.md)
 - Configuration pack: [`../configuration-pack/`](../configuration-pack/)
+- Existing-project extension addon: [`../addons/existing-project-extension-analysis.md`](../addons/existing-project-extension-analysis.md)
 - Visa adapter mirror: [`../../visa/adapter/`](../../visa/adapter/)
 - Visa country fees / dynamic updates: [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
 - Mastercard adapter mirror: [`../../mastercard/adapter/`](../../mastercard/adapter/)

@@ -22,3 +22,4 @@ Original ZIP packs copied from Downloads for provenance. Prefer the extracted tr
 | Docs path | Notes |
 |-----------|-------|
 | [`docs/visa/interchange-fees/`](../docs/visa/interchange-fees/) | Added in-repo: Visa interchange fees and dynamic per-country updates |
+| [`docs/interchange/addons/`](../docs/interchange/addons/) | Added in-repo: existing-project dynamic interchange extension analysis |

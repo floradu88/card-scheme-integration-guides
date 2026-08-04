@@ -19,6 +19,7 @@ Start here: [`docs/README.md`](docs/README.md)
 | Docs hub | [`docs/`](docs/) |
 | Payment Platform Architecture Handbook v3 (shared) | [`docs/platform/`](docs/platform/) |
 | Dynamic interchange (Visa + Mastercard) | [`docs/interchange/`](docs/interchange/) |
+| Interchange addons (existing-project extension) | [`docs/interchange/addons/`](docs/interchange/addons/) |
 | Visa interchange fees (per country) | [`docs/visa/interchange-fees/`](docs/visa/interchange-fees/) |
 | Original ZIP archives | [`archives/`](archives/) |
 
