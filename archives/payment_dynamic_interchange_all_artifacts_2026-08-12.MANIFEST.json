@@ -1,0 +1,126 @@
+{
+  "created": "2026-08-12",
+  "description": "Aggregate of all generated payment/dynamic-interchange/Visa integration artifacts available in today's workspace.",
+  "artifacts": [
+    {
+      "name": "A-authorization-only-poc.zip",
+      "size_bytes": 9292,
+      "sha256": "0aa2d7bf74409984682b9203da5a8c9bf81a5b489f54f76b8f3fc7a4a11b9add"
+    },
+    {
+      "name": "B-authorization-capture-clearing.zip",
+      "size_bytes": 9524,
+      "sha256": "f94780822050a65c9931c327fa24155df69c5cd5cc737094fd849a9cfe93dbc9"
+    },
+    {
+      "name": "C-full-payment-processing.zip",
+      "size_bytes": 9426,
+      "sha256": "31a8b8e1714370f5c8306decc3b7fb8f8e34b8bb330bf02457b06656d9c9a55c"
+    },
+    {
+      "name": "D-interchange-estimation-only.zip",
+      "size_bytes": 9404,
+      "sha256": "5ee4396905cd9b3eb798fcf18a370f9ea7f517dbe41d83a7b7238681826804e2"
+    },
+    {
+      "name": "E-clearing-reconciliation-only.zip",
+      "size_bytes": 9378,
+      "sha256": "b0af793c16716decb5ef8bfb16e7e44bc9d4b82b5419e2bdb8f469d0d47a17fb"
+    },
+    {
+      "name": "F-processor-connection-replacement.zip",
+      "size_bytes": 9706,
+      "sha256": "193f37d01381c492fabac48f96dda46813aab0aa6bf31def1d0ed66880cde207"
+    },
+    {
+      "name": "interchange_configuration_pack.zip",
+      "size_bytes": 17886,
+      "sha256": "ab641ac76400fb491cdd4314c02451c2ae61d067703059053e63ba890da05a24"
+    },
+    {
+      "name": "interchange_phase2_engineering_handbook.zip",
+      "size_bytes": 40799,
+      "sha256": "5bc82a01d658f791b3186aaac635c1e57a34b06335bb417aa2b0c79a867d09a7"
+    },
+    {
+      "name": "payment_platform_v3_addon_generic_requirements.zip",
+      "size_bytes": 2394,
+      "sha256": "db8720c43d52bc838b00c0ab33bb9940e7d7b28bef331f4778b12b84edaa5de0"
+    },
+    {
+      "name": "payment_platform_v3_master_index.zip",
+      "size_bytes": 1974,
+      "sha256": "f33f2e8a52b093e05945fee7aedebb953cecf170e8b831cbdf8ba18d04bead64"
+    },
+    {
+      "name": "payment_platform_v3_phase_01_foundation.zip",
+      "size_bytes": 4332,
+      "sha256": "0614b030c30c77bafd41e5b45a5d23e40a9abf4a5abc09ea732123fe5798e2c0"
+    },
+    {
+      "name": "payment_platform_v3_phase_02_network_integration.zip",
+      "size_bytes": 4332,
+      "sha256": "74824e624ad367f60de6b0c0fd5c798f1d8e81dd7bffef6eda30712c8bbaebc9"
+    },
+    {
+      "name": "payment_platform_v3_phase_03_security_compliance.zip",
+      "size_bytes": 5320,
+      "sha256": "b056d4474efa47e89c705a923283be444f02c86aab2a184d65b616fdd0295194"
+    },
+    {
+      "name": "payment_platform_v3_phase_04_platform_engineering.zip",
+      "size_bytes": 3993,
+      "sha256": "7d8d011d5f697d21983439162434ea440cd847003001283defe6234d10d70e28"
+    },
+    {
+      "name": "payment_platform_v3_phase_05_operations.zip",
+      "size_bytes": 3660,
+      "sha256": "32f3691acd70a2402cb59e76b69098a3a97cf043108c6cdb0a9b4a26d784a13a"
+    },
+    {
+      "name": "payment_platform_v3_phase_06_engineering_assets.zip",
+      "size_bytes": 4025,
+      "sha256": "30c337a8df6fcb9a190621d398502b226b9ed5a525a280f5da953917e12d8052"
+    },
+    {
+      "name": "payment_platform_v3_phase_07_dynamic_interchange_engine.zip",
+      "size_bytes": 5284,
+      "sha256": "3c85803ff98cc79fa7e9997d2b650f016ababe2c95b78d0b5969082a20d1f366"
+    },
+    {
+      "name": "payment_platform_v3_phase_08_visa_developer_certification.zip",
+      "size_bytes": 9514,
+      "sha256": "9b283725128ad9b06e8482575cc3c50cea32a244ac07314615c52a61fed9a35d"
+    },
+    {
+      "name": "payment_platform_v3_visa_quick_start_addon.zip",
+      "size_bytes": 6486,
+      "sha256": "fa57df0b8c023e5b8f9c8377df3a35cc17fd657f241bcc77050bd502f4c13a1f"
+    },
+    {
+      "name": "visa_integration_all_options.zip",
+      "size_bytes": 61231,
+      "sha256": "a796cb5728be6c47b67d2ed95385eb44f4564079c244012f018992dca8764765"
+    },
+    {
+      "name": "visa_integration_nfr_security_plan.zip",
+      "size_bytes": 30579,
+      "sha256": "536de6c7abe5d57c5e1c48fee1f7e794b1de7a1de11c3526f380d51a1d6bc25e"
+    },
+    {
+      "name": "visa_integration_nfr_security_plan_v2.zip",
+      "size_bytes": 935,
+      "sha256": "e5c99e830f1ca88cc8b15e6040d49a06593f1836e8f983ff74f7a38a2ecc96e2"
+    },
+    {
+      "name": "visa_net_connect_acceptance_dotnet_security_addon.md",
+      "size_bytes": 13304,
+      "sha256": "a328d763f8aa6273696face2e0ed632033aaeefc61b50aea4a8d8b2f292ce6fe"
+    },
+    {
+      "name": "visa_net_connect_acceptance_dotnet_security_addon.zip",
+      "size_bytes": 4719,
+      "sha256": "6384d198a15424405b3095ba12f1d2332dceedac3d07a89d51660e1380f56863"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Payment Platform Architecture Handbook v3
 
-Scheme-agnostic platform handbook. Phase 02 covers **Visa** and **Mastercard** network integration; other phases apply to the whole payment platform.
+Scheme-agnostic platform handbook. Phase 02 covers **Visa** and **Mastercard** network integration; other phases apply to the whole payment platform. Phases 07–08 and addons extend the core six-phase handbook.
 
 | Phase | Path | Summary |
 |-------|------|---------|
@@ -11,6 +11,14 @@ Scheme-agnostic platform handbook. Phase 02 covers **Visa** and **Mastercard** n
 | 04 Platform engineering | [`04-platform-engineering/`](04-platform-engineering/) | Kubernetes, Terraform, CI/CD, observability, FinOps |
 | 05 Operations | [`05-operations/`](05-operations/) | Incident, DR, runbooks, go-live, hypercare, BAU |
 | 06 Engineering assets | [`06-engineering-assets/`](06-engineering-assets/) | Schemas, SQL, OpenAPI, templates, checklists |
+| 07 Dynamic interchange engine | [`07-dynamic-interchange-engine/`](07-dynamic-interchange-engine/) | Configurable, explainable interchange decision engine |
+| 08 Visa developer & certification | [`08-visa-developer-certification/`](08-visa-developer-certification/) | Visa Developer tooling, .NET plan, certification calendar |
+
+### Addons
+
+| Addon | Path | Summary |
+|-------|------|---------|
+| Generic dynamic interchange requirements | [`addons/generic-dynamic-interchange-requirements/`](addons/generic-dynamic-interchange-requirements/) | Vendor-neutral BRD / FR / architecture impact / checklist |
 
 ### Scheme-specific entry points inside phase 02
 

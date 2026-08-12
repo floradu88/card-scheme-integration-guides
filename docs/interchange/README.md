@@ -8,6 +8,11 @@ Vendor-neutral packs for configuring, validating, and executing interchange qual
 | Phase 2 engineering handbook | [`phase2-engineering-handbook/`](phase2-engineering-handbook/) | End-to-end blueprint: domain, adapters, engine, import/export, reconciliation, runbooks |
 | Addons | [`addons/`](addons/) | Extension analyses that build on the core packs (existing-project rollout, etc.) |
 
+Related platform packs:
+
+- Phase 07 dynamic interchange engine: [`../platform/07-dynamic-interchange-engine/`](../platform/07-dynamic-interchange-engine/)
+- Generic DI requirements addon: [`../platform/addons/generic-dynamic-interchange-requirements/`](../platform/addons/generic-dynamic-interchange-requirements/)
+
 ### Network adapters inside the handbook
 
 - Visa: [`phase2-engineering-handbook/04-network-integration/visa-adapter.md`](phase2-engineering-handbook/04-network-integration/visa-adapter.md) (also [`../visa/adapter/`](../visa/adapter/))

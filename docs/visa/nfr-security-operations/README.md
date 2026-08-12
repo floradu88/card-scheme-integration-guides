@@ -40,12 +40,14 @@ Public Visa material does not contain every proprietary implementation mapping, 
 8. `08-testing-certification/testing-and-certification.md`
 9. `09-operations-runbooks/operations-plan.md`
 10. `10-risk-governance/risk-register.md`
+11. `14-stage-gates/STAGE_GATES_AND_CHECKLISTS.md` (v2 addon)
 
 ## In this repository
 
 - Visa scheme index: [`../README.md`](../README.md)
 - Integration options A–F: [`../integration-options/`](../integration-options/)
+- VisaNet Connect security: [`../visanet-connect-security/`](../visanet-connect-security/)
 - Platform handbook: [`../../platform/`](../../platform/)
 - Interchange: [`../../interchange/`](../../interchange/)
 - Visa country fees / dynamic updates: [`../interchange-fees/`](../interchange-fees/)
-- Source archive: [`../../../archives/visa_integration_nfr_security_plan.zip`](../../../archives/visa_integration_nfr_security_plan.zip)
+- Source archives: [`../../../archives/visa_integration_nfr_security_plan.zip`](../../../archives/visa_integration_nfr_security_plan.zip), [`../../../archives/visa_integration_nfr_security_plan_v2.zip`](../../../archives/visa_integration_nfr_security_plan_v2.zip)

@@ -18,3 +18,4 @@ Schemas, templates, ADRs, checklists, examples, and review packs.
 
 - Handbook index: [`../README.md`](../README.md)
 - Previous: [`../05-operations/`](../05-operations/)
+- Next: [`../07-dynamic-interchange-engine/`](../07-dynamic-interchange-engine/)

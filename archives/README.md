@@ -11,11 +11,18 @@ Original ZIP packs copied from Downloads for provenance. Prefer the extracted tr
 | `payment_platform_v3_phase_04_platform_engineering.zip` | [`docs/platform/04-platform-engineering/`](../docs/platform/04-platform-engineering/) |
 | `payment_platform_v3_phase_05_operations.zip` | [`docs/platform/05-operations/`](../docs/platform/05-operations/) |
 | `payment_platform_v3_phase_06_engineering_assets.zip` | [`docs/platform/06-engineering-assets/`](../docs/platform/06-engineering-assets/) |
+| `payment_platform_v3_phase_07_dynamic_interchange_engine.zip` | [`docs/platform/07-dynamic-interchange-engine/`](../docs/platform/07-dynamic-interchange-engine/) |
+| `payment_platform_v3_phase_08_visa_developer_certification.zip` | [`docs/platform/08-visa-developer-certification/`](../docs/platform/08-visa-developer-certification/) |
+| `payment_platform_v3_addon_generic_requirements.zip` | [`docs/platform/addons/generic-dynamic-interchange-requirements/`](../docs/platform/addons/generic-dynamic-interchange-requirements/) |
+| `payment_platform_v3_visa_quick_start_addon.zip` | [`docs/visa/quick-start/`](../docs/visa/quick-start/) |
 | `visa_integration_all_options.zip` | [`docs/visa/integration-options/`](../docs/visa/integration-options/) |
 | `A`–`F-*.zip` | Same as options above (duplicates; not re-extracted) |
 | `visa_integration_nfr_security_plan.zip` | [`docs/visa/nfr-security-operations/`](../docs/visa/nfr-security-operations/) |
+| `visa_integration_nfr_security_plan_v2.zip` | [`docs/visa/nfr-security-operations/14-stage-gates/`](../docs/visa/nfr-security-operations/14-stage-gates/) |
+| `visa_net_connect_acceptance_dotnet_security_addon.zip` | [`docs/visa/visanet-connect-security/`](../docs/visa/visanet-connect-security/) |
 | `interchange_configuration_pack.zip` | [`docs/interchange/configuration-pack/`](../docs/interchange/configuration-pack/) |
 | `interchange_phase2_engineering_handbook.zip` | [`docs/interchange/phase2-engineering-handbook/`](../docs/interchange/phase2-engineering-handbook/) |
+| `payment_dynamic_interchange_all_artifacts_2026-08-12.zip` | Aggregate bundle (see `.MANIFEST.json` / `.README.md` siblings); individuals above are the source of truth for extraction |
 
 ## Docs without ZIP provenance
 

@@ -8,7 +8,7 @@ Start here: [`docs/README.md`](docs/README.md)
 
 | Scheme | Docs | Notes |
 |--------|------|-------|
-| **Visa** | [`docs/visa/`](docs/visa/) | Onboarding, adapter, interchange fees (per country), options A-F, NFR / security / operations |
+| **Visa** | [`docs/visa/`](docs/visa/) | Quick start, onboarding, adapter, interchange fees, options A-F, NFR / security / ops, VisaNet Connect |
 | **Mastercard** | [`docs/mastercard/`](docs/mastercard/) | Onboarding and interchange adapter notes (thinner coverage than Visa) |
 | Other schemes | — | No Amex / Discover / UnionPay / JCB packs in this corpus |
 
@@ -18,8 +18,10 @@ Start here: [`docs/README.md`](docs/README.md)
 |-------|------|
 | Docs hub | [`docs/`](docs/) |
 | Payment Platform Architecture Handbook v3 (shared) | [`docs/platform/`](docs/platform/) |
+| Dynamic interchange engine (phase 07) | [`docs/platform/07-dynamic-interchange-engine/`](docs/platform/07-dynamic-interchange-engine/) |
 | Dynamic interchange (Visa + Mastercard) | [`docs/interchange/`](docs/interchange/) |
 | Interchange addons (existing-project extension) | [`docs/interchange/addons/`](docs/interchange/addons/) |
+| Platform addons (generic DI requirements) | [`docs/platform/addons/`](docs/platform/addons/) |
 | Visa interchange fees (per country) | [`docs/visa/interchange-fees/`](docs/visa/interchange-fees/) |
 | Original ZIP archives | [`archives/`](archives/) |
 
@@ -32,14 +34,18 @@ Start here: [`docs/README.md`](docs/README.md)
 5. [`docs/platform/04-platform-engineering/`](docs/platform/04-platform-engineering/)
 6. [`docs/platform/05-operations/`](docs/platform/05-operations/)
 7. [`docs/platform/06-engineering-assets/`](docs/platform/06-engineering-assets/)
+8. [`docs/platform/07-dynamic-interchange-engine/`](docs/platform/07-dynamic-interchange-engine/)
+9. [`docs/platform/08-visa-developer-certification/`](docs/platform/08-visa-developer-certification/)
 
 ## Visa quick start
 
-1. [`docs/visa/onboarding/`](docs/visa/onboarding/)
-2. Choose an option under [`docs/visa/integration-options/`](docs/visa/integration-options/)
-3. Read [`docs/visa/nfr-security-operations/`](docs/visa/nfr-security-operations/) for NFR, monitoring, security, and runbooks
-4. Adapter / interchange: [`docs/visa/adapter/`](docs/visa/adapter/), [`docs/interchange/`](docs/interchange/)
-5. Interchange fees and dynamic per-country updates: [`docs/visa/interchange-fees/`](docs/visa/interchange-fees/)
+1. [`docs/visa/quick-start/`](docs/visa/quick-start/)
+2. [`docs/visa/onboarding/`](docs/visa/onboarding/)
+3. Choose an option under [`docs/visa/integration-options/`](docs/visa/integration-options/)
+4. Read [`docs/visa/nfr-security-operations/`](docs/visa/nfr-security-operations/) for NFR, monitoring, security, and runbooks
+5. VisaNet Connect security: [`docs/visa/visanet-connect-security/`](docs/visa/visanet-connect-security/)
+6. Adapter / interchange: [`docs/visa/adapter/`](docs/visa/adapter/), [`docs/interchange/`](docs/interchange/)
+7. Interchange fees and dynamic per-country updates: [`docs/visa/interchange-fees/`](docs/visa/interchange-fees/)
 
 ## Mastercard quick start
 

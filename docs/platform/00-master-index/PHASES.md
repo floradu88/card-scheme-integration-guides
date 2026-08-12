@@ -17,3 +17,9 @@ Incident response, disaster recovery, runbooks, go-live, hypercare, BAU, and dec
 
 ## Phase 06
 Schemas, SQL, OpenAPI, templates, checklists, ADRs, and diagrams.
+
+## Phase 07
+Configurable, explainable, vendor-neutral dynamic interchange decision engine (architecture, rule DSL, API, data model, testing, deployment).
+
+## Phase 08
+Visa Developer tooling, .NET implementation plan, sandbox → certification → production path, calendars, checklists, and email templates.
