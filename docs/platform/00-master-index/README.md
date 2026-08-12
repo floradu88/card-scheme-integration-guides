@@ -12,6 +12,7 @@ Use the phases **in this repository** in order (extracted under [`../`](../)):
 6. [`../06-engineering-assets/`](../06-engineering-assets/) — Engineering Assets
 7. [`../07-dynamic-interchange-engine/`](../07-dynamic-interchange-engine/) — Dynamic Interchange Engine
 8. [`../08-visa-developer-certification/`](../08-visa-developer-certification/) — Visa Developer & Certification
+9. [`../09-mastercard-developer-certification/`](../09-mastercard-developer-certification/) — Mastercard Developers & Certification
 
 Each phase has its own stage gate and readiness criteria.
 

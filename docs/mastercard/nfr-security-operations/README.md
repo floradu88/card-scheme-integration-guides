@@ -1,0 +1,53 @@
+# Mastercard Integration, Non-Functional Requirements, Monitoring, Security, and Operations Plan
+
+Generated: 2026-07-29
+
+## Purpose
+
+This package combines:
+
+1. the Mastercard sandbox, certification, and production integration path;
+2. the full non-functional requirements plan;
+3. monitoring and observability;
+4. security, PCI, privacy, and compliance;
+5. resilience, disaster recovery, deployment, testing, and operational runbooks;
+6. risk and governance templates.
+
+## Intended audience
+
+- payment architects;
+- engineering leads;
+- security;
+- platform engineering;
+- scheme operations;
+- finance and reconciliation teams;
+- production support;
+- auditors and compliance teams.
+
+## Important boundary
+
+Public Mastercard material does not contain every proprietary implementation mapping, certification scenario, regional qualification rule, settlement field, or participant-specific requirement. Production implementation must also use authorized Mastercard, acquirer, processor, and internal documentation.
+
+## Recommended reading order
+
+1. `00-overview/executive-plan.md`
+2. `01-mastercard-onboarding/end-to-end-mastercard-integration.md`
+3. `02-architecture/target-architecture.md`
+4. `03-non-functional-requirements/nfr-catalog.md`
+5. `04-monitoring-observability/monitoring-plan.md`
+6. `05-security-compliance/security-plan.md`
+7. `06-resilience-dr/resilience-and-dr.md`
+8. `08-testing-certification/testing-and-certification.md`
+9. `09-operations-runbooks/operations-plan.md`
+10. `10-risk-governance/risk-register.md`
+11. `14-stage-gates/STAGE_GATES_AND_CHECKLISTS.md` (v2 addon)
+
+## In this repository
+
+- Mastercard scheme index: [`../README.md`](../README.md)
+- Integration options A–F: [`../integration-options/`](../integration-options/)
+- Mastercard Connect security: [`../mastercard-connect-security/`](../mastercard-connect-security/)
+- Platform handbook: [`../../platform/`](../../platform/)
+- Interchange: [`../../interchange/`](../../interchange/)
+- Mastercard country fees / dynamic updates: [`../interchange-fees/`](../interchange-fees/)
+- Source archives: Adapted in-repo from the Visa NFR pack twin (no separate Mastercard ZIP in `archives/`)

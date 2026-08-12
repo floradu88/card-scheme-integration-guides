@@ -1,6 +1,6 @@
 # Payment Platform Architecture Handbook v3
 
-Scheme-agnostic platform handbook. Phase 02 covers **Visa** and **Mastercard** network integration; other phases apply to the whole payment platform. Phases 07–08 and addons extend the core six-phase handbook.
+Scheme-agnostic platform handbook. Phase 02 covers **Visa** and **Mastercard** network integration; other phases apply to the whole payment platform. Phases 07–09 and addons extend the core six-phase handbook.
 
 | Phase | Path | Summary |
 |-------|------|---------|
@@ -13,6 +13,7 @@ Scheme-agnostic platform handbook. Phase 02 covers **Visa** and **Mastercard** n
 | 06 Engineering assets | [`06-engineering-assets/`](06-engineering-assets/) | Schemas, SQL, OpenAPI, templates, checklists |
 | 07 Dynamic interchange engine | [`07-dynamic-interchange-engine/`](07-dynamic-interchange-engine/) | Configurable, explainable interchange decision engine |
 | 08 Visa developer & certification | [`08-visa-developer-certification/`](08-visa-developer-certification/) | Visa Developer tooling, .NET plan, certification calendar |
+| 09 Mastercard developer & certification | [`09-mastercard-developer-certification/`](09-mastercard-developer-certification/) | Mastercard Developers tooling, .NET plan, certification calendar |
 
 ### Addons
 
@@ -28,6 +29,8 @@ Scheme-agnostic platform handbook. Phase 02 covers **Visa** and **Mastercard** n
 Related deeper packs:
 
 - Visa options & NFR: [`../visa/`](../visa/)
+- Mastercard options & NFR: [`../mastercard/`](../mastercard/)
 - Interchange (Visa + Mastercard): [`../interchange/`](../interchange/)
 - Visa country fees / dynamic updates: [`../visa/interchange-fees/`](../visa/interchange-fees/)
+- Mastercard country fees / dynamic updates: [`../mastercard/interchange-fees/`](../mastercard/interchange-fees/)
 - Archives: [`../../archives/`](../../archives/)

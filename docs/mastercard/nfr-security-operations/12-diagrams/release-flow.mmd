@@ -1,0 +1,13 @@
+flowchart LR
+ Source --> Build
+ Build --> Test
+ Test --> Scan
+ Scan --> Sign
+ Sign --> UAT
+ UAT --> Cert[Certification]
+ Cert --> Approve
+ Approve --> Preload
+ Preload --> Canary
+ Canary --> Production
+ Production --> Monitor
+ Monitor --> Rollback

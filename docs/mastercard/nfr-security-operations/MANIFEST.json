@@ -1,0 +1,176 @@
+{
+  "generated": "2026-07-29",
+  "package": "mastercard_integration_nfr_security_plan",
+  "files": [
+    {
+      "path": "00-overview/executive-plan.md",
+      "sha256": "18ea340d30f558e452e29fdbfb19db86d09cce5fab7ffa890be56bc923bdae31",
+      "size": 1982
+    },
+    {
+      "path": "01-mastercard-onboarding/end-to-end-mastercard-integration.md",
+      "sha256": "987aacf5006bb40fd737f424edd30d6b9a44a9aae499f2e84d01acac0fadbfa7",
+      "size": 4827
+    },
+    {
+      "path": "01-mastercard-onboarding/sandbox-checklist.md",
+      "sha256": "83bc5e1ad8da4b0cfb7a1ee3cdca9900d7bc03b83c3478aebc612ca2212b8b0f",
+      "size": 1013
+    },
+    {
+      "path": "02-architecture/service-boundaries.md",
+      "sha256": "f5523f83d133b5f39cf7b774883506f93b3e01be428359bee3eae1d2a393edec",
+      "size": 974
+    },
+    {
+      "path": "02-architecture/target-architecture.md",
+      "sha256": "839153f791d8bb51f452bb5eeee73e2ae1ef677fefac4d728441d4609c63ce9b",
+      "size": 1492
+    },
+    {
+      "path": "03-non-functional-requirements/nfr-catalog.md",
+      "sha256": "a448d1d4ed78a95db58ba09c50630076c3a8445b8e974d6ba0c6ddd9dca6ae54",
+      "size": 3249
+    },
+    {
+      "path": "03-non-functional-requirements/slo-sli-error-budget.md",
+      "sha256": "603d4d5f5fa2ff48c82330eff5a93213150517462eec608a1e57b7af774d9637",
+      "size": 1290
+    },
+    {
+      "path": "04-monitoring-observability/alerting-plan.md",
+      "sha256": "74b927a4888b2ee4c66b12446b8db7f9db78ce2859f8305bc13565ce1a2f428e",
+      "size": 1291
+    },
+    {
+      "path": "04-monitoring-observability/logging-and-tracing.md",
+      "sha256": "39bcdccc4261b1c66527f1155d4be6580126a5490189d9d0d792188c8d5a52cf",
+      "size": 932
+    },
+    {
+      "path": "04-monitoring-observability/metrics-catalog.md",
+      "sha256": "69c6f77bdd93e4fa1b9be7d0b2e785d2c21cd48487cf1d27583501d6291c3848",
+      "size": 1370
+    },
+    {
+      "path": "04-monitoring-observability/monitoring-plan.md",
+      "sha256": "61fb48f1f22043de0113d021abd29ecab74578bd9de1fd8fda846a7be0041ab4",
+      "size": 2160
+    },
+    {
+      "path": "05-security-compliance/compliance-plan.md",
+      "sha256": "e6e1b6738b0074b460217afad93a8b8db542dac929c29961a98031509bf21b93",
+      "size": 1357
+    },
+    {
+      "path": "05-security-compliance/security-plan.md",
+      "sha256": "ba8bff81121bd66a9d4515427ea4afe17d6d19c3d4a8aeac24d85b700569ba47",
+      "size": 2304
+    },
+    {
+      "path": "05-security-compliance/threat-model.md",
+      "sha256": "8581e5fa8932f14bca651e24e68bccac495092db3ac0d3dcacd9d4623907deab",
+      "size": 1351
+    },
+    {
+      "path": "06-resilience-dr/chaos-plan.md",
+      "sha256": "a4141269262abc6cc40a17db5308789f86951d0d2b5c54cb2ae9dac70d19b652",
+      "size": 759
+    },
+    {
+      "path": "06-resilience-dr/resilience-and-dr.md",
+      "sha256": "bcbd93f52b7d31a86f65978768866d94cc4131676d344d1d38dd9f7e942edb5e",
+      "size": 1860
+    },
+    {
+      "path": "07-deployment-release/capacity-plan.md",
+      "sha256": "8273341b4acf7f74f2dd60654b8a7d2e79698e3d5833d97f210e8dfcac387c84",
+      "size": 863
+    },
+    {
+      "path": "07-deployment-release/deployment-plan.md",
+      "sha256": "4175c0e3185c51dd30c6081e022b16d1237ac78614bd6abb8bdc146b31f5bccf",
+      "size": 1204
+    },
+    {
+      "path": "08-testing-certification/testing-and-certification.md",
+      "sha256": "169b6b067cc1051f6dab496a7a737f749e30c1036ad05b967a0266a2a42be221",
+      "size": 1506
+    },
+    {
+      "path": "09-operations-runbooks/emergency-rollback.md",
+      "sha256": "e9ac519fe42e6792111932d587257875c91f2c380d09ff3a2ae76e6d4810b351",
+      "size": 583
+    },
+    {
+      "path": "09-operations-runbooks/operations-plan.md",
+      "sha256": "689e000fc6fbf37cbfaba4f7baab2518802d328d49dac6867911c2fddc192a19",
+      "size": 983
+    },
+    {
+      "path": "09-operations-runbooks/runbook-index.md",
+      "sha256": "e0614061c02064c693e8144418b6ef3bf5f17ae47ab116926680dcf5cd278c35",
+      "size": 885
+    },
+    {
+      "path": "10-risk-governance/raci.md",
+      "sha256": "67046fc8d487bbdcf4ddb96f70ccb772861e76dec728a00a28e455bb936e5159",
+      "size": 609
+    },
+    {
+      "path": "10-risk-governance/risk-register.md",
+      "sha256": "ce570f57407e32ccde299758e62c754e9b577a115e809962f9f093c143504f2a",
+      "size": 1468
+    },
+    {
+      "path": "11-templates/alert-template.md",
+      "sha256": "a6076598cc95ed7818b84b0e6de56762e1f816de32cc30b6b98d4dbf74993c52",
+      "size": 263
+    },
+    {
+      "path": "11-templates/monitoring-matrix.csv",
+      "sha256": "23767c6c24b1bf07e91e8ae5627c239a7f4bd0420783f962135d34ec2b148767",
+      "size": 783
+    },
+    {
+      "path": "11-templates/nfr-requirements-template.md",
+      "sha256": "b7fd0c2f27da2e01c6e46c1d15b77f9c7910898b2ce259aca431a22c566f0032",
+      "size": 536
+    },
+    {
+      "path": "11-templates/operational-readiness-checklist.md",
+      "sha256": "33e7664cb73ffe6b1bd49c2c0901207c29af2e4ef3ed95f1ab94232a9d3521a9",
+      "size": 957
+    },
+    {
+      "path": "12-diagrams/monitoring-architecture.mmd",
+      "sha256": "f5a3fa662e2a5ee58f567540dcd281cdff7d0e0d31a43dbbf8f823228103ba01",
+      "size": 348
+    },
+    {
+      "path": "12-diagrams/release-flow.mmd",
+      "sha256": "744e835879eb7135f5b87a2d8e2d9c66eb5492ad0236632e64a7c08a1f1b70cd",
+      "size": 248
+    },
+    {
+      "path": "12-diagrams/security-zones.mmd",
+      "sha256": "6c3c6f2ea58cb48f9852c7237beed0280034b58dfe2a11d6ac5399c33a04e280",
+      "size": 345
+    },
+    {
+      "path": "13-official-references/mastercard-links.md",
+      "sha256": "2a81961e426ce51ac1687b34bef0828581854bb08c53f40375ab61a9d4261756",
+      "size": 1614
+    },
+    {
+      "path": "DELIVERABLES.md",
+      "sha256": "872089918ffe30de50897b6a075225426366b24b02a1706a829333875adb0cce",
+      "size": 716
+    },
+    {
+      "path": "README.md",
+      "sha256": "639ca9b038033beca3079748088e571feac530855728570dfe84fc94198a736f",
+      "size": 1493
+    }
+  ]
+}

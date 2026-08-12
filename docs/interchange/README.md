@@ -18,7 +18,10 @@ Related platform packs:
 - Visa: [`phase2-engineering-handbook/04-network-integration/visa-adapter.md`](phase2-engineering-handbook/04-network-integration/visa-adapter.md) (also [`../visa/adapter/`](../visa/adapter/))
 - Mastercard: [`phase2-engineering-handbook/04-network-integration/mastercard-adapter.md`](phase2-engineering-handbook/04-network-integration/mastercard-adapter.md) (also [`../mastercard/adapter/`](../mastercard/adapter/))
 
-Visa country-fee updates: [`../visa/interchange-fees/`](../visa/interchange-fees/)
+Country-fee updates:
+
+- Visa: [`../visa/interchange-fees/`](../visa/interchange-fees/)
+- Mastercard: [`../mastercard/interchange-fees/`](../mastercard/interchange-fees/)
 
 ### Addons
 

@@ -1,0 +1,1 @@
+Expanded stage gates, checklists, go/no-go criteria, approvals, evidence, rollback, readiness scoring for Discovery through Decommission.

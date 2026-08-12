@@ -1,0 +1,72 @@
+{
+  "generated": "2026-07-29",
+  "option": "B-authorization-capture-clearing",
+  "title": "Option B \u2014 Authorization, Capture, and Clearing",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "ea162fab83b1bdba220bfecbae2dc9694a1220a0e4bc2964c544354a6a6fece3",
+      "size": 1918
+    },
+    {
+      "path": "diagrams/architecture.mmd",
+      "sha256": "fae83144cb840ff9b2009d9459c9ddea723ab37b0373d382c061f04d8cee5adc",
+      "size": 305
+    },
+    {
+      "path": "docs/01-mastercard-onboarding.md",
+      "sha256": "ccb063c7f5135933ac60b0c213639b81bcd19a69fbba5e6b29397da4bfac4189",
+      "size": 1552
+    },
+    {
+      "path": "docs/02-implementation-plan.md",
+      "sha256": "bea86a87f2dc7fe139ac443f9f5786d81c5b29f6c42450ff74fdc934d0ab318c",
+      "size": 1190
+    },
+    {
+      "path": "docs/03-backlog.md",
+      "sha256": "a21a6458e04576fe55ed58e25c7ebb73d83e9b9de9e329bdffb5323c574873b5",
+      "size": 797
+    },
+    {
+      "path": "docs/04-risks-and-controls.md",
+      "sha256": "c3cdbc0fce6c53e1e22f99f331b2bc8a9dd2fc95b0ee751f785406b6e1694e78",
+      "size": 845
+    },
+    {
+      "path": "docs/05-option-specific-notes.md",
+      "sha256": "e94c97b3eb7f204ff7931b56bad809c8a3d1a55fb7fad8419897b2cab758686f",
+      "size": 301
+    },
+    {
+      "path": "examples/MastercardClientFactory.cs",
+      "sha256": "e5ac971e9e5962b75eaf22aecfc158bc11758f8d4f27934358805c4a42a3aa74",
+      "size": 619
+    },
+    {
+      "path": "examples/appsettings.sample.json",
+      "sha256": "7c69d5c3db6c7c1a5720b6489c9fd165e8efbae62bfd13ce62f9dfc3889819d4",
+      "size": 586
+    },
+    {
+      "path": "references/official-links.md",
+      "sha256": "5d7a05b51d699e9572591778be1c625da86dbc5d42f3a6ff6f9b4c834a21f182",
+      "size": 1670
+    },
+    {
+      "path": "templates/environment-checklist.md",
+      "sha256": "a91b7e2e3c8b3b35945b2f982b301d2d08d296ea570d8120feb6720ddef5e49e",
+      "size": 826
+    },
+    {
+      "path": "templates/field-mapping.csv",
+      "sha256": "f6bc65812c27bb14592e1bb6335d0f8edbaf866ae98e03f3ab5593f086791d87",
+      "size": 710
+    },
+    {
+      "path": "templates/test-matrix.csv",
+      "sha256": "7561fc6913e94ded7eb47d04f775faff54ef19e399f88267ae7965fc5069d817",
+      "size": 558
+    }
+  ]
+}

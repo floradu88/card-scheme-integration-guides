@@ -49,5 +49,6 @@ The proposed engine therefore supports:
 - Existing-project extension addon: [`../addons/existing-project-extension-analysis.md`](../addons/existing-project-extension-analysis.md)
 - Visa options (D/E): [`../../visa/integration-options/`](../../visa/integration-options/)
 - Visa country fees / dynamic updates: [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
+- Mastercard country fees / dynamic updates: [`../../mastercard/interchange-fees/`](../../mastercard/interchange-fees/)
 - Mastercard adapter mirror: [`../../mastercard/adapter/`](../../mastercard/adapter/)
 - Source archive: [`../../../archives/interchange_configuration_pack.zip`](../../../archives/interchange_configuration_pack.zip)

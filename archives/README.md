@@ -29,4 +29,11 @@ Original ZIP packs copied from Downloads for provenance. Prefer the extracted tr
 | Docs path | Notes |
 |-----------|-------|
 | [`docs/visa/interchange-fees/`](../docs/visa/interchange-fees/) | Added in-repo: Visa interchange fees and dynamic per-country updates |
+| [`docs/mastercard/interchange-fees/`](../docs/mastercard/interchange-fees/) | Added in-repo: Mastercard interchange fees and dynamic per-country updates (Visa twin) |
+| [`docs/mastercard/integration-options/`](../docs/mastercard/integration-options/) | In-repo adaptation of Visa options A–F for Mastercard |
+| [`docs/mastercard/nfr-security-operations/`](../docs/mastercard/nfr-security-operations/) | In-repo adaptation of Visa NFR / security / ops pack |
+| [`docs/mastercard/quick-start/`](../docs/mastercard/quick-start/) | In-repo adaptation of Visa quick-start addon |
+| [`docs/mastercard/mastercard-connect-security/`](../docs/mastercard/mastercard-connect-security/) | In-repo Mastercard Developers security twin (OAuth 1.0a / payload encryption) |
+| [`docs/mastercard/developer-certification/`](../docs/mastercard/developer-certification/) | Mirror of [`docs/platform/09-mastercard-developer-certification/`](../docs/platform/09-mastercard-developer-certification/) |
+| [`docs/platform/09-mastercard-developer-certification/`](../docs/platform/09-mastercard-developer-certification/) | In-repo adaptation of phase 08 Visa certification pack |
 | [`docs/interchange/addons/`](../docs/interchange/addons/) | Added in-repo: existing-project dynamic interchange extension analysis |

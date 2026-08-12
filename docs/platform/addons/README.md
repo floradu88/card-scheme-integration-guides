@@ -11,3 +11,5 @@ Supplementary packs that extend the Payment Platform Architecture Handbook v3 wi
 - Handbook index: [`../README.md`](../README.md)
 - Phase 07 engine: [`../07-dynamic-interchange-engine/`](../07-dynamic-interchange-engine/)
 - Interchange packs: [`../../interchange/`](../../interchange/)
+- Visa country fees: [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
+- Mastercard country fees: [`../../mastercard/interchange-fees/`](../../mastercard/interchange-fees/)

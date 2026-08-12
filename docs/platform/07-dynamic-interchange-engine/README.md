@@ -2,7 +2,7 @@
 
 Generated: 2026-07-30
 
-Extends the enterprise payment handbook with a configurable, explainable, vendor-neutral interchange decision engine.
+Extends the enterprise payment handbook with a configurable, explainable, vendor-neutral interchange decision engine for **Visa and Mastercard** (`network: VISA` | `MASTERCARD` country packages).
 
 ## Contents
 
@@ -29,4 +29,6 @@ Extends the enterprise payment handbook with a configurable, explainable, vendor
 - Previous: [`../06-engineering-assets/`](../06-engineering-assets/)
 - Next: [`../08-visa-developer-certification/`](../08-visa-developer-certification/)
 - Related interchange packs: [`../../interchange/`](../../interchange/)
+- Visa country fees: [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
+- Mastercard country fees: [`../../mastercard/interchange-fees/`](../../mastercard/interchange-fees/)
 - Source archive: [`../../../archives/payment_platform_v3_phase_07_dynamic_interchange_engine.zip`](../../../archives/payment_platform_v3_phase_07_dynamic_interchange_engine.zip)

@@ -63,6 +63,7 @@ Actual duration depends on current-system access, scheme documentation access, c
 - Existing-project extension addon: [`../addons/existing-project-extension-analysis.md`](../addons/existing-project-extension-analysis.md)
 - Visa adapter mirror: [`../../visa/adapter/`](../../visa/adapter/)
 - Visa country fees / dynamic updates: [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
+- Mastercard country fees / dynamic updates: [`../../mastercard/interchange-fees/`](../../mastercard/interchange-fees/)
 - Mastercard adapter mirror: [`../../mastercard/adapter/`](../../mastercard/adapter/)
 - Platform network phase: [`../../platform/02-network-integration/`](../../platform/02-network-integration/)
 - Source archive: [`../../../archives/interchange_phase2_engineering_handbook.zip`](../../../archives/interchange_phase2_engineering_handbook.zip)

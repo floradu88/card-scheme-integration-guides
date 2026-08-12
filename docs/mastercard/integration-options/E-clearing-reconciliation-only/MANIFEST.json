@@ -1,0 +1,72 @@
+{
+  "generated": "2026-07-29",
+  "option": "E-clearing-reconciliation-only",
+  "title": "Option E \u2014 Clearing Reconciliation Only",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "5c62c248db543bb37880bc5715187d58851271bd9cc56f11219e3a7d2dc106ee",
+      "size": 1825
+    },
+    {
+      "path": "diagrams/architecture.mmd",
+      "sha256": "fae83144cb840ff9b2009d9459c9ddea723ab37b0373d382c061f04d8cee5adc",
+      "size": 305
+    },
+    {
+      "path": "docs/01-mastercard-onboarding.md",
+      "sha256": "0605f56833cd794772413ec20e2fbd7e605f7fba15a9b16760fcb7aa5598a855",
+      "size": 1544
+    },
+    {
+      "path": "docs/02-implementation-plan.md",
+      "sha256": "7978644518bc8d794e75bd0c9b324f014b890c455c0e3d2a23a8f222d8690289",
+      "size": 1182
+    },
+    {
+      "path": "docs/03-backlog.md",
+      "sha256": "ad3f36cbadd3002705eeda4c94203d00fcfc19872108a782676e1bff82148bf0",
+      "size": 767
+    },
+    {
+      "path": "docs/04-risks-and-controls.md",
+      "sha256": "c3cdbc0fce6c53e1e22f99f331b2bc8a9dd2fc95b0ee751f785406b6e1694e78",
+      "size": 845
+    },
+    {
+      "path": "docs/05-option-specific-notes.md",
+      "sha256": "eccf6e3a4b7ec4de2d9c195ca9bb4a3285646bdaac67ce2124ab6f6cd22d5a9e",
+      "size": 225
+    },
+    {
+      "path": "examples/MastercardClientFactory.cs",
+      "sha256": "e5ac971e9e5962b75eaf22aecfc158bc11758f8d4f27934358805c4a42a3aa74",
+      "size": 619
+    },
+    {
+      "path": "examples/appsettings.sample.json",
+      "sha256": "7c69d5c3db6c7c1a5720b6489c9fd165e8efbae62bfd13ce62f9dfc3889819d4",
+      "size": 586
+    },
+    {
+      "path": "references/official-links.md",
+      "sha256": "5d7a05b51d699e9572591778be1c625da86dbc5d42f3a6ff6f9b4c834a21f182",
+      "size": 1670
+    },
+    {
+      "path": "templates/environment-checklist.md",
+      "sha256": "a91b7e2e3c8b3b35945b2f982b301d2d08d296ea570d8120feb6720ddef5e49e",
+      "size": 826
+    },
+    {
+      "path": "templates/field-mapping.csv",
+      "sha256": "f6bc65812c27bb14592e1bb6335d0f8edbaf866ae98e03f3ab5593f086791d87",
+      "size": 710
+    },
+    {
+      "path": "templates/test-matrix.csv",
+      "sha256": "7561fc6913e94ded7eb47d04f775faff54ef19e399f88267ae7965fc5069d817",
+      "size": 558
+    }
+  ]
+}

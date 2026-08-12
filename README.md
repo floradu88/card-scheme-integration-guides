@@ -9,7 +9,7 @@ Start here: [`docs/README.md`](docs/README.md)
 | Scheme | Docs | Notes |
 |--------|------|-------|
 | **Visa** | [`docs/visa/`](docs/visa/) | Quick start, onboarding, adapter, interchange fees, options A-F, NFR / security / ops, VisaNet Connect |
-| **Mastercard** | [`docs/mastercard/`](docs/mastercard/) | Onboarding and interchange adapter notes (thinner coverage than Visa) |
+| **Mastercard** | [`docs/mastercard/`](docs/mastercard/) | Same layout as Visa: quick start, options A-F, NFR / ops, Connect security, fees, certification |
 | Other schemes | — | No Amex / Discover / UnionPay / JCB packs in this corpus |
 
 ## By topic
@@ -23,6 +23,7 @@ Start here: [`docs/README.md`](docs/README.md)
 | Interchange addons (existing-project extension) | [`docs/interchange/addons/`](docs/interchange/addons/) |
 | Platform addons (generic DI requirements) | [`docs/platform/addons/`](docs/platform/addons/) |
 | Visa interchange fees (per country) | [`docs/visa/interchange-fees/`](docs/visa/interchange-fees/) |
+| Mastercard interchange fees (per country) | [`docs/mastercard/interchange-fees/`](docs/mastercard/interchange-fees/) |
 | Original ZIP archives | [`archives/`](archives/) |
 
 ## Recommended reading order (platform)
@@ -36,6 +37,7 @@ Start here: [`docs/README.md`](docs/README.md)
 7. [`docs/platform/06-engineering-assets/`](docs/platform/06-engineering-assets/)
 8. [`docs/platform/07-dynamic-interchange-engine/`](docs/platform/07-dynamic-interchange-engine/)
 9. [`docs/platform/08-visa-developer-certification/`](docs/platform/08-visa-developer-certification/)
+10. [`docs/platform/09-mastercard-developer-certification/`](docs/platform/09-mastercard-developer-certification/)
 
 ## Visa quick start
 
@@ -49,11 +51,15 @@ Start here: [`docs/README.md`](docs/README.md)
 
 ## Mastercard quick start
 
-1. [`docs/mastercard/onboarding/`](docs/mastercard/onboarding/)
-2. [`docs/mastercard/adapter/`](docs/mastercard/adapter/)
-3. Shared network / clearing material in [`docs/platform/02-network-integration/`](docs/platform/02-network-integration/)
-4. Interchange design in [`docs/interchange/`](docs/interchange/)
+1. [`docs/mastercard/quick-start/`](docs/mastercard/quick-start/)
+2. [`docs/mastercard/onboarding/`](docs/mastercard/onboarding/)
+3. Choose an option under [`docs/mastercard/integration-options/`](docs/mastercard/integration-options/)
+4. Read [`docs/mastercard/nfr-security-operations/`](docs/mastercard/nfr-security-operations/) for NFR, monitoring, security, and runbooks
+5. Mastercard Connect / Developers security: [`docs/mastercard/mastercard-connect-security/`](docs/mastercard/mastercard-connect-security/)
+6. Adapter / interchange: [`docs/mastercard/adapter/`](docs/mastercard/adapter/), [`docs/interchange/`](docs/interchange/)
+7. Interchange fees and dynamic per-country updates: [`docs/mastercard/interchange-fees/`](docs/mastercard/interchange-fees/)
+8. Certification pack: [`docs/platform/09-mastercard-developer-certification/`](docs/platform/09-mastercard-developer-certification/)
 
 ## Archives note
 
-Standalone ZIPs `A-authorization-only-poc.zip` through `F-processor-connection-replacement.zip` are byte-identical to the folders under `docs/visa/integration-options/`. They are retained in `archives/` for provenance; day-to-day browsing should use the extracted tree.
+Standalone ZIPs `A-authorization-only-poc.zip` through `F-processor-connection-replacement.zip` are byte-identical to the folders under `docs/visa/integration-options/`. Mastercard option packs under `docs/mastercard/integration-options/` are in-repo adaptations (no separate Mastercard A–F ZIPs). Prefer the extracted trees for day-to-day browsing.

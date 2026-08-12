@@ -1,0 +1,119 @@
+# Illustrative only — not a production Mastercard rate table.
+# Replace rates and source_references from the official schedule for the effective date.
+
+metadata:
+  package_id: mastercard-ro-eea-fees
+  version: 1.1.0
+  network: MASTERCARD
+  country_code: RO
+  region: EEA
+  currency: RON
+  effective_from: 2026-04-01T00:00:00Z
+  environment: TEST
+  update_type: CYCLE
+  source_references:
+    - https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html
+    - https://www.mastercard.com/europe/en/for-the-world/about-us/eu-regulations.html
+  notes: Sample Romania-scoped package showing domestic vs Intra-EEA consumer caps and a commercial placeholder.
+
+programs:
+  - id: MC-RO-CONSUMER-DEBIT-DOMESTIC-SAMPLE
+    name: Sample RO consumer debit domestic
+    network: MASTERCARD
+    country_code: RO
+    region: EEA
+    effective_from: 2026-04-01T00:00:00Z
+    fallback: false
+  - id: MC-RO-CONSUMER-CREDIT-INTRA-EEA-SAMPLE
+    name: Sample RO merchant Intra-EEA consumer credit
+    network: MASTERCARD
+    country_code: RO
+    region: EEA
+    effective_from: 2026-04-01T00:00:00Z
+    fallback: false
+  - id: MC-RO-COMMERCIAL-CREDIT-SAMPLE
+    name: Sample RO commercial credit (uncapped illustrative)
+    network: MASTERCARD
+    country_code: RO
+    region: EEA
+    effective_from: 2026-04-01T00:00:00Z
+    fallback: false
+
+rules:
+  - id: rule-ro-consumer-debit-domestic-001
+    program_id: MC-RO-CONSUMER-DEBIT-DOMESTIC-SAMPLE
+    priority: 100
+    effective_from: 2026-04-01T00:00:00Z
+    source_reference: illustrative-domestic-schedule
+    conditions:
+      all:
+        - field: network
+          operator: equals
+          value: MASTERCARD
+        - field: merchant_country
+          operator: equals
+          value: RO
+        - field: region_relation
+          operator: equals
+          value: DOMESTIC
+        - field: funding_type
+          operator: equals
+          value: DEBIT
+        - field: cardholder_type
+          operator: equals
+          value: CONSUMER
+    rate:
+      percentage_bps: 20
+      fixed_minor_units: 0
+      rounding_policy: HALF_UP_MINOR_UNIT
+
+  - id: rule-ro-consumer-credit-intra-eea-001
+    program_id: MC-RO-CONSUMER-CREDIT-INTRA-EEA-SAMPLE
+    priority: 100
+    effective_from: 2026-04-01T00:00:00Z
+    source_reference: illustrative-intra-eea-schedule
+    conditions:
+      all:
+        - field: network
+          operator: equals
+          value: MASTERCARD
+        - field: merchant_country
+          operator: equals
+          value: RO
+        - field: region_relation
+          operator: equals
+          value: INTRA_EEA
+        - field: funding_type
+          operator: equals
+          value: CREDIT
+        - field: cardholder_type
+          operator: equals
+          value: CONSUMER
+    rate:
+      percentage_bps: 30
+      fixed_minor_units: 0
+      rounding_policy: HALF_UP_MINOR_UNIT
+
+  - id: rule-ro-commercial-credit-001
+    program_id: MC-RO-COMMERCIAL-CREDIT-SAMPLE
+    priority: 200
+    effective_from: 2026-04-01T00:00:00Z
+    source_reference: illustrative-commercial-schedule
+    conditions:
+      all:
+        - field: network
+          operator: equals
+          value: MASTERCARD
+        - field: merchant_country
+          operator: equals
+          value: RO
+        - field: cardholder_type
+          operator: equals
+          value: COMMERCIAL
+        - field: funding_type
+          operator: equals
+          value: CREDIT
+    rate:
+      percentage_bps: 165
+      fixed_minor_units: 0
+      rounding_policy: HALF_UP_MINOR_UNIT

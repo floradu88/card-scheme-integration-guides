@@ -1,0 +1,9 @@
+area,metric_or_event,type,threshold,severity,owner,runbook
+Mastercard,visa_tls_failures_total,metric,>0 sustained,SEV1,Operations,Mutual TLS failure
+Mastercard,visa_certificate_expiry_days,metric,<14,SEV2,Security,Certificate rotation
+Interchange,interchange_evaluation_duration_seconds p99,metric,>0.005,SEV2,Engineering,High latency
+Interchange,interchange_unmatched_total rate,metric,above approved threshold,SEV2,Scheme Ops,Unmatched spike
+Configuration,active checksum drift,event,any,SEV1,Operations,Configuration drift
+Settlement,settlement_feed_age_seconds,metric,above SLA,SEV2,Finance,Missing settlement feed
+Reconciliation,variance amount,metric,above tolerance,SEV2,Finance,Financial variance
+Security,privileged activation without approval,event,any,SEV1,Security,Security incident

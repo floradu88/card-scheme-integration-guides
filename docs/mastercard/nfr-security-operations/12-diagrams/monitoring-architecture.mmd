@@ -1,0 +1,14 @@
+flowchart LR
+ Mastercard[MastercardNet] --> App[Payment Platform]
+ App --> Metrics[Metrics]
+ App --> Logs[Structured Logs]
+ App --> Traces[OpenTelemetry]
+ Metrics --> Obs[Observability Platform]
+ Logs --> Obs
+ Traces --> Obs
+ Obs --> Dashboards
+ Obs --> Alerts
+ Alerts --> OnCall
+ App --> DecisionStore
+ Clearing --> Reconciliation
+ Reconciliation --> Metrics
