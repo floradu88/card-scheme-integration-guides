@@ -24,6 +24,7 @@ Browse by **card scheme** or by **shared topic**. Original ZIP archives live in 
 | Mastercard quick start | [`mastercard/quick-start/`](mastercard/quick-start/) |
 | VisaNet Connect security (.NET) | [`visa/visanet-connect-security/`](visa/visanet-connect-security/) |
 | Mastercard Connect / Developers security (.NET) | [`mastercard/mastercard-connect-security/`](mastercard/mastercard-connect-security/) |
+| Mastercard ALM / Product Graduation Plus | [`mastercard/alm-product-graduation/`](mastercard/alm-product-graduation/) |
 
 ## Suggested paths
 
@@ -31,6 +32,7 @@ Browse by **card scheme** or by **shared topic**. Original ZIP archives live in 
 - **New Mastercard build:** [`mastercard/quick-start/`](mastercard/quick-start/) → [`mastercard/integration-options/`](mastercard/integration-options/) → [`mastercard/nfr-security-operations/`](mastercard/nfr-security-operations/) → [`platform/02-network-integration/`](platform/02-network-integration/)
 - **Visa certification track:** [`platform/08-visa-developer-certification/`](platform/08-visa-developer-certification/) → [`visa/nfr-security-operations/14-stage-gates/`](visa/nfr-security-operations/14-stage-gates/)
 - **Mastercard certification track:** [`platform/09-mastercard-developer-certification/`](platform/09-mastercard-developer-certification/) → [`mastercard/nfr-security-operations/14-stage-gates/`](mastercard/nfr-security-operations/14-stage-gates/)
+- **Mastercard ALM / Product Graduation:** [`mastercard/alm-product-graduation/`](mastercard/alm-product-graduation/)
 - **Visa interchange / country fees:** [`visa/interchange-fees/`](visa/interchange-fees/) → [`interchange/`](interchange/) → [`platform/07-dynamic-interchange-engine/`](platform/07-dynamic-interchange-engine/)
 - **Mastercard interchange / country fees:** [`mastercard/interchange-fees/`](mastercard/interchange-fees/) → [`interchange/`](interchange/) → [`platform/07-dynamic-interchange-engine/`](platform/07-dynamic-interchange-engine/)
 - **Extend an existing virtual-card platform with dynamic interchange:** [`interchange/addons/existing-project-extension-analysis.md`](interchange/addons/existing-project-extension-analysis.md) → [`platform/addons/generic-dynamic-interchange-requirements/`](platform/addons/generic-dynamic-interchange-requirements/)

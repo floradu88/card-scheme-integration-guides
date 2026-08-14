@@ -9,7 +9,7 @@ Start here: [`docs/README.md`](docs/README.md)
 | Scheme | Docs | Notes |
 |--------|------|-------|
 | **Visa** | [`docs/visa/`](docs/visa/) | Quick start, onboarding, adapter, interchange fees, options A-F, NFR / security / ops, VisaNet Connect |
-| **Mastercard** | [`docs/mastercard/`](docs/mastercard/) | Same layout as Visa: quick start, options A-F, NFR / ops, Connect security, fees, certification |
+| **Mastercard** | [`docs/mastercard/`](docs/mastercard/) | Same layout as Visa: quick start, options A-F, NFR / ops, Connect security, fees, certification, ALM / Product Graduation |
 | Other schemes | — | No Amex / Discover / UnionPay / JCB packs in this corpus |
 
 ## By topic
@@ -59,6 +59,7 @@ Start here: [`docs/README.md`](docs/README.md)
 6. Adapter / interchange: [`docs/mastercard/adapter/`](docs/mastercard/adapter/), [`docs/interchange/`](docs/interchange/)
 7. Interchange fees and dynamic per-country updates: [`docs/mastercard/interchange-fees/`](docs/mastercard/interchange-fees/)
 8. Certification pack: [`docs/platform/09-mastercard-developer-certification/`](docs/platform/09-mastercard-developer-certification/)
+9. ALM / Product Graduation Plus (ACS account-level product migration): [`docs/mastercard/alm-product-graduation/`](docs/mastercard/alm-product-graduation/)
 
 ## Archives note
 

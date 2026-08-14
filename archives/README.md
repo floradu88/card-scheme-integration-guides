@@ -23,6 +23,7 @@ Original ZIP packs copied from Downloads for provenance. Prefer the extracted tr
 | `interchange_configuration_pack.zip` | [`docs/interchange/configuration-pack/`](../docs/interchange/configuration-pack/) |
 | `interchange_phase2_engineering_handbook.zip` | [`docs/interchange/phase2-engineering-handbook/`](../docs/interchange/phase2-engineering-handbook/) |
 | `payment_dynamic_interchange_all_artifacts_2026-08-12.zip` | Aggregate bundle (see `.MANIFEST.json` / `.README.md` siblings); individuals above are the source of truth for extraction |
+| `mastercard-alm-complete-chat-resources.zip` | [`docs/mastercard/alm-product-graduation/`](../docs/mastercard/alm-product-graduation/) |
 
 ## Docs without ZIP provenance
 
