@@ -1,6 +1,8 @@
 # Mastercard ALM / Product Graduation Plus
 ## Sample Development, Testing & Certification Estimate
 
+> **Status:** Full greenfield / end-to-end project estimate. For incremental work on an existing Mastercard integration, prefer [`mastercard-alm-dev-and-testing-estimate.md`](mastercard-alm-dev-and-testing-estimate.md) (**6 MD baseline**, **5–8 MD** range).
+
 > **Estimation type:** Ballpark / T-shirt-size implementation estimate  
 > **Recommended baseline:** ~55 person-days  
 > **Likely range:** 45–70 person-days  

@@ -12,7 +12,8 @@ This ZIP consolidates all generated Mastercard Account Level Management / Accoun
 - Official Mastercard reference index
 - Master implementation/certification checklist
 - .NET 8 integration skeleton
-- Development/testing/certification effort estimate
+- Incremental development + developer-testing estimate (recommended for existing Mastercard integrations)
+- Full end-to-end development/testing/certification effort estimate
 - Package manifest with SHA-256 hashes
 
 The newest documents supersede earlier ones where they conflict, but the earlier versions are retained for traceability.
@@ -24,7 +25,8 @@ The newest documents supersede earlier ones where they conflict, but the earlier
 3. `docs/change-implementation-guide.md`
 4. `docs/watchouts-risks-rollback.md`
 5. `checklists/mastercard-alm-master-checklist.md`
-6. `docs/development-testing-certification-estimate.md`
-7. `docs/mastercard-verification-certification-runbook.md`
-8. `docs/official-mastercard-references.md`
-9. `samples/dotnet8-integration-skeleton.md`
+6. `docs/mastercard-alm-dev-and-testing-estimate.md` — **use this for incremental ALM API work** (6 MD baseline)
+7. `docs/development-testing-certification-estimate.md` — full project / certification-inclusive estimate
+8. `docs/mastercard-verification-certification-runbook.md`
+9. `docs/official-mastercard-references.md`
+10. `samples/dotnet8-integration-skeleton.md`

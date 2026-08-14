@@ -12,7 +12,7 @@ Mastercard-specific integration packs organized to mirror the Visa scheme layout
 | NFR, security & operations | [`nfr-security-operations/`](nfr-security-operations/) | Sandbox/cert path, NFRs, monitoring, security, DR, runbooks, stage gates |
 | Mastercard Connect / Developers security (.NET) | [`mastercard-connect-security/`](mastercard-connect-security/) | OAuth 1.0a, payload encryption, cert lifecycle, .NET patterns |
 | Developer & certification | [`developer-certification/`](developer-certification/) | Tooling, .NET plan, certification calendar (also platform phase 09) |
-| ALM / Product Graduation Plus | [`alm-product-graduation/`](alm-product-graduation/) | Account Catalog Services (ACS) / Account Level Management — .NET 8 implementation, change guide, checklist, certification runbook |
+| ALM / Product Graduation Plus | [`alm-product-graduation/`](alm-product-graduation/) | Account Catalog Services (ACS) / Account Level Management — .NET 8 implementation, change guide, checklist, certification runbook; incremental estimate **6 MD** (5–8 MD) |
 
 ## Integration options
 
