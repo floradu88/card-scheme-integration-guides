@@ -20,7 +20,8 @@ Published Visa interchange schedules, domestic supplements, and participant-spec
 - Reconciliation option: [`../integration-options/E-clearing-reconciliation-only/`](../integration-options/E-clearing-reconciliation-only/)
 - Shared interchange engine: [`../../interchange/`](../../interchange/)
 - Phase 07 dynamic interchange engine: [`../../platform/07-dynamic-interchange-engine/`](../../platform/07-dynamic-interchange-engine/)
-- Visa adapter: [`../adapter/`](../adapter/)
+- Visa adapter: [../adapter/](../adapter/)
+- Official website references: [../official-website-references.md](../official-website-references.md)
 - Mastercard twin pack (`network: MASTERCARD`): [`../../mastercard/interchange-fees/`](../../mastercard/interchange-fees/)
 
 ## Status

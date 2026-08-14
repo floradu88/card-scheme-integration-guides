@@ -13,20 +13,21 @@ This document extends the payment-platform architecture handbook with the concre
 
 ## Official Visa links
 
-- VisaNet Connect – Acceptance Authentication  
-  https://developer.visa.com/capabilities/visanet-connect-acceptance/docs-authentication
+| Topic | URL |
+|-------|-----|
+| Authentication (VisaNet Connect – Acceptance) | https://developer.visa.com/capabilities/visanet-connect-acceptance/docs-authentication |
+| Two-Way SSL | https://developer.visa.com/pages/working-with-visa-apis/two-way-ssl |
+| Message Level Encryption | https://developer.visa.com/pages/encryption_guide |
+| API reference | https://developer.visa.com/capabilities/visanet-connect-acceptance/reference |
+| Product overview | https://developer.visa.com/capabilities/visanet-connect-acceptance |
+| Getting started | https://developer.visa.com/capabilities/visanet-connect-acceptance/docs-getting-started |
+| Curated website index | [`../official-website-references.md`](../official-website-references.md) |
 
-- Visa Two-Way SSL Guide  
-  https://developer.visa.com/pages/working-with-visa-apis/two-way-ssl
+### Website facts (Visa Developer)
 
-- Visa Message Level Encryption  
-  https://developer.visa.com/pages/encryption_guide
-
-- VisaNet Connect – Acceptance API Reference  
-  https://developer.visa.com/capabilities/visanet-connect-acceptance/reference
-
-- Visa Developer Documentation  
-  https://developer.visa.com/docs
+- VisaNet Connect – Acceptance requires **Two-Way SSL (mutual authentication)**.
+- **MLE** is required for Visa Payments Processing API implementations (AES-GCM payload encryption, RSA-OAEP key encryption, JWE; separate request vs response key pairs).
+- Authorization API is usable in Sandbox; full API suite access typically needs acquirer + Visa pre-approval for Certification/Production.
 
 ## 1. Security architecture
 

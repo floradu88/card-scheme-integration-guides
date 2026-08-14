@@ -2,34 +2,39 @@
 
 ## Purpose
 
-This document extends the payment-platform architecture handbook with concrete Mastercard Developers API security requirements for:
+This document extends the payment-platform architecture handbook with concrete Mastercard Developers API security requirements drawn from Mastercard’s public documentation:
 
 - OAuth 1.0a request signing (primary Mastercard Developers authentication)
-- Optional mutual TLS where product/environment requires it
-- Payload encryption for sensitive fields
+- Optional mutual TLS via Key Management Portal when a product requires it
+- Payload encryption (Field Level Encryption and/or JWE) for sensitive fields
 - Certificate and key lifecycle
-- Sandbox, Certification, and Production separation
+- Sandbox / MTF / Production separation
 - .NET integration patterns
 - Monitoring, testing, and stage gates
 
-> Note: Mastercard Developers authentication is **not identical** to Visa Two-Way SSL + MLE. Prefer OAuth 1.0a signing keys and Mastercard payload-encryption guidance for API products. Confirm product-specific requirements in the Mastercard Developers project dashboard.
+> Mastercard Developers authentication is **not** Visa Two-Way SSL + MLE. Use OAuth 1.0a + Mastercard payload-encryption guidance unless a specific product document says otherwise.
 
 ## Official Mastercard links
 
-- OAuth 1.0a authentication  
-  https://developer.mastercard.com/platform/documentation/security-and-authentication/using-oauth-1a-to-access-mastercard-apis/
+| Topic | URL |
+|-------|-----|
+| OAuth 1.0a | https://developer.mastercard.com/platform/documentation/security-and-authentication/using-oauth-1a-to-access-mastercard-apis/ |
+| Payload encryption | https://developer.mastercard.com/platform/documentation/security-and-authentication/securing-sensitive-data-using-payload-encryption/ |
+| Quick start | https://developer.mastercard.com/platform/documentation/getting-started-with-mastercard-apis/quick-start-guide/ |
+| Developers portal | https://developer.mastercard.com/ |
+| Mastercard Connect | https://www.mastercardconnect.com/ |
+| Transaction API for Acquirers | https://developer.mastercard.com/transaction-api-for-acquirers/documentation/ |
+| Curated website index | [`../official-website-references.md`](../official-website-references.md) |
 
-- Payload encryption  
-  https://developer.mastercard.com/platform/documentation/security-and-authentication/securing-sensitive-data-using-payload-encryption/
+### Official libraries
 
-- Getting started  
-  https://developer.mastercard.com/platform/documentation/getting-started-with-mastercard-apis/quick-start-guide/
-
-- Mastercard Developers portal  
-  https://developer.mastercard.com/
-
-- Mastercard Rules hub  
-  https://www.mastercard.com/us/en/business/support/rules.html
+| Library | URL |
+|---------|-----|
+| oauth1-signer-java | https://github.com/Mastercard/oauth1-signer-java |
+| oauth1-signer-nodejs | https://github.com/Mastercard/oauth1-signer-nodejs |
+| client-encryption-java | https://github.com/Mastercard/client-encryption-java |
+| API client tutorial | https://github.com/Mastercard/mastercard-api-client-tutorial |
+| Transaction API reference app | https://github.com/Mastercard/transaction-api-reference-app |
 
 ## 1. Security architecture
 
@@ -61,33 +66,31 @@ Payload decryption
 Application
 ```
 
-OAuth 1.0a authenticates the client and protects request integrity.
-
-Payload encryption protects sensitive message content (for example PAN, PII, account data) when the selected API requires it.
+From Mastercard Developers docs: every API request must be signed with an RSA private key; Mastercard verifies using the public key registered for the project Consumer Key. Payload encryption protects PCI/PII fields when the product requires it (FLE and/or JWE).
 
 ## 2. OAuth 1.0a key model
 
-Mastercard Developers projects typically issue:
+Project setup on Mastercard Developers typically yields:
 
-- Consumer Key
-- Signing key (private key) held by the client
-- Mastercard encryption keys when payload encryption is enabled
+- **Consumer Key** (shown in the project dashboard)
+- **Signing key** private key (often downloaded as a password-protected PKCS#12)
+- Optional encryption certificates/keys when payload encryption is enabled
 
-### Request signing
+Extract the private signing key from PKCS#12 only into a vault/HSM workflow. Prefer Mastercard’s published signer libraries as the behavioral reference for Authorization header construction.
 
-The client signs each request with its private signing key. Mastercard validates the signature using the registered consumer/project credentials.
+## 3. Payload encryption key model
 
-### Payload encryption (when enabled)
+When enabled for the API:
 
-Encrypt sensitive request fields using the Mastercard encryption public key. Decrypt response fields with the client private decryption key when responses are encrypted.
+- Encrypt sensitive request fields with Mastercard’s public encryption certificate.
+- Decrypt sensitive response fields with the client private decryption key.
+- Confirm whether the product uses Mastercard Field Level Encryption, JWE, or both—paths and headers differ by product.
 
-Verify the exact algorithms and field paths required by the active API/project before implementation.
+## 4. Optional mTLS (product-dependent)
 
-## 3. Key identifiers and configuration
+Some acquiring products (for example Transaction API for Acquirers reference materials) obtain client certificates through **Key Management Portal (KMP)** inside [Mastercard Connect](https://www.mastercardconnect.com/). Treat mTLS as additive to OAuth when the product guide requires it—not as a replacement for OAuth 1.0a on Developers APIs.
 
-Consumer keys, key aliases, and encryption key IDs must be external configuration because they differ by environment and rotate over time.
-
-Example:
+## 5. Configuration example
 
 ```json
 {
@@ -100,60 +103,43 @@ Example:
       "Enabled": true,
       "EncryptionCertificateSecret": "mc-encryption-public-cert",
       "DecryptionKeySecret": "mc-decryption-private-key"
+    },
+    "Mtls": {
+      "Enabled": false,
+      "ClientCertificateSecret": "mc-mtls-client-cert"
     }
   }
 }
 ```
 
-## 4. Recommended .NET structure
+## 6. Recommended .NET structure
 
-- `MastercardAuthHandler` — OAuth 1.0a signing DelegatingHandler
-- `MastercardPayloadEncryptionService` — field/payload encrypt/decrypt
-- `MastercardApiClient` — typed HTTP client via `IHttpClientFactory`
-- Secret/vault provider for keys (never commit private keys)
-- Options pattern for environment-specific endpoints and key IDs
+- `MastercardOAuthHandler` — DelegatingHandler that signs requests (align with official signer behavior)
+- `MastercardPayloadEncryptionService` — encrypt/decrypt per product config
+- `MastercardApiClient` — typed client via `IHttpClientFactory`
+- Vault-backed secret provider
 - OpenTelemetry spans: `mastercard.request`, `mastercard.response.mapping`
 
-## 5. Environment separation
-
-Maintain distinct projects/credentials for:
+## 7. Environment separation
 
 | Environment | Purpose |
 |-------------|---------|
 | Sandbox | Connectivity and functional development |
-| Certification / MTF | Scheme or sponsor certification scenarios |
-| Production | Live traffic only after go-live approval |
+| MTF / Certification | Scheme or sponsor certification scenarios |
+| Production | Live traffic after go-live approval |
 
 Do not reuse sandbox signing keys in production.
 
-## 6. Certificate and key lifecycle
+## 8. Monitoring and stage gates
 
-1. Generate or obtain signing/encryption keys per Mastercard Developers project guidance.
-2. Register public material in the project dashboard.
-3. Store private material in a vault with rotation runbooks.
-4. Monitor expiry and rotation windows.
-5. Dual-run old/new keys during rotation when the product supports it.
-6. Revoke compromised keys immediately and open a security incident.
-
-## 7. Monitoring, testing, and stage gates
-
-- Alert on auth failures, signature validation errors, and encryption failures.
+- Alert on OAuth signature failures, HTTP 401/403 auth errors, and encryption failures.
 - Contract tests for signed requests and encrypted fields.
 - Stage gates: sandbox connectivity → certification evidence → production credentials → controlled go-live.
-- Never log PAN, full OAuth secrets, or private keys.
-
-## 8. Stage-gate checklist (summary)
-
-- [ ] Sandbox project created; consumer key and signing key validated
-- [ ] Payload encryption validated if required by the API
-- [ ] Negative auth/encryption tests recorded
-- [ ] Certification scenarios executed and evidence archived
-- [ ] Production credentials issued and vaulted
-- [ ] Rollback and key-revocation runbooks approved
+- Never log PAN, Consumer Key secrets, or private keys.
 
 ## Related docs
 
-- Mastercard quick start: [`../quick-start/`](../quick-start/)
+- Curated website references: [`../official-website-references.md`](../official-website-references.md)
+- Quick start: [`../quick-start/`](../quick-start/)
 - NFR / security / ops: [`../nfr-security-operations/`](../nfr-security-operations/)
-- Phase 09 certification pack: [`../../platform/09-mastercard-developer-certification/`](../../platform/09-mastercard-developer-certification/)
-- Official link index: [`../nfr-security-operations/13-official-references/mastercard-links.md`](../nfr-security-operations/13-official-references/mastercard-links.md)
+- Phase 09 certification: [`../../platform/09-mastercard-developer-certification/`](../../platform/09-mastercard-developer-certification/)

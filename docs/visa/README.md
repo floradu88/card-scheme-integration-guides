@@ -11,6 +11,7 @@ Visa-specific integration packs extracted and organized in this repository.
 | Integration options A–F | [`integration-options/`](integration-options/) | Scope choices from auth PoC through processor replacement |
 | NFR, security & operations | [`nfr-security-operations/`](nfr-security-operations/) | Sandbox/cert path, NFRs, monitoring, security, DR, runbooks, stage gates |
 | VisaNet Connect security (.NET) | [`visanet-connect-security/`](visanet-connect-security/) | mTLS, MLE, cert lifecycle, .NET patterns for VisaNet Connect Acceptance |
+| Official website references | [`official-website-references.md`](official-website-references.md) | Curated Visa Developer / visa.com links and published facts |
 
 ## Integration options
 

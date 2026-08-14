@@ -5,15 +5,24 @@
 
 ## Official source
 
-Mastercard Developers Quick Start for Developers:
-https://developer.mastercard.com/platform/documentation/getting-started-with-mastercard-apis/quick-start-guide/
+Primary guide: [Mastercard Developers Quick Start](https://developer.mastercard.com/platform/documentation/getting-started-with-mastercard-apis/quick-start-guide/)
 
 Supporting official documentation:
-- Working with Mastercard APIs: https://developer.mastercard.com/pages/working-with-mastercard-apis
-- Mastercard Developers APIs Authentication: https://developer.mastercard.com/platform/documentation/security-and-authentication/using-oauth-1a-to-access-mastercard-apis/
-- mTLS / OAuth signing: https://developer.mastercard.com/platform/documentation/security-and-authentication/using-oauth-1a-to-access-mastercard-apis/
-- Message Level Encryption: https://developer.mastercard.com/platform/documentation/security-and-authentication/securing-sensitive-data-using-payload-encryption/
-- Outbound Callback Configuration: https://developer.mastercard.com/pages/working-with-mastercard-apis/outbound-configuration
+
+- [Getting started with Mastercard APIs](https://developer.mastercard.com/platform/documentation/getting-started-with-mastercard-apis/)
+- [Using OAuth 1.0a to Access Mastercard APIs](https://developer.mastercard.com/platform/documentation/security-and-authentication/using-oauth-1a-to-access-mastercard-apis/)
+- [Securing Sensitive Data Using Payload Encryption](https://developer.mastercard.com/platform/documentation/security-and-authentication/securing-sensitive-data-using-payload-encryption/)
+- [Mastercard Developers portal](https://developer.mastercard.com/)
+- [Mastercard Connect](https://www.mastercardconnect.com/) (customer publications + Key Management Portal)
+- [Transaction API for Acquirers](https://developer.mastercard.com/transaction-api-for-acquirers/documentation/) (when in scope)
+- Full curated website index: [`../official-website-references.md`](../official-website-references.md)
+
+Official libraries (examples):
+
+- https://github.com/Mastercard/oauth1-signer-java
+- https://github.com/Mastercard/oauth1-signer-nodejs
+- https://github.com/Mastercard/client-encryption-java
+- https://github.com/Mastercard/mastercard-api-client-tutorial
 
 ## 1. Developer resources and assets
 
@@ -67,29 +76,28 @@ Assets:
 
 ## 3. Authentication
 
-Mastercard Developers APIs use the authentication method applicable to the selected API, including:
+Mastercard Developers APIs authenticate with **OAuth 1.0a** (RSA request signing, including body-hash extension as documented by Mastercard). Product-specific extras may include:
 
-- mTLS / OAuth signing / mutual authentication; or
-- X-Pay-Token shared-secret authentication.
+- payload encryption (Field Level Encryption and/or JWE) for PCI/PII fields;
+- mTLS client certificates obtained via **Key Management Portal** in Mastercard Connect when the product requires them.
 
-For Mastercard Developers APIs, use the product-specific authentication requirements already captured in the security add-on.
+Do **not** assume Visa Two-Way SSL / X-Pay-Token patterns apply. Follow the selected product’s Mastercard Developers guide and the security add-on.
 
 ### Architecture
 
 ```text
 Domain Service
-    |
-Mastercard Adapter
-    |
-Authentication Strategy
-    +---- mTLS
-    |
-    +---- X-Pay-Token (only where selected API requires it)
-    |
-Mastercard API
+   |
+   v
+Mastercard Adapter / API client
+   |  OAuth 1.0a Authorization header (RSA signing)
+   |  optional payload encryption (FLE / JWE)
+   |  optional mTLS via KMP (product-dependent)
+   v
+Mastercard Developers API (sandbox / MTF / production)
 ```
 
-Do not allow business-domain code to construct authentication tokens or manipulate certificates.
+Do not allow business-domain code to construct OAuth signatures or manipulate private keys/certificates.
 
 ## 4. Message Level Encryption
 

@@ -25,6 +25,8 @@ Browse by **card scheme** or by **shared topic**. Original ZIP archives live in 
 | VisaNet Connect security (.NET) | [`visa/visanet-connect-security/`](visa/visanet-connect-security/) |
 | Mastercard Connect / Developers security (.NET) | [`mastercard/mastercard-connect-security/`](mastercard/mastercard-connect-security/) |
 | Mastercard ALM / Product Graduation Plus | [`mastercard/alm-product-graduation/`](mastercard/alm-product-graduation/) |
+| Visa official website references | [`visa/official-website-references.md`](visa/official-website-references.md) |
+| Mastercard official website references | [`mastercard/official-website-references.md`](mastercard/official-website-references.md) |
 
 ## Suggested paths
 

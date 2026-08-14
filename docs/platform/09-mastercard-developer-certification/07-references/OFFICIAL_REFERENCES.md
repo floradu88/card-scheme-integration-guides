@@ -1,5 +1,7 @@
 # Official References
 
+Canonical curated index: [`../../mastercard/official-website-references.md`](../../mastercard/official-website-references.md)
+
 - Mastercard Developers portal  
   https://developer.mastercard.com/
 
@@ -15,8 +17,17 @@
 - Payload encryption  
   https://developer.mastercard.com/platform/documentation/security-and-authentication/securing-sensitive-data-using-payload-encryption/
 
-- Platform documentation hub  
-  https://developer.mastercard.com/platform/documentation/
+- Transaction API for Acquirers  
+  https://developer.mastercard.com/transaction-api-for-acquirers/documentation/
+
+- Mastercard Connect  
+  https://www.mastercardconnect.com/
+
+- OAuth1 signer (Java reference)  
+  https://github.com/Mastercard/oauth1-signer-java
+
+- Client encryption (Java reference)  
+  https://github.com/Mastercard/client-encryption-java
 
 - Mastercard Rules hub  
   https://www.mastercard.com/us/en/business/support/rules.html
@@ -30,4 +41,4 @@
 ## Published contact
 
 - Use the support path shown in the Mastercard Developers project dashboard or the assigned Implementation Manager when available.
-- General portal: https://developer.mastercard.com/
+- Portal: https://developer.mastercard.com/

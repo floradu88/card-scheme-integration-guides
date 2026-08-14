@@ -12,7 +12,8 @@ Short-path guidance for Mastercard Developers onboarding and environment stage g
 ## Navigation
 
 - Mastercard scheme index: [`../README.md`](../README.md)
+- Official website references: [`../official-website-references.md`](../official-website-references.md)
 - Integration options A–F: [`../integration-options/`](../integration-options/)
 - Phase 09 certification pack: [`../../platform/09-mastercard-developer-certification/`](../../platform/09-mastercard-developer-certification/)
 - NFR / security / ops: [`../nfr-security-operations/`](../nfr-security-operations/)
-- Provenance: adapted in-repo from Visa quick-start twin (no separate Mastercard ZIP in `archives/`)
+- Provenance: adapted in-repo from Visa quick-start twin; links refreshed from Mastercard Developers (2026-08-12)

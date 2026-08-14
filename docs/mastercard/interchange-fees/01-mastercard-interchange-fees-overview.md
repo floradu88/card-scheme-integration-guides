@@ -44,12 +44,21 @@ Treat the percentages above as regulatory context, not as a complete fee table.
 
 Always prefer the official schedule for the market and effective date you are importing:
 
-- [Mastercard Rules hub](https://www.mastercard.com/us/en/business/support/rules.html)
-- [Mastercard Rules (PDF)](https://www.mastercard.com/content/dam/mccom/shared/business/support/rules-pdfs/mastercard-rules.pdf)
-- [Transaction Processing Rules (PDF)](https://www.mastercard.com/content/dam/mccom/shared/business/support/rules-pdfs/transaction-processing-rules.pdf)
-- [Europe interchange hub](https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html)
-- [US interchange hub](https://www.mastercard.com/us/en/business/support/merchant-interchange-rates.html)
+- [US interchange hub](https://www.mastercard.com/us/en/business/support/merchant-interchange-rates.html) — US domestic + interregional rates for US merchants; Merchant Category Guide and qualification criteria
+- [Europe interchange hub](https://www.mastercard.com/europe/en/business/support/merchant-interchange-rates.html) — Intra-EEA, interregional, and **per-country / intra-location** POS fee PDFs (including RO, DE, UK, …)
+- [Canada interchange hub](https://www.mastercard.com/ca/en/business/support/merchant-interchange-rates.html)
 - [EU regulations context](https://www.mastercard.com/europe/en/for-the-world/about-us/eu-regulations.html)
+- Example published US schedule (verify before use): [2025–2026 U.S. Region Interchange Programs and Rates (PDF)](https://www.mastercard.com/content/dam/mccom/us/business/documents/merchant-rates-2025-2026.pdf) (document effective date **11 Apr 2025**)
+
+### Website facts to model in config
+
+From Mastercard’s public hubs:
+
+- Interchange is generally paid **acquirer → issuer** and is only **one component** of MDR; acquirer–merchant pricing is outside Mastercard’s published rate tables.
+- US rates are typically updated **semiannually**; if the website and Mastercard’s official rate set disagree, **official rates prevail**.
+- Europe: IFR caps EEA domestic + EEA cross-border **consumer** debit/credit; UK rules cap **UK domestic** consumer debit/credit.
+- Europe hub publishes country/location PDFs—use those as the source for `mastercard-{CC}-{region}-fees` packages.
+- Full curated link set: [`../official-website-references.md`](../official-website-references.md)
 
 Publication cadence for public rate sheets varies by region; emergency or regional updates can land outside the usual cycle.
 

@@ -38,4 +38,6 @@ Original ZIP packs copied from Downloads for provenance. Prefer the extracted tr
 | [`docs/mastercard/mastercard-connect-security/`](../docs/mastercard/mastercard-connect-security/) | In-repo Mastercard Developers security twin (OAuth 1.0a / payload encryption) |
 | [`docs/mastercard/developer-certification/`](../docs/mastercard/developer-certification/) | Mirror of [`docs/platform/09-mastercard-developer-certification/`](../docs/platform/09-mastercard-developer-certification/) |
 | [`docs/platform/09-mastercard-developer-certification/`](../docs/platform/09-mastercard-developer-certification/) | In-repo adaptation of phase 08 Visa certification pack |
+| [`docs/visa/official-website-references.md`](../docs/visa/official-website-references.md) | Curated Visa Developer / visa.com links (2026-08-12 review) |
+| [`docs/mastercard/official-website-references.md`](../docs/mastercard/official-website-references.md) | Curated Mastercard Developers / mastercard.com links (2026-08-12 review) |
 | [`docs/interchange/addons/`](../docs/interchange/addons/) | Added in-repo: existing-project dynamic interchange extension analysis |

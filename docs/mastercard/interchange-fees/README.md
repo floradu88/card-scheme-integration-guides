@@ -18,7 +18,8 @@ Published Mastercard interchange schedules, domestic supplements, and participan
 
 - Shared interchange engine: [`../../interchange/`](../../interchange/)
 - Phase 07 dynamic interchange engine: [`../../platform/07-dynamic-interchange-engine/`](../../platform/07-dynamic-interchange-engine/)
-- Mastercard adapter: [`../adapter/`](../adapter/)
+- Mastercard adapter: [../adapter/](../adapter/)
+- Official website references: [../official-website-references.md](../official-website-references.md)
 - Visa twin pack (same model, `network: VISA`): [`../../visa/interchange-fees/`](../../visa/interchange-fees/)
 
 ## Status
