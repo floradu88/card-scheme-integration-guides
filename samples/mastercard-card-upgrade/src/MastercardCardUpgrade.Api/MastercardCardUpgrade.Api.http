@@ -1,0 +1,54 @@
+@host = http://localhost:5088
+
+### Sandbox status
+GET {{host}}/api/mastercard/sandbox/status
+
+### End-to-end demo: create card (MCG) → ACS register → upgrade to MWE
+POST {{host}}/api/demo/e2e
+Content-Type: application/json
+
+{
+  "sourceProductCode": "MCG",
+  "targetProductCode": "MWE"
+}
+
+### List product catalog
+GET {{host}}/api/products
+
+### Create a card that can be upgraded
+POST {{host}}/api/cards
+Content-Type: application/json
+
+{
+  "productCode": "MCG",
+  "lookupBin": false
+}
+
+### List cards
+GET {{host}}/api/cards
+
+### Register PAN in Product Graduation Plus
+POST {{host}}/api/cards/card_REPLACE_ME/register
+
+### Upgrade card product (same PAN)
+POST {{host}}/api/cards/card_REPLACE_ME/upgrades
+Content-Type: application/json
+
+{
+  "targetProductCode": "MWE",
+  "reason": "CUSTOMER_UPGRADE"
+}
+
+### Reconcile ACS status
+POST {{host}}/api/cards/card_REPLACE_ME/upgrades/mig_REPLACE_ME/reconcile
+
+### Rollback to previous product
+POST {{host}}/api/cards/card_REPLACE_ME/upgrades/mig_REPLACE_ME/rollback
+
+### Sandbox BIN lookup
+POST {{host}}/api/mastercard/sandbox/bin-lookup
+Content-Type: application/json
+
+{
+  "panOrAccountRange": "585240844"
+}

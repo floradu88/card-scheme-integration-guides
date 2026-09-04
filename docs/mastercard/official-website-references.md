@@ -42,6 +42,7 @@ Curated links and facts from Mastercard public websites. Prefer these over secon
 
 | Library | URL |
 |---------|-----|
+| OAuth1 signer (C#) | https://github.com/Mastercard/oauth1-signer-csharp |
 | OAuth1 signer (Java) | https://github.com/Mastercard/oauth1-signer-java |
 | OAuth1 signer (Node.js) | https://github.com/Mastercard/oauth1-signer-nodejs |
 | OAuth1 signer (Go) | https://github.com/Mastercard/oauth1-signer-go |

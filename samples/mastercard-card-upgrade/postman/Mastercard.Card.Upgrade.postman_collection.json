@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "Mastercard Card Upgrade - .NET 8 Sample",
+    "_postman_id": "9af35af8-fdb8-4a63-94da-7649da7eb922",
+    "description": "Calls the local .NET 8 orchestration API. Sandbox BIN Lookup is backed by https://sandbox.api.mastercard.com. ALM requires issuer-provisioned USS schema/endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "localBaseUrl",
+      "value": "http://localhost:5088"
+    }
+  ],
+  "item": [
+    {
+      "name": "0 - Sandbox status",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{localBaseUrl}}/api/mastercard/sandbox/status",
+          "host": ["{{localBaseUrl}}"],
+          "path": ["api", "mastercard", "sandbox", "status"]
+        }
+      }
+    },
+    {
+      "name": "1 - Sandbox BIN Lookup",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"panOrAccountRange\": \"585240844\"\n}"
+        },
+        "url": {
+          "raw": "{{localBaseUrl}}/api/mastercard/sandbox/bin-lookup",
+          "host": ["{{localBaseUrl}}"],
+          "path": ["api", "mastercard", "sandbox", "bin-lookup"]
+        }
+      }
+    },
+    {
+      "name": "2 - Local BIN Lookup",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"panOrAccountRange\": \"585240844\"\n}"
+        },
+        "url": {
+          "raw": "{{localBaseUrl}}/api/mastercard/bin-lookup",
+          "host": ["{{localBaseUrl}}"],
+          "path": ["api", "mastercard", "bin-lookup"]
+        }
+      }
+    },
+    {
+      "name": "3 - Upgrade Card",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pan\": \"5555555555554444\",\n  \"targetProductCode\": \"TARGET_PRODUCT_CODE_FROM_MASTERCARD\",\n  \"effectiveDate\": \"2026-09-04\",\n  \"serviceCode\": \"PRODUCT_GRADUATION_SERVICE_CODE_FROM_MASTERCARD\"\n}"
+        },
+        "url": {
+          "raw": "{{localBaseUrl}}/api/mastercard/upgrade",
+          "host": ["{{localBaseUrl}}"],
+          "path": ["api", "mastercard", "upgrade"]
+        }
+      }
+    },
+    {
+      "name": "4 - ALM Status",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{localBaseUrl}}/api/mastercard/alm/status/{{mastercardReference}}",
+          "host": ["{{localBaseUrl}}"],
+          "path": ["api", "mastercard", "alm", "status", "{{mastercardReference}}"]
+        }
+      }
+    }
+  ]
+}

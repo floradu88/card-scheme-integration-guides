@@ -41,6 +41,12 @@ Validate the implementation against the current Mastercard documentation before 
 13. Mastercard official C# OAuth 1 signer  
     https://github.com/Mastercard/oauth1-signer-csharp
 
+14. BIN Lookup / BIN Table Resource  
+    https://developer.mastercard.com/bin-table-resource/documentation/
+
+15. Runnable .NET 8 card-upgrade sample (sandbox BIN Lookup)  
+    [`../../../../samples/mastercard-card-upgrade/`](../../../../samples/mastercard-card-upgrade/)
+
 ## Verification rule
 
 If a public page, API Reference, OpenAPI file, project-specific documentation, Mastercard implementation guide, or written Mastercard/CIS instruction disagree, stop and resolve the discrepancy with Mastercard. Never silently choose the contract that is easier to implement.

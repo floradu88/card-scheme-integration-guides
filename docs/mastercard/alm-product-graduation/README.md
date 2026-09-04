@@ -14,6 +14,7 @@ Purpose: implement and certify an API-based Mastercard Account Catalog Services 
 - `docs/development-testing-certification-estimate.md` — full end-to-end project estimate (~55 MD); retained for greenfield / certification-inclusive planning.
 - `checklists/mastercard-alm-master-checklist.md` — stage-by-stage checklist.
 - `samples/dotnet8-integration-skeleton.md` — recommended .NET 8 solution structure and integration skeleton.
+- Runnable sample (Mastercard sandbox): [`../../../samples/mastercard-card-upgrade/`](../../../samples/mastercard-card-upgrade/)
 
 ## Hard implementation rules
 

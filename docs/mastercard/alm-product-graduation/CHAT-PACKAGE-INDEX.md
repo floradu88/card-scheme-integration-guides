@@ -30,3 +30,4 @@ The newest documents supersede earlier ones where they conflict, but the earlier
 8. `docs/mastercard-verification-certification-runbook.md`
 9. `docs/official-mastercard-references.md`
 10. `samples/dotnet8-integration-skeleton.md`
+11. Runnable .NET 8 sample with Mastercard sandbox: `samples/mastercard-card-upgrade/`

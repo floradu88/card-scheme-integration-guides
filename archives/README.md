@@ -25,6 +25,7 @@ Original ZIP packs copied from Downloads for provenance. Prefer the extracted tr
 | `payment_dynamic_interchange_all_artifacts_2026-08-12.zip` | Aggregate bundle (see `.MANIFEST.json` / `.README.md` siblings); individuals above are the source of truth for extraction |
 | `mastercard-alm-complete-chat-resources.zip` | [`docs/mastercard/alm-product-graduation/`](../docs/mastercard/alm-product-graduation/) |
 | `mastercard-alm-dev-testing-estimate-package.zip` | [`docs/mastercard/alm-product-graduation/docs/mastercard-alm-dev-and-testing-estimate.md`](../docs/mastercard/alm-product-graduation/docs/mastercard-alm-dev-and-testing-estimate.md) (also nested complete-chat ZIP already archived) |
+| `mastercard-card-upgrade-net8.zip` | [`samples/mastercard-card-upgrade/`](../samples/mastercard-card-upgrade/) — runnable .NET 8 API with Mastercard sandbox BIN Lookup |
 
 ## Docs without ZIP provenance
 

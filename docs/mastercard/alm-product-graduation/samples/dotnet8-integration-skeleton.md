@@ -1,5 +1,7 @@
 # .NET 8 Integration Skeleton
 
+Runnable sandbox sample (BIN Lookup against `sandbox.api.mastercard.com`): [`../../../../samples/mastercard-card-upgrade/`](../../../../samples/mastercard-card-upgrade/).
+
 Recommended solution:
 
 ```text

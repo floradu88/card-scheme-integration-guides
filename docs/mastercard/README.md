@@ -13,6 +13,7 @@ Mastercard-specific integration packs organized to mirror the Visa scheme layout
 | Mastercard Connect / Developers security (.NET) | [`mastercard-connect-security/`](mastercard-connect-security/) | OAuth 1.0a, payload encryption, cert lifecycle, .NET patterns |
 | Developer & certification | [`developer-certification/`](developer-certification/) | Tooling, .NET plan, certification calendar (also platform phase 09) |
 | ALM / Product Graduation Plus | [`alm-product-graduation/`](alm-product-graduation/) | Account Catalog Services (ACS) / Account Level Management — .NET 8 implementation, change guide, checklist, certification runbook; incremental estimate **6 MD** (5–8 MD) |
+| Card upgrade .NET 8 sample | [`../../samples/mastercard-card-upgrade/`](../../samples/mastercard-card-upgrade/) | Runnable ASP.NET Core 8 API: sandbox BIN Lookup via `sandbox.api.mastercard.com`, ALM orchestration boundary, Postman + Swagger |
 | Official website references | [`official-website-references.md`](official-website-references.md) | Curated Mastercard.com / Developers links and published facts |
 
 ## Integration options
@@ -29,6 +30,7 @@ Mastercard-specific integration packs organized to mirror the Visa scheme layout
 - Platform Mastercard onboarding (canonical): [`../platform/02-network-integration/02-mastercard/`](../platform/02-network-integration/02-mastercard/)
 - Phase 09 Mastercard developer & certification: [`../platform/09-mastercard-developer-certification/`](../platform/09-mastercard-developer-certification/)
 - ALM / Product Graduation Plus (ACS): [`alm-product-graduation/`](alm-product-graduation/)
+- Card upgrade .NET 8 sample (Mastercard sandbox): [`../../samples/mastercard-card-upgrade/`](../../samples/mastercard-card-upgrade/)
 - Interchange Mastercard adapter (canonical): [`../interchange/phase2-engineering-handbook/04-network-integration/mastercard-adapter.md`](../interchange/phase2-engineering-handbook/04-network-integration/mastercard-adapter.md)
 - Interchange packs: [`../interchange/`](../interchange/)
 - Dynamic country fees: [`interchange-fees/`](interchange-fees/)

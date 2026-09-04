@@ -1,0 +1,19 @@
+{
+  "Mastercard": {
+    "BaseUrl": "https://sandbox.api.mastercard.com",
+    "AuthMode": "OAuth1",
+    "Token": "",
+    "AlmMode": "Local",
+    "ConsumerKey": "YOUR_SANDBOX_CONSUMER_KEY",
+    "SigningKeyP12Path": "C:\\secure\\mastercard-sandbox.p12",
+    "SigningKeyAlias": "keyalias",
+    "SigningKeyPassword": "YOUR_KEYSTORE_PASSWORD",
+    "EncryptionCertificatePath": "C:\\secure\\mastercard-encryption.pem",
+    "DecryptionKeyPath": "C:\\secure\\mastercard-decryption.pem",
+    "Paths": {
+      "BinLookup": "/bin-ranges/account-searches",
+      "AcsRegistrations": "/asc/acs-api/account-registrations",
+      "AcsDeleteRegistrations": "/asc/acs-api/account-registrations/delete-registrations"
+    }
+  }
+}
