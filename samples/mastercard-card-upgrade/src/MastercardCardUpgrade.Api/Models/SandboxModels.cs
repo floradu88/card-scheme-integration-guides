@@ -18,4 +18,18 @@ public sealed record SandboxStatusResponse(
     public bool JweConfigured { get; init; }
     public bool LiveAcsReady { get; init; }
     public string? CardStorePath { get; init; }
+    public MastercardTestDataResponse? TestData { get; init; }
 }
+
+public sealed record MastercardTestDataResponse(
+    string AccountRange,
+    string Pan,
+    string MaskedPan,
+    string ExpiryMmYy,
+    string SourceProductCode,
+    string SwaggerProductCode,
+    string TargetProductCode,
+    string BinLookupProductCode,
+    string AlmServiceCode,
+    string RequestId,
+    string EffectiveDate);

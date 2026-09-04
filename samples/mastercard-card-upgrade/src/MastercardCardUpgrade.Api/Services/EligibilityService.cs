@@ -1,3 +1,4 @@
+using MastercardCardUpgrade.Api;
 using MastercardCardUpgrade.Api.Models.Cards;
 
 namespace MastercardCardUpgrade.Api.Services;
@@ -60,11 +61,13 @@ public static class PanRules
     public static string Bin(string pan) =>
         pan.Length >= 8 ? pan[..8] : pan[..Math.Min(6, pan.Length)];
 
-    public static string GenerateMastercardTestPan(string binPrefix = "555555")
+    public static string GenerateMastercardTestPan(string? binPrefix = null)
     {
-        var prefix = new string(binPrefix.Where(char.IsDigit).ToArray());
+        var prefix = new string((binPrefix ?? MastercardTestData.Pan).Where(char.IsDigit).ToArray());
         if (prefix.Length < 6)
-            prefix = "555555";
+            prefix = MastercardTestData.Pan[..6];
+        if (prefix.Length > 8)
+            prefix = prefix[..6];
 
         var body = prefix.PadRight(15, '0').ToCharArray();
         var seq = Random.Shared.Next(0, 1_000_000_000).ToString("D9");

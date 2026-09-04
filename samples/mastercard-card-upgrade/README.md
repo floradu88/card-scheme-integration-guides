@@ -19,7 +19,7 @@ Swagger: http://localhost:5088/swagger
 
 ```http
 POST /api/demo/e2e
-{ "sourceProductCode": "MCG", "targetProductCode": "MWE" }
+{ "sourceProductCode": "MCG", "targetProductCode": "MWE", "pan": "5555555555554444" }
 ```
 
 That will:
@@ -44,6 +44,19 @@ POST /api/cards/{id}/close
 ```
 
 Allowed line-of-business moves (same PAN): `MCG ↔ MCW ↔ MWE`.
+
+Postman collection (`postman/Mastercard.Card.Upgrade.postman_collection.json`) uses the same sandbox examples:
+
+| Source | Value |
+|--------|--------|
+| BIN Lookup Postman `accountRange` | `585240844` (native product `MCO`) |
+| Card Upgrade Postman PAN | `5555555555554444` |
+| ACS swagger `productGraduationProductCode` | `MCW` |
+| ACS swagger request id | `21ad4488-615b-4004-6158-ec5abff7d58f` |
+| ACS swagger expiry | `1223` |
+| ACS `almServiceCode` | `00616` |
+
+`GET /api/mastercard/sandbox/status` returns these under `testData`.
 
 ## Live Mastercard sandbox
 

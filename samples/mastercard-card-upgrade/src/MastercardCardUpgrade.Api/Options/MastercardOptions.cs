@@ -1,3 +1,5 @@
+using MastercardCardUpgrade.Api;
+
 namespace MastercardCardUpgrade.Api.Options;
 
 public sealed class MastercardOptions
@@ -19,7 +21,12 @@ public sealed class MastercardOptions
     public string SigningKeyPassword { get; set; } = "";
     public string PrivateKeyPemPath { get; set; } = "";
 
-    public string SandboxSampleAccountRange { get; set; } = "585240844";
+    public string SandboxSampleAccountRange { get; set; } = MastercardTestData.AccountRange;
+    public string SandboxSamplePan { get; set; } = MastercardTestData.Pan;
+    public string SandboxSampleExpiryMmYy { get; set; } = MastercardTestData.ExpiryMmYy;
+    public string SandboxSourceProductCode { get; set; } = MastercardTestData.SourceProductCode;
+    public string SandboxTargetProductCode { get; set; } = MastercardTestData.TargetProductCode;
+    public string AlmServiceCode { get; set; } = MastercardTestData.AlmServiceCode;
 
     /// <summary>
     /// <c>Local</c> runs an in-process ACS simulator using the official 3.1.0 field names.

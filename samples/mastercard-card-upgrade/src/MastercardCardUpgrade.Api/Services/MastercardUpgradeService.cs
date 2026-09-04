@@ -1,3 +1,4 @@
+using MastercardCardUpgrade.Api;
 using MastercardCardUpgrade.Api.Models;
 using MastercardCardUpgrade.Api.Models.Cards;
 using MastercardCardUpgrade.Api.Options;
@@ -33,8 +34,12 @@ public sealed class MastercardUpgradeService : IMastercardUpgradeService
         {
             var created = await _lifecycle.CreateAsync(
                 new CreateCardRequest(
-                    request.ServiceCode ?? InferSourceProduct(request.TargetProductCode),
+                    request.SourceProductCode
+                    ?? (string.IsNullOrWhiteSpace(request.ServiceCode) || request.ServiceCode.All(char.IsDigit)
+                        ? InferSourceProduct(request.TargetProductCode)
+                        : request.ServiceCode),
                     pan,
+                    string.IsNullOrWhiteSpace(_options.SandboxSampleExpiryMmYy) ? null : _options.SandboxSampleExpiryMmYy,
                     LookupBin: _options.HasCredentials),
                 cancellationToken);
             card = _store.GetRequired(created.CardId);
@@ -59,5 +64,7 @@ public sealed class MastercardUpgradeService : IMastercardUpgradeService
     }
 
     private static string InferSourceProduct(string target) =>
-        string.Equals(target, "MCG", StringComparison.OrdinalIgnoreCase) ? "MCW" : "MCG";
+        string.Equals(target, MastercardTestData.SourceProductCode, StringComparison.OrdinalIgnoreCase)
+            ? MastercardTestData.SwaggerProductCode
+            : MastercardTestData.SourceProductCode;
 }

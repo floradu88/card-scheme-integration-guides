@@ -2,99 +2,231 @@
   "info": {
     "name": "Mastercard Card Upgrade - .NET 8 Sample",
     "_postman_id": "9af35af8-fdb8-4a63-94da-7649da7eb922",
-    "description": "Calls the local .NET 8 orchestration API. Sandbox BIN Lookup is backed by https://sandbox.api.mastercard.com. ALM requires issuer-provisioned USS schema/endpoints.",
+    "description": "Local orchestration API using Mastercard Developers Postman test data: BIN Lookup accountRange 585240844 (productCode MCO), PAN 5555555555554444, ACS product codes MCG/MCW/MWE, almServiceCode 00616, Universal-Spec-Api-Request-Id 21ad4488-615b-4004-6158-ec5abff7d58f, expiry 1223.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    {
-      "key": "localBaseUrl",
-      "value": "http://localhost:5088"
-    }
+    { "key": "localBaseUrl", "value": "http://localhost:5088" }
   ],
   "item": [
     {
-      "name": "0 - Sandbox status",
+      "name": "0 - Sandbox status + test data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "if (body.testData) {",
+              "  pm.environment.set('accountRange', body.testData.accountRange);",
+              "  pm.environment.set('pan', body.testData.pan);",
+              "  pm.environment.set('expiryMmYy', body.testData.expiryMmYy);",
+              "  pm.environment.set('sourceProductCode', body.testData.sourceProductCode);",
+              "  pm.environment.set('targetProductCode', body.testData.targetProductCode);",
+              "  pm.environment.set('almServiceCode', body.testData.almServiceCode);",
+              "  pm.environment.set('correlationId', body.testData.requestId);",
+              "}"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "url": {
-          "raw": "{{localBaseUrl}}/api/mastercard/sandbox/status",
-          "host": ["{{localBaseUrl}}"],
-          "path": ["api", "mastercard", "sandbox", "status"]
-        }
+        "url": "{{localBaseUrl}}/api/mastercard/sandbox/status"
       }
     },
     {
-      "name": "1 - Sandbox BIN Lookup",
+      "name": "1 - Sandbox BIN Lookup (official 585240844)",
       "request": {
         "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"panOrAccountRange\": \"585240844\"\n}"
+          "raw": "{\n  \"panOrAccountRange\": \"{{accountRange}}\"\n}"
         },
-        "url": {
-          "raw": "{{localBaseUrl}}/api/mastercard/sandbox/bin-lookup",
-          "host": ["{{localBaseUrl}}"],
-          "path": ["api", "mastercard", "sandbox", "bin-lookup"]
-        }
+        "url": "{{localBaseUrl}}/api/mastercard/sandbox/bin-lookup"
       }
     },
     {
-      "name": "2 - Local BIN Lookup",
+      "name": "2 - Local BIN Lookup (official 585240844)",
       "request": {
         "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"panOrAccountRange\": \"585240844\"\n}"
+          "raw": "{\n  \"panOrAccountRange\": \"{{accountRange}}\"\n}"
         },
-        "url": {
-          "raw": "{{localBaseUrl}}/api/mastercard/bin-lookup",
-          "host": ["{{localBaseUrl}}"],
-          "path": ["api", "mastercard", "bin-lookup"]
-        }
+        "url": "{{localBaseUrl}}/api/mastercard/bin-lookup"
       }
     },
     {
-      "name": "3 - Upgrade Card",
+      "name": "3 - End-to-end demo (MCG → MWE, PAN 5555555555554444)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "if (body.card) pm.environment.set('cardId', body.card.cardId);",
+              "if (body.upgrade) {",
+              "  pm.environment.set('migrationId', body.upgrade.migrationId);",
+              "  pm.environment.set('mastercardReference', body.upgrade.mastercardRequestId);",
+              "}"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"pan\": \"5555555555554444\",\n  \"targetProductCode\": \"TARGET_PRODUCT_CODE_FROM_MASTERCARD\",\n  \"effectiveDate\": \"2026-09-04\",\n  \"serviceCode\": \"PRODUCT_GRADUATION_SERVICE_CODE_FROM_MASTERCARD\"\n}"
+          "raw": "{\n  \"sourceProductCode\": \"{{sourceProductCode}}\",\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"pan\": \"{{pan}}\"\n}"
         },
-        "url": {
-          "raw": "{{localBaseUrl}}/api/mastercard/upgrade",
-          "host": ["{{localBaseUrl}}"],
-          "path": ["api", "mastercard", "upgrade"]
-        }
+        "url": "{{localBaseUrl}}/api/demo/e2e"
       }
     },
     {
-      "name": "4 - ALM Status",
+      "name": "4 - Create card (Postman PAN + ACS expiry 1223)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "if (body.cardId) pm.environment.set('cardId', body.cardId);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productCode\": \"{{sourceProductCode}}\",\n  \"pan\": \"{{pan}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
+        },
+        "url": "{{localBaseUrl}}/api/cards"
+      }
+    },
+    {
+      "name": "5 - Register PAN (swagger request id)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);",
+              "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register?correlationId={{correlationId}}"
+      }
+    },
+    {
+      "name": "6 - Upgrade to MCW (ACS swagger productGraduationProductCode)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);",
+              "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"targetProductCode\": \"{{swaggerProductCode}}\",\n  \"reason\": \"CUSTOMER_UPGRADE\",\n  \"correlationId\": \"{{correlationId}}-mcw\"\n}"
+        },
+        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+      }
+    },
+    {
+      "name": "7 - Upgrade to MWE (same PAN)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);",
+              "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"reason\": \"CUSTOMER_UPGRADE\"\n}"
+        },
+        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+      }
+    },
+    {
+      "name": "8 - Upgrade Card (legacy /api/mastercard/upgrade)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pan\": \"{{pan}}\",\n  \"sourceProductCode\": \"{{sourceProductCode}}\",\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"effectiveDate\": \"{{effectiveDate}}\",\n  \"serviceCode\": \"{{almServiceCode}}\",\n  \"correlationId\": \"{{correlationId}}-upgrade\"\n}"
+        },
+        "url": "{{localBaseUrl}}/api/mastercard/upgrade"
+      }
+    },
+    {
+      "name": "9 - Treatment check",
       "request": {
         "method": "GET",
-        "url": {
-          "raw": "{{localBaseUrl}}/api/mastercard/alm/status/{{mastercardReference}}",
-          "host": ["{{localBaseUrl}}"],
-          "path": ["api", "mastercard", "alm", "status", "{{mastercardReference}}"]
-        }
+        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/treatment"
+      }
+    },
+    {
+      "name": "10 - ALM Status (correlation_id)",
+      "request": {
+        "method": "GET",
+        "url": "{{localBaseUrl}}/api/mastercard/alm/status/{{mastercardReference}}"
+      }
+    },
+    {
+      "name": "11 - Reconcile",
+      "request": {
+        "method": "POST",
+        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/{{migrationId}}/reconcile"
+      }
+    },
+    {
+      "name": "12 - Rollback",
+      "request": {
+        "method": "POST",
+        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/{{migrationId}}/rollback"
+      }
+    },
+    {
+      "name": "13 - Close / delete-registrations",
+      "request": {
+        "method": "POST",
+        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/close"
       }
     }
   ]

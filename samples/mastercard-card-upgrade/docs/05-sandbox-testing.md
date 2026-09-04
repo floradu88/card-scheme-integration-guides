@@ -12,10 +12,10 @@ dotnet run --project src/MastercardCardUpgrade.Api --launch-profile Sandbox
 POST http://localhost:5088/api/demo/e2e
 Content-Type: application/json
 
-{ "sourceProductCode": "MCG", "targetProductCode": "MWE" }
+{ "sourceProductCode": "MCG", "targetProductCode": "MWE", "pan": "5555555555554444" }
 ```
 
-Expected: a generated PAN, PGP registration, upgrade MCG → MWE, `samePan` and `sameBin` true, status `Active`.
+Expected: Postman PAN `5555555555554444` as `555555******4444`, PGP registration, upgrade MCG → MWE, `samePan` and `sameBin` true, status `Active`, treatment `MATCH`.
 
 ## Live Mastercard calls
 

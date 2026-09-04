@@ -359,11 +359,16 @@ public sealed class CardLifecycleService : ICardLifecycleService
         EndToEndDemoRequest request,
         CancellationToken cancellationToken = default)
     {
-        var source = string.IsNullOrWhiteSpace(request.SourceProductCode) ? "MCG" : request.SourceProductCode;
-        var target = string.IsNullOrWhiteSpace(request.TargetProductCode) ? "MWE" : request.TargetProductCode;
+        var source = string.IsNullOrWhiteSpace(request.SourceProductCode)
+            ? _options.SandboxSourceProductCode
+            : request.SourceProductCode;
+        var target = string.IsNullOrWhiteSpace(request.TargetProductCode)
+            ? _options.SandboxTargetProductCode
+            : request.TargetProductCode;
+        var pan = string.IsNullOrWhiteSpace(request.Pan) ? _options.SandboxSamplePan : request.Pan;
 
         var card = await CreateAsync(
-            new CreateCardRequest(source, request.Pan, LookupBin: false),
+            new CreateCardRequest(source, pan, _options.SandboxSampleExpiryMmYy, LookupBin: false),
             cancellationToken);
 
         var registration = await RegisterAsync(card.CardId, null, cancellationToken);

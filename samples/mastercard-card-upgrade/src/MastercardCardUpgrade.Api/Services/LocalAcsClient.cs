@@ -105,7 +105,7 @@ public sealed class LocalAcsClient : IAcsClient
                 $"Simulated ACS timeout on {operation}. Local product must stay unchanged; reconcile with GET.");
     }
 
-    private static AcsAccountRegistration BuildBody(
+    private AcsAccountRegistration BuildBody(
         string pan,
         string productCode,
         string? expiryMmYy,
@@ -128,7 +128,7 @@ public sealed class LocalAcsClient : IAcsClient
                         ProductGraduationProductCode = productCode,
                         ResponseIndicator = AcsResponseIndicators.Accepted,
                         ResponseType = responseType,
-                        AlmServiceCode = "00616",
+                        AlmServiceCode = _options.AlmServiceCode,
                         AlmServiceProductCode = productCode,
                         AlmServiceProductClass = productCode,
                         AccountCategoryCode = "P",

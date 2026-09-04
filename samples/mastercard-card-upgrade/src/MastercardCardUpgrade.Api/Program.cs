@@ -1,4 +1,5 @@
 using System.Text.Json;
+using MastercardCardUpgrade.Api;
 using MastercardCardUpgrade.Api.Models;
 using MastercardCardUpgrade.Api.Options;
 using MastercardCardUpgrade.Api.Services;
@@ -158,7 +159,19 @@ app.MapGet("/api/mastercard/sandbox/status", (
             WritesEnabled = cfg.WritesEnabled,
             JweConfigured = cfg.HasJweMaterial,
             LiveAcsReady = cfg.LiveAcsReady,
-            CardStorePath = string.IsNullOrWhiteSpace(cfg.CardStorePath) ? null : cfg.CardStorePath
+            CardStorePath = string.IsNullOrWhiteSpace(cfg.CardStorePath) ? null : cfg.CardStorePath,
+            TestData = new MastercardTestDataResponse(
+                cfg.SandboxSampleAccountRange,
+                cfg.SandboxSamplePan,
+                PanRules.Mask(cfg.SandboxSamplePan),
+                cfg.SandboxSampleExpiryMmYy,
+                cfg.SandboxSourceProductCode,
+                MastercardTestData.SwaggerProductCode,
+                cfg.SandboxTargetProductCode,
+                MastercardTestData.BinLookupProductCode,
+                cfg.AlmServiceCode,
+                MastercardTestData.RequestId,
+                MastercardTestData.EffectiveDate)
         });
     })
     .WithName("SandboxStatus")

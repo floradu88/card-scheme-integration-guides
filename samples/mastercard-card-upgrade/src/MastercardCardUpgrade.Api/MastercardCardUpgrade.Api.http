@@ -1,49 +1,83 @@
 @host = http://localhost:5088
+@accountRange = 585240844
+@pan = 5555555555554444
+@expiryMmYy = 1223
+@sourceProductCode = MCG
+@swaggerProductCode = MCW
+@targetProductCode = MWE
+@almServiceCode = 00616
+@correlationId = 21ad4488-615b-4004-6158-ec5abff7d58f
+@effectiveDate = 2026-09-04
 
-### Sandbox status
+### Sandbox status (includes testData from Postman/swagger examples)
 GET {{host}}/api/mastercard/sandbox/status
 
-### End-to-end demo: create card (MCG) → ACS register → upgrade to MWE
+### End-to-end demo: Postman PAN 5555555555554444, MCG → MWE
 POST {{host}}/api/demo/e2e
 Content-Type: application/json
 
 {
-  "sourceProductCode": "MCG",
-  "targetProductCode": "MWE"
+  "sourceProductCode": "{{sourceProductCode}}",
+  "targetProductCode": "{{targetProductCode}}",
+  "pan": "{{pan}}"
 }
 
 ### List product catalog
 GET {{host}}/api/products
 
-### Create a card that can be upgraded
+### Create a card (Postman PAN + ACS swagger expiry 1223)
 POST {{host}}/api/cards
 Content-Type: application/json
 
 {
-  "productCode": "MCG",
+  "productCode": "{{sourceProductCode}}",
+  "pan": "{{pan}}",
+  "expiryMmYy": "{{expiryMmYy}}",
   "lookupBin": false
 }
 
 ### List cards
 GET {{host}}/api/cards
 
-### Register PAN in Product Graduation Plus
-POST {{host}}/api/cards/card_REPLACE_ME/register
+### Register PAN (ACS swagger Universal-Spec-Api-Request-Id)
+POST {{host}}/api/cards/card_REPLACE_ME/register?correlationId={{correlationId}}
 
-### Upgrade card product (same PAN)
+### Upgrade to MCW (ACS swagger productGraduationProductCode example)
 POST {{host}}/api/cards/card_REPLACE_ME/upgrades
 Content-Type: application/json
 
 {
-  "targetProductCode": "MWE",
+  "targetProductCode": "{{swaggerProductCode}}",
+  "reason": "CUSTOMER_UPGRADE",
+  "correlationId": "{{correlationId}}-mcw"
+}
+
+### Upgrade to MWE (same PAN)
+POST {{host}}/api/cards/card_REPLACE_ME/upgrades
+Content-Type: application/json
+
+{
+  "targetProductCode": "{{targetProductCode}}",
   "reason": "CUSTOMER_UPGRADE"
 }
 
-### Reconcile ACS status
-POST {{host}}/api/cards/card_REPLACE_ME/upgrades/mig_REPLACE_ME/reconcile
+### Legacy upgrade using Postman collection body
+POST {{host}}/api/mastercard/upgrade
+Content-Type: application/json
+
+{
+  "pan": "{{pan}}",
+  "sourceProductCode": "{{sourceProductCode}}",
+  "targetProductCode": "{{targetProductCode}}",
+  "effectiveDate": "{{effectiveDate}}",
+  "serviceCode": "{{almServiceCode}}"
+}
 
 ### Issuer vs ACS treatment check
 GET {{host}}/api/cards/card_REPLACE_ME/treatment
+
+### Reconcile ACS status
+POST {{host}}/api/cards/card_REPLACE_ME/upgrades/mig_REPLACE_ME/reconcile
 
 ### Rollback to previous product
 POST {{host}}/api/cards/card_REPLACE_ME/upgrades/mig_REPLACE_ME/rollback
@@ -54,10 +88,10 @@ POST {{host}}/api/cards/card_REPLACE_ME/close
 ### Reconcile all open (Submitted/Unknown) migrations
 POST {{host}}/api/migrations/reconcile
 
-### Sandbox BIN lookup
+### Sandbox BIN lookup (Mastercard BIN Lookup Postman example)
 POST {{host}}/api/mastercard/sandbox/bin-lookup
 Content-Type: application/json
 
 {
-  "panOrAccountRange": "585240844"
+  "panOrAccountRange": "{{accountRange}}"
 }

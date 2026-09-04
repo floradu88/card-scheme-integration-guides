@@ -5,7 +5,8 @@ public sealed record CardUpgradeRequest(
     string TargetProductCode,
     DateOnly? EffectiveDate = null,
     string? ServiceCode = null,
-    string? CorrelationId = null);
+    string? CorrelationId = null,
+    string? SourceProductCode = null);
 
 public sealed record CardUpgradeResult(
     string CorrelationId,

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using MastercardCardUpgrade.Api;
 using MastercardCardUpgrade.Api.Models.Cards;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -21,23 +22,48 @@ public sealed class CardLifecycleTests : IClassFixture<WebApplicationFactory<Pro
     [Fact]
     public async Task Demo_CreatesRegistersAndUpgrades_SamePanAndBin()
     {
-        var response = await _client.PostAsJsonAsync("/api/demo/e2e", new EndToEndDemoRequest("MCG", "MWE"));
+        var response = await _client.PostAsJsonAsync(
+            "/api/demo/e2e",
+            new EndToEndDemoRequest(MastercardTestData.SourceProductCode, MastercardTestData.TargetProductCode, MastercardTestData.Pan));
         var body = await response.Content.ReadAsStringAsync();
         Assert.True(response.IsSuccessStatusCode, body);
 
         var demo = JsonSerializer.Deserialize<EndToEndDemoResult>(body, Json);
         Assert.NotNull(demo);
-        Assert.Equal("MCG", demo.Registration.SourceProductCode);
-        Assert.Equal("MWE", demo.Card.ProductCode);
+        Assert.Equal(MastercardTestData.SourceProductCode, demo.Registration.SourceProductCode);
+        Assert.Equal(MastercardTestData.TargetProductCode, demo.Card.ProductCode);
         Assert.Equal("Active", demo.Upgrade.Status);
         Assert.True(demo.Upgrade.SamePan);
         Assert.True(demo.Upgrade.SameBin);
         Assert.Equal("Local", demo.AlmMode);
         Assert.Equal(demo.Card.Bin, demo.Upgrade.Bin);
+        Assert.Equal(MastercardTestData.MaskedPan, demo.Card.MaskedPan);
         Assert.StartsWith("555555", demo.Card.Bin);
         Assert.Equal("MATCH", demo.Treatment.Outcome);
-        Assert.Equal("MWE", demo.Treatment.NetworkProductCode);
+        Assert.Equal(MastercardTestData.TargetProductCode, demo.Treatment.NetworkProductCode);
         Assert.DoesNotMatch(@"\d{13,19}", body);
+    }
+
+    [Fact]
+    public async Task MastercardUpgrade_UsesPostmanCollectionPayload()
+    {
+        using var factory = new WebApplicationFactory<Program>();
+        var client = factory.CreateClient();
+        var response = await client.PostAsJsonAsync("/api/mastercard/upgrade", new
+        {
+            pan = MastercardTestData.Pan,
+            sourceProductCode = MastercardTestData.SourceProductCode,
+            targetProductCode = MastercardTestData.TargetProductCode,
+            effectiveDate = MastercardTestData.EffectiveDate,
+            serviceCode = MastercardTestData.AlmServiceCode,
+            correlationId = MastercardTestData.RequestId
+        });
+        var body = await response.Content.ReadAsStringAsync();
+        Assert.True(response.IsSuccessStatusCode, body);
+        using var doc = JsonDocument.Parse(body);
+        Assert.Equal(MastercardTestData.MaskedPan, doc.RootElement.GetProperty("maskedPan").GetString());
+        Assert.Equal(MastercardTestData.TargetProductCode, doc.RootElement.GetProperty("targetProductCode").GetString());
+        Assert.Equal("Active", doc.RootElement.GetProperty("submissionStatus").GetString());
     }
 
     [Fact]

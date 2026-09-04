@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using MastercardCardUpgrade.Api;
 using MastercardCardUpgrade.Api.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -59,6 +60,10 @@ public sealed class SandboxStatusTests
         Assert.Equal("https://sandbox.api.mastercard.com", json.GetProperty("baseUrl").GetString());
         Assert.True(json.TryGetProperty("credentialsConfigured", out _));
         Assert.Contains("/bin-ranges/account-searches", json.GetProperty("binLookupUrl").GetString());
+        Assert.Equal(MastercardTestData.AccountRange, json.GetProperty("testData").GetProperty("accountRange").GetString());
+        Assert.Equal(MastercardTestData.Pan, json.GetProperty("testData").GetProperty("pan").GetString());
+        Assert.Equal(MastercardTestData.AlmServiceCode, json.GetProperty("testData").GetProperty("almServiceCode").GetString());
+        Assert.Equal(MastercardTestData.RequestId, json.GetProperty("testData").GetProperty("requestId").GetString());
     }
 }
 
@@ -82,7 +87,7 @@ public sealed class SandboxBinLookupTests
 
         var response = await _fixture.Client.PostAsJsonAsync(
             "/api/mastercard/sandbox/bin-lookup",
-            new { panOrAccountRange = "585240844" });
+            new { panOrAccountRange = MastercardTestData.AccountRange });
 
         var body = await response.Content.ReadAsStringAsync();
         Assert.True(
