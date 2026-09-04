@@ -15,7 +15,9 @@ public enum MigrationStatus
     Rejected,
     Active,
     RolledBack,
-    Reconciling
+    Reconciling,
+    Unknown,
+    ManualReview
 }
 
 public sealed class CardAccount
@@ -31,6 +33,7 @@ public sealed class CardAccount
     public CardStatus Status { get; set; } = CardStatus.Issued;
     public string? AcsProductRuleId { get; set; }
     public string? LastAcsRequestId { get; set; }
+    public string? NetworkProductCode { get; set; }
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 }
@@ -50,6 +53,7 @@ public sealed class ProductMigration
     public string? FailureReason { get; set; }
     public bool SamePan { get; set; } = true;
     public bool SameBin { get; set; } = true;
+    public int AttemptCount { get; set; }
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 }
@@ -69,6 +73,7 @@ public sealed record CardResponse(
     string? Ica,
     string Status,
     string? AcsProductRuleId,
+    string? NetworkProductCode,
     DateTimeOffset CreatedAt,
     DateTimeOffset UpdatedAt);
 
@@ -99,9 +104,21 @@ public sealed record EndToEndDemoRequest(
     string? TargetProductCode = null,
     string? Pan = null);
 
+public sealed record RegisterCardRequest(string? CorrelationId = null);
+
 public sealed record EndToEndDemoResult(
     CardResponse Card,
     MigrationResponse Registration,
     MigrationResponse Upgrade,
+    TreatmentCheckResponse Treatment,
     string AlmMode,
     string Summary);
+
+public sealed record TreatmentCheckResponse(
+    string CardId,
+    string MaskedPan,
+    string IssuerProductCode,
+    string? NetworkProductCode,
+    string Outcome,
+    string Summary,
+    IReadOnlyList<string> OpenMigrationIds);

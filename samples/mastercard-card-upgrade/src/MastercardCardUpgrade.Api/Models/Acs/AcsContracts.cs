@@ -105,6 +105,16 @@ public static class AcsResponseTypes
     public const string Final = "FINAL";
 }
 
+public sealed class AcsAccountDelete
+{
+    [JsonPropertyName("accountIdentifier")]
+    public string AccountIdentifier { get; set; } = "";
+
+    [JsonPropertyName("accountLevelManagement")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public AcsAccountLevelManagement? AccountLevelManagement { get; set; }
+}
+
 public sealed record AcsOperationResult(
     bool Accepted,
     string RequestId,

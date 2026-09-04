@@ -38,9 +38,10 @@ public sealed class CardsController : ControllerBase
     [HttpPost("{cardId}/register")]
     public async Task<ActionResult<MigrationResponse>> Register(
         string cardId,
+        [FromQuery] string? correlationId,
         CancellationToken cancellationToken)
     {
-        var result = await _lifecycle.RegisterAsync(cardId, null, cancellationToken);
+        var result = await _lifecycle.RegisterAsync(cardId, correlationId, cancellationToken);
         return Ok(result);
     }
 
@@ -76,6 +77,27 @@ public sealed class CardsController : ControllerBase
     {
         var result = await _lifecycle.RollbackAsync(cardId, migrationId, cancellationToken);
         return Ok(result);
+    }
+
+    [HttpPost("{cardId}/close")]
+    public async Task<ActionResult<MigrationResponse>> Close(
+        string cardId,
+        [FromQuery] string? correlationId,
+        CancellationToken cancellationToken)
+    {
+        var result = await _lifecycle.CloseAsync(cardId, correlationId, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("{cardId}/treatment")]
+    public ActionResult<TreatmentCheckResponse> Treatment(string cardId) =>
+        Ok(_lifecycle.CheckTreatment(cardId));
+
+    [HttpPost("/api/migrations/reconcile")]
+    public async Task<ActionResult<object>> ReconcileOpen(CancellationToken cancellationToken)
+    {
+        var count = await _lifecycle.ReconcileOpenAsync(cancellationToken);
+        return Ok(new { reconciled = count });
     }
 
     [HttpPost("/api/demo/e2e")]

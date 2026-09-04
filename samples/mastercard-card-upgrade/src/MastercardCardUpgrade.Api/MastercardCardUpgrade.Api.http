@@ -42,8 +42,17 @@ Content-Type: application/json
 ### Reconcile ACS status
 POST {{host}}/api/cards/card_REPLACE_ME/upgrades/mig_REPLACE_ME/reconcile
 
+### Issuer vs ACS treatment check
+GET {{host}}/api/cards/card_REPLACE_ME/treatment
+
 ### Rollback to previous product
 POST {{host}}/api/cards/card_REPLACE_ME/upgrades/mig_REPLACE_ME/rollback
+
+### Close / delete ACS registration
+POST {{host}}/api/cards/card_REPLACE_ME/close
+
+### Reconcile all open (Submitted/Unknown) migrations
+POST {{host}}/api/migrations/reconcile
 
 ### Sandbox BIN lookup
 POST {{host}}/api/mastercard/sandbox/bin-lookup

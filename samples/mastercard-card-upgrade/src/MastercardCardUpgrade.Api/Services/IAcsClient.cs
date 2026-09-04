@@ -21,6 +21,12 @@ public interface IAcsClient
         string requestId,
         CancellationToken cancellationToken = default);
 
+    Task<AcsOperationResult> DeleteRegistrationAsync(
+        string pan,
+        string? productRuleId,
+        string requestId,
+        CancellationToken cancellationToken = default);
+
     Task<AcsOperationResult> GetStatusAsync(
         string requestId,
         CancellationToken cancellationToken = default);

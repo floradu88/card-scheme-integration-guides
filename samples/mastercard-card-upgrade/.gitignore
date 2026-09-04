@@ -7,6 +7,7 @@ obj/
 *.pfx
 *.pem
 *.key
+App_Data/
 appsettings.Production.json
 appsettings.Local.json
 secrets.json

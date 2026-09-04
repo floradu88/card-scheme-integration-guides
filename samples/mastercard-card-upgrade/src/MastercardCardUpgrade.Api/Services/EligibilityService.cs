@@ -21,6 +21,8 @@ public sealed class EligibilityService : IEligibilityService
     {
         _catalog.GetRequired(productCode);
         PanRules.Validate(pan);
+        if (!_catalog.IsAllowedAccountRange(pan))
+            throw new EligibilityException($"PAN BIN/account range is not in the allowed prefixes.");
     }
 
     public void ValidateUpgrade(CardAccount card, string targetProductCode)

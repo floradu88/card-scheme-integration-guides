@@ -7,10 +7,10 @@ public sealed class MastercardApiException : Exception
     public string Operation { get; }
 
     public MastercardApiException(string operation, int statusCode, string? reason, string? responseBody)
-        : base($"{operation} failed: {statusCode} {reason}. Body: {responseBody}")
+        : base($"{operation} failed: {statusCode} {reason}. Body: {PanRedactor.Redact(responseBody)}")
     {
         Operation = operation;
         StatusCode = statusCode;
-        ResponseBody = responseBody;
+        ResponseBody = PanRedactor.Redact(responseBody);
     }
 }

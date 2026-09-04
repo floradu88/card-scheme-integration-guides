@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using MastercardCardUpgrade.Api.Models.Cards;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -34,6 +35,105 @@ public sealed class CardLifecycleTests : IClassFixture<WebApplicationFactory<Pro
         Assert.Equal("Local", demo.AlmMode);
         Assert.Equal(demo.Card.Bin, demo.Upgrade.Bin);
         Assert.StartsWith("555555", demo.Card.Bin);
+        Assert.Equal("MATCH", demo.Treatment.Outcome);
+        Assert.Equal("MWE", demo.Treatment.NetworkProductCode);
+        Assert.DoesNotMatch(@"\d{13,19}", body);
+    }
+
+    [Fact]
+    public async Task Register_IsIdempotent_ForSameCorrelationId()
+    {
+        var created = await _client.PostAsJsonAsync("/api/cards", new CreateCardRequest("MCG", LookupBin: false));
+        var card = await created.Content.ReadFromJsonAsync<CardResponse>(Json);
+        Assert.NotNull(card);
+
+        var correlationId = Guid.NewGuid().ToString();
+        var first = await _client.PostAsync($"/api/cards/{card.CardId}/register?correlationId={correlationId}", null);
+        var firstBody = await first.Content.ReadAsStringAsync();
+        Assert.True(first.IsSuccessStatusCode, firstBody);
+        var firstMigration = JsonSerializer.Deserialize<MigrationResponse>(firstBody, Json);
+
+        var second = await _client.PostAsync($"/api/cards/{card.CardId}/register?correlationId={correlationId}", null);
+        var secondBody = await second.Content.ReadAsStringAsync();
+        Assert.True(second.IsSuccessStatusCode, secondBody);
+        var secondMigration = JsonSerializer.Deserialize<MigrationResponse>(secondBody, Json);
+
+        Assert.Equal(firstMigration!.MigrationId, secondMigration!.MigrationId);
+    }
+
+    [Fact]
+    public async Task UpgradeTimeout_LeavesProductUnchanged_AndTreatmentUnverified()
+    {
+        using var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+        {
+            builder.UseSetting("Mastercard:SimulateAmbiguousOperation", "update");
+        });
+        var client = factory.CreateClient();
+
+        var created = await client.PostAsJsonAsync("/api/cards", new CreateCardRequest("MCG", LookupBin: false));
+        var card = await created.Content.ReadFromJsonAsync<CardResponse>(Json);
+        Assert.NotNull(card);
+
+        var registered = await client.PostAsync($"/api/cards/{card.CardId}/register", null);
+        registered.EnsureSuccessStatusCode();
+
+        var upgrade = await client.PostAsJsonAsync(
+            $"/api/cards/{card.CardId}/upgrades",
+            new UpgradeCardRequest("MWE", "TEST_TIMEOUT"));
+        var upgradeBody = await upgrade.Content.ReadAsStringAsync();
+        Assert.True(upgrade.IsSuccessStatusCode, upgradeBody);
+        var migration = JsonSerializer.Deserialize<MigrationResponse>(upgradeBody, Json);
+        Assert.Equal("Unknown", migration!.Status);
+
+        var latest = await client.GetFromJsonAsync<CardResponse>($"/api/cards/{card.CardId}", Json);
+        Assert.Equal("MCG", latest!.ProductCode);
+
+        var treatment = await client.GetFromJsonAsync<TreatmentCheckResponse>(
+            $"/api/cards/{card.CardId}/treatment", Json);
+        Assert.Equal("UNVERIFIED", treatment!.Outcome);
+    }
+
+    [Fact]
+    public async Task Close_DeletesRegistration()
+    {
+        var created = await _client.PostAsJsonAsync("/api/cards", new CreateCardRequest("MCG", LookupBin: false));
+        var card = await created.Content.ReadFromJsonAsync<CardResponse>(Json);
+        Assert.NotNull(card);
+
+        (await _client.PostAsync($"/api/cards/{card.CardId}/register", null)).EnsureSuccessStatusCode();
+        var closed = await _client.PostAsync($"/api/cards/{card.CardId}/close", null);
+        var body = await closed.Content.ReadAsStringAsync();
+        Assert.True(closed.IsSuccessStatusCode, body);
+
+        var latest = await _client.GetFromJsonAsync<CardResponse>($"/api/cards/{card.CardId}", Json);
+        Assert.Equal("Closed", latest!.Status);
+    }
+
+    [Fact]
+    public async Task WritesDisabled_Returns503()
+    {
+        using var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+        {
+            builder.UseSetting("Mastercard:WritesEnabled", "false");
+        });
+        var client = factory.CreateClient();
+        var created = await client.PostAsJsonAsync("/api/cards", new CreateCardRequest("MCG", LookupBin: false));
+        var card = await created.Content.ReadFromJsonAsync<CardResponse>(Json);
+
+        var register = await client.PostAsync($"/api/cards/{card!.CardId}/register", null);
+        Assert.Equal(HttpStatusCode.ServiceUnavailable, register.StatusCode);
+    }
+
+    [Fact]
+    public async Task DisallowedAccountRange_Returns422()
+    {
+        using var factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+        {
+            builder.UseSetting("ProductCatalog:AllowedAccountRangePrefixes:0", "999999");
+        });
+        var client = factory.CreateClient();
+        var created = await client.PostAsJsonAsync("/api/cards", new CreateCardRequest("MCG", LookupBin: false));
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, created.StatusCode);
     }
 
     [Fact]

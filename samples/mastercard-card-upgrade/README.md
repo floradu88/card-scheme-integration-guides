@@ -27,8 +27,10 @@ That will:
 1. Create an issuer card (MCG) with a generated Mastercard-range PAN
 2. `POST /asc/acs-api/account-registrations` — Product Graduation Plus register
 3. `PUT /asc/acs-api/account-registrations` — update `productGraduationProductCode` to MWE
-4. `GET /asc/acs-api/account-registrations?correlation_id=` — treat INTERIM vs FINAL separately
-5. Assert same PAN and same BIN
+4. `GET /asc/acs-api/account-registrations?correlation_id=` — INTERIM stays Submitted; only FINAL activates the product
+5. Assert same PAN and same BIN, and issuer product matches ACS (`GET /api/cards/{id}/treatment`)
+
+Timeouts and HTTP 408 become `Unknown`: local product is not changed, the same request id is not retried, and `POST /api/cards/{id}/upgrades/{migrationId}/reconcile` (or `POST /api/migrations/reconcile`) GETs ACS by `correlation_id`.
 
 Step-by-step instead of the demo:
 
@@ -36,7 +38,9 @@ Step-by-step instead of the demo:
 POST /api/cards                  { "productCode": "MCG" }
 POST /api/cards/{id}/register
 POST /api/cards/{id}/upgrades    { "targetProductCode": "MWE" }
+GET  /api/cards/{id}/treatment
 POST /api/cards/{id}/upgrades/{migrationId}/rollback
+POST /api/cards/{id}/close
 ```
 
 Allowed line-of-business moves (same PAN): `MCG ↔ MCW ↔ MWE`.
@@ -46,7 +50,8 @@ Allowed line-of-business moves (same PAN): `MCG ↔ MCW ↔ MWE`.
 | Call | Live sandbox | Notes |
 |------|----------------|--------|
 | BIN Lookup | Yes, with token or `.p12` | `BaseUrl` + `Paths.BinLookup` |
-| ACS register / upgrade | When `AlmMode=Mastercard` | `BaseUrl` + `Paths.AcsRegistrations` (JWE if certs are set) |
+| ACS register / upgrade / status | When `AlmMode=Mastercard` | `BaseUrl` + `Paths.AcsRegistrations` (JWE required) |
+| ACS delete / close | When `AlmMode=Mastercard` | `BaseUrl` + `Paths.AcsDeleteRegistrations` |
 
 ### Mastercard Developers project
 
@@ -61,6 +66,9 @@ Allowed line-of-business moves (same PAN): `MCG ↔ MCW ↔ MWE`.
     "AuthMode": "OAuth1",
     "Token": "",
     "AlmMode": "Mastercard",
+    "WritesEnabled": true,
+    "CardStorePath": "App_Data/cards.json",
+    "ReconcileIntervalSeconds": 15,
     "ConsumerKey": "YOUR_SANDBOX_CONSUMER_KEY",
     "SigningKeyP12Path": "C:\\secure\\mastercard-sandbox.p12",
     "SigningKeyAlias": "keyalias",

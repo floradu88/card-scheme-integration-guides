@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
 using MastercardCardUpgrade.Api.Models.Acs;
+using MastercardCardUpgrade.Api.Options;
+using Microsoft.Extensions.Options;
 
 namespace MastercardCardUpgrade.Api.Services;
 
@@ -11,6 +13,12 @@ public sealed class LocalAcsClient : IAcsClient
 {
     private readonly ConcurrentDictionary<string, AcsAccountRegistration> _byPan = new();
     private readonly ConcurrentDictionary<string, AcsOperationResult> _byRequestId = new();
+    private readonly MastercardOptions _options;
+
+    public LocalAcsClient(IOptions<MastercardOptions> options)
+    {
+        _options = options.Value;
+    }
 
     public string Mode => "Local";
 
@@ -21,6 +29,8 @@ public sealed class LocalAcsClient : IAcsClient
         string requestId,
         CancellationToken cancellationToken = default)
     {
+        ThrowIfSimulated("register", requestId);
+
         if (_byPan.ContainsKey(pan))
             throw new EligibilityException("PAN is already registered in Product Graduation Plus.");
 
@@ -41,6 +51,8 @@ public sealed class LocalAcsClient : IAcsClient
         string requestId,
         CancellationToken cancellationToken = default)
     {
+        ThrowIfSimulated("update", requestId);
+
         if (!_byPan.TryGetValue(pan, out var existing))
             throw new EligibilityException("PAN is not registered in Product Graduation Plus. Register it first.");
 
@@ -56,6 +68,25 @@ public sealed class LocalAcsClient : IAcsClient
         return Task.FromResult(result);
     }
 
+    public Task<AcsOperationResult> DeleteRegistrationAsync(
+        string pan,
+        string? productRuleId,
+        string requestId,
+        CancellationToken cancellationToken = default)
+    {
+        ThrowIfSimulated("delete", requestId);
+
+        if (!_byPan.TryRemove(pan, out var existing))
+            throw new EligibilityException("PAN is not registered in Product Graduation Plus.");
+
+        var ruleId = productRuleId
+                     ?? existing.AccountLevelManagement?.ProductRules.FirstOrDefault()?.ProductRuleId;
+        var body = BuildBody(pan, existing.AccountLevelManagement?.ProductRules.FirstOrDefault()?.ProductGraduationProductCode ?? "", existing.AccountIdentifierExpirationDate, ruleId ?? Guid.NewGuid().ToString(), AcsResponseTypes.Final);
+        var result = ToResult(requestId, body, AcsResponseTypes.Final) with { Status = "DELETED" };
+        _byRequestId[requestId] = result;
+        return Task.FromResult(result);
+    }
+
     public Task<AcsOperationResult> GetStatusAsync(
         string requestId,
         CancellationToken cancellationToken = default)
@@ -64,6 +95,14 @@ public sealed class LocalAcsClient : IAcsClient
             return Task.FromResult(result);
 
         throw new KeyNotFoundException($"No ACS request '{requestId}'.");
+    }
+
+    private void ThrowIfSimulated(string operation, string requestId)
+    {
+        if (_options.SimulateAmbiguous(operation))
+            throw new AcsAmbiguousOutcomeException(
+                requestId,
+                $"Simulated ACS timeout on {operation}. Local product must stay unchanged; reconcile with GET.");
     }
 
     private static AcsAccountRegistration BuildBody(

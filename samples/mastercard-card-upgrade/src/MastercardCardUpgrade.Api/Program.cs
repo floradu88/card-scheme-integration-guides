@@ -43,6 +43,7 @@ builder.Services.AddSingleton<LocalAcsClient>();
 builder.Services.AddScoped<IEligibilityService, EligibilityService>();
 builder.Services.AddScoped<ICardLifecycleService, CardLifecycleService>();
 builder.Services.AddScoped<IMastercardUpgradeService, MastercardUpgradeService>();
+builder.Services.AddHostedService<AcsReconcileWorker>();
 
 builder.Services.AddHttpClient<IMastercardBinLookupClient, MastercardBinLookupClient>((sp, client) =>
 {
@@ -77,6 +78,9 @@ app.UseExceptionHandler(errorApp =>
 
         context.Response.StatusCode = ex switch
         {
+            KillSwitchException => StatusCodes.Status503ServiceUnavailable,
+            IdempotencyConflictException => StatusCodes.Status409Conflict,
+            AcsAmbiguousOutcomeException => StatusCodes.Status504GatewayTimeout,
             MastercardApiException api => api.StatusCode is >= 400 and < 600 ? api.StatusCode : 502,
             EligibilityException => StatusCodes.Status422UnprocessableEntity,
             KeyNotFoundException => StatusCodes.Status404NotFound,
@@ -94,9 +98,16 @@ app.UseExceptionHandler(errorApp =>
             }
             : new
             {
-                title = ex is EligibilityException ? "Eligibility failed" : "Mastercard Card Upgrade error",
+                title = ex switch
+                {
+                    KillSwitchException => "Writes disabled",
+                    IdempotencyConflictException => "Idempotency conflict",
+                    AcsAmbiguousOutcomeException => "ACS outcome unknown",
+                    EligibilityException => "Eligibility failed",
+                    _ => "Mastercard Card Upgrade error"
+                },
                 status = context.Response.StatusCode,
-                detail = ex?.Message
+                detail = PanRedactor.Redact(ex?.Message)
             };
 
         await context.Response.WriteAsync(JsonSerializer.Serialize(body), context.RequestAborted);
@@ -124,9 +135,11 @@ app.MapGet("/api/mastercard/sandbox/status", (
             ? (cfg.HasBearerToken ? "bearer" : "missing")
             : p12 ? "p12" : pem ? "pem" : "missing";
 
-        var next = cfg.UseLiveMastercardAlm
-            ? "Mastercard ACS mode: set BaseUrl, Token or ConsumerKey+.p12, then POST /api/demo/e2e."
-            : "Local ACS mode: POST /api/demo/e2e to create, register and upgrade a card.";
+        var next = cfg.LiveAcsReady
+            ? "Live ACS ready: POST /api/demo/e2e."
+            : cfg.UseLiveMastercardAlm
+                ? "AlmMode=Mastercard but credentials or JWE certs are missing."
+                : "Local ACS mode: POST /api/demo/e2e to create, register and upgrade a card.";
 
         return Results.Ok(new SandboxStatusResponse(
             env.EnvironmentName,
@@ -140,7 +153,12 @@ app.MapGet("/api/mastercard/sandbox/status", (
         {
             AlmMode = acs.Mode,
             BinLookupUrl = cfg.Url(cfg.Paths.BinLookup).ToString(),
-            AcsRegistrationsUrl = cfg.Url(cfg.Paths.AcsRegistrations).ToString()
+            AcsRegistrationsUrl = cfg.Url(cfg.Paths.AcsRegistrations).ToString(),
+            AcsDeleteRegistrationsUrl = cfg.Url(cfg.Paths.AcsDeleteRegistrations).ToString(),
+            WritesEnabled = cfg.WritesEnabled,
+            JweConfigured = cfg.HasJweMaterial,
+            LiveAcsReady = cfg.LiveAcsReady,
+            CardStorePath = string.IsNullOrWhiteSpace(cfg.CardStorePath) ? null : cfg.CardStorePath
         });
     })
     .WithName("SandboxStatus")

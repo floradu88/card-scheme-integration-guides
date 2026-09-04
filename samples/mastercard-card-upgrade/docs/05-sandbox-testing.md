@@ -25,7 +25,9 @@ Expected: a generated PAN, PGP registration, upgrade MCG → MWE, `samePan` and 
 | `POST /api/mastercard/sandbox/bin-lookup` | Yes, with `.p12` | `https://sandbox.api.mastercard.com/bin-ranges/account-searches` |
 | `POST /api/demo/e2e` with `AlmMode=Mastercard` | Yes, ACS + JWE | `https://sandbox.api.mastercard.com/asc/acs-api/account-registrations` |
 
-ACS payloads are marked `x-mastercard-api-encrypted`. Live mode needs the project encryption certificate and decryption key as well as the OAuth `.p12`.
+ACS payloads are marked `x-mastercard-api-encrypted`. Live mode needs the project encryption certificate and decryption key as well as the OAuth `.p12`. `GET /api/mastercard/sandbox/status` reports `liveAcsReady` when those are present.
+
+Timeouts are stored as `Unknown` (product unchanged). Reconcile with `POST /api/cards/{id}/upgrades/{migrationId}/reconcile`. Close uses `POST .../account-registrations/delete-registrations`. Set `CardStorePath` so cards survive process restart. `WritesEnabled=false` is the kill switch.
 
 ## Credentials
 

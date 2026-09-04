@@ -30,6 +30,23 @@ public sealed class MastercardOptions
     public string EncryptionCertificatePath { get; set; } = "";
     public string EncryptionKeyId { get; set; } = "";
     public string DecryptionKeyPath { get; set; } = "";
+    public string JweEncryptionPath { get; set; } = "$";
+    public string JweEncryptionOutPath { get; set; } = "$";
+    public string JweDecryptionPath { get; set; } = "$";
+    public string JweDecryptionOutPath { get; set; } = "$";
+    public string EncryptedValueFieldName { get; set; } = "encryptedValue";
+
+    /// <summary>When false, register/upgrade/close writes are rejected (POC kill switch).</summary>
+    public bool WritesEnabled { get; set; } = true;
+
+    /// <summary>JSON file for cards/migrations. Empty keeps an in-memory store.</summary>
+    public string CardStorePath { get; set; } = "";
+
+    /// <summary>0 disables the background reconciler. 15 is a reasonable POC value.</summary>
+    public int ReconcileIntervalSeconds { get; set; } = 0;
+
+    /// <summary>Local ACS only: <c>register</c>, <c>update</c>, or <c>delete</c> throws an ambiguous timeout.</summary>
+    public string SimulateAmbiguousOperation { get; set; } = "";
 
     public string RequestIdHeader { get; set; } = "Universal-Spec-Api-Request-Id";
     public string CorrelationIdQuery { get; set; } = "correlation_id";
@@ -55,6 +72,11 @@ public sealed class MastercardOptions
     public bool HasJweMaterial =>
         !string.IsNullOrWhiteSpace(EncryptionCertificatePath)
         && !string.IsNullOrWhiteSpace(DecryptionKeyPath);
+
+    public bool LiveAcsReady => UseLiveMastercardAlm && HasCredentials && HasJweMaterial;
+
+    public bool SimulateAmbiguous(string operation) =>
+        string.Equals(SimulateAmbiguousOperation, operation, StringComparison.OrdinalIgnoreCase);
 
     public Uri BaseUri => new(BaseUrl.TrimEnd('/') + "/", UriKind.Absolute);
 
@@ -83,6 +105,9 @@ public sealed class ProductCatalogOptions
 
     public List<ProductDefinition> Products { get; set; } = [];
     public List<ProductTransition> AllowedTransitions { get; set; } = [];
+
+    /// <summary>Empty allows any PAN. Example: <c>555555</c> for generated test cards.</summary>
+    public List<string> AllowedAccountRangePrefixes { get; set; } = [];
 }
 
 public sealed class ProductDefinition
