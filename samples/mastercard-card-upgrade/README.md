@@ -104,6 +104,7 @@ Copy `src/MastercardCardUpgrade.Api/appsettings.Local.json.example` to `appsetti
 Official: [Quick start](https://developer.mastercard.com/platform/documentation/getting-started-with-mastercard-apis/quick-start-guide/) · [OAuth 1.0a](https://developer.mastercard.com/platform/documentation/security-and-authentication/using-oauth-1a-to-access-mastercard-apis/) · [ACS](https://developer.mastercard.com/account-catalog-services/documentation/) · [Product graduating a PAN](https://developer.mastercard.com/account-catalog-services/documentation/use-cases/pan-registration/product_graduating_pan/)
 
 ```powershell
+dotnet test tests/MastercardCardUpgrade.UnitTests/MastercardCardUpgrade.UnitTests.csproj
 dotnet test tests/MastercardCardUpgrade.SandboxTests/MastercardCardUpgrade.SandboxTests.csproj
 ```
 
