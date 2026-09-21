@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Mastercard Card Upgrade - .NET 8 Sample",
+    "name": "Mastercard Card Upgrade - Sample API",
     "_postman_id": "9af35af8-fdb8-4a63-94da-7649da7eb922",
-    "description": "Local orchestration API using Mastercard Developers Postman test data: BIN Lookup accountRange 585240844 (productCode MCO), PAN 5555555555554444, ACS product codes MCG/MCW/MWE, almServiceCode 00616, Universal-Spec-Api-Request-Id 21ad4488-615b-4004-6158-ec5abff7d58f, expiry 1223.",
+    "description": "Full HTTP collection for the .NET 8 sample at samples/mastercard-card-upgrade.\n\nStart the API first:\n`dotnet run --project src/MastercardCardUpgrade.Api --launch-profile Sandbox`\nSwagger: http://localhost:5088/swagger\n\nImport this collection **and** `Mastercard.Card.Upgrade.local.postman_environment.json`.\n\nOfficial sandbox/Postman examples:\n- BIN Lookup accountRange `585240844` (native product `MCO`)\n- PAN `5555555555554444` → `555555******4444`\n- Products `MCG` → `MCW` → `MWE` (same PAN/BIN). `MCO` has no graduation path.\n- ACS swagger request id `21ad4488-615b-4004-6158-ec5abff7d58f`, expiry `1223`, almServiceCode `00616`\n\nRun order for a clean local ACS loop:\n1. Setup → Allocate unique PAN\n2. Setup → Sandbox status\n3. Cards → Create MCG (unique PAN)\n4. Register → Register PAN\n5. Upgrade → MCW then MWE\n6. Treatment, list upgrades, reconcile\n7. Rollback, then Close\n\nThe Demo folder uses the official Postman PAN and will 422 if that PAN already exists in the in-memory store — restart the API or use the unique-PAN path.\n\nLive Mastercard BIN Lookup needs a token or `.p12`. Live ACS writes need `AlmMode=Mastercard` plus JWE.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -10,224 +10,1338 @@
   ],
   "item": [
     {
-      "name": "0 - Sandbox status + test data",
-      "event": [
+      "name": "00 Setup",
+      "description": "Health, swagger, official test data, and a unique PAN so Collection Runner does not collide with 5555555555554444.",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "const body = pm.response.json();",
-              "if (body.testData) {",
-              "  pm.environment.set('accountRange', body.testData.accountRange);",
-              "  pm.environment.set('pan', body.testData.pan);",
-              "  pm.environment.set('expiryMmYy', body.testData.expiryMmYy);",
-              "  pm.environment.set('sourceProductCode', body.testData.sourceProductCode);",
-              "  pm.environment.set('targetProductCode', body.testData.targetProductCode);",
-              "  pm.environment.set('almServiceCode', body.testData.almServiceCode);",
-              "  pm.environment.set('correlationId', body.testData.requestId);",
-              "}"
-            ]
+          "name": "Allocate unique PAN",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function luhnCheckDigit(digits) {",
+                  "  let sum = 0;",
+                  "  let alt = true;",
+                  "  for (let i = digits.length - 1; i >= 0; i--) {",
+                  "    let n = digits.charCodeAt(i) - 48;",
+                  "    if (alt) { n *= 2; if (n > 9) n -= 9; }",
+                  "    sum += n;",
+                  "    alt = !alt;",
+                  "  }",
+                  "  return String((10 - (sum % 10)) % 10);",
+                  "}",
+                  "function generateMastercardTestPan() {",
+                  "  const prefix = '555555';",
+                  "  const seq = String(Math.floor(Math.random() * 1e9)).padStart(9, '0');",
+                  "  const body = (prefix + seq).slice(0, 15);",
+                  "  return body + luhnCheckDigit(body);",
+                  "}",
+                  "const pan = generateMastercardTestPan();",
+                  "pm.environment.set('runPan', pan);",
+                  "pm.environment.set('registerCorrelationId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.environment.set('upgradeMcwCorrelationId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.environment.set('upgradeMweCorrelationId', pm.variables.replaceIn('{{$guid}}'));",
+                  "pm.environment.set('closeCorrelationId', pm.variables.replaceIn('{{$guid}}'));",
+                  "console.log('runPan=' + pan);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unique PAN allocated', function () {",
+                  "  pm.expect(pm.environment.get('runPan')).to.match(/^555555\\d{10}$/);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "description": "Generates a Luhn Mastercard-range PAN (prefix 555555) and fresh correlation ids, then pings sandbox status.",
+            "url": "{{localBaseUrl}}/api/mastercard/sandbox/status"
+          }
+        },
+        {
+          "name": "Sandbox status + test data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "pm.test('sandbox base URL', function () {",
+                  "  pm.expect(body.baseUrl).to.include('sandbox.api.mastercard.com');",
+                  "});",
+                  "if (body.testData) {",
+                  "  pm.environment.set('accountRange', body.testData.accountRange);",
+                  "  pm.environment.set('pan', body.testData.pan);",
+                  "  pm.environment.set('maskedPan', body.testData.maskedPan);",
+                  "  pm.environment.set('expiryMmYy', body.testData.expiryMmYy);",
+                  "  pm.environment.set('sourceProductCode', body.testData.sourceProductCode);",
+                  "  pm.environment.set('swaggerProductCode', body.testData.swaggerProductCode);",
+                  "  pm.environment.set('targetProductCode', body.testData.targetProductCode);",
+                  "  pm.environment.set('binLookupProductCode', body.testData.binLookupProductCode);",
+                  "  pm.environment.set('almServiceCode', body.testData.almServiceCode);",
+                  "  pm.environment.set('correlationId', body.testData.requestId);",
+                  "  pm.environment.set('effectiveDate', body.testData.effectiveDate);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "description": "Returns AlmMode, credential flags, Mastercard URLs, and official testData (PAN, BIN, products, 00616).",
+            "url": "{{localBaseUrl}}/api/mastercard/sandbox/status"
+          },
+          "response": [
+            {
+              "name": "200 Local ACS",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{localBaseUrl}}/api/mastercard/sandbox/status"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"environment\": \"Sandbox\",\n  \"baseUrl\": \"https://sandbox.api.mastercard.com\",\n  \"authMode\": \"OAuth1\",\n  \"credentialsConfigured\": false,\n  \"almMode\": \"Local\",\n  \"binLookupUrl\": \"https://sandbox.api.mastercard.com/bin-ranges/account-searches\",\n  \"acsRegistrationsUrl\": \"https://sandbox.api.mastercard.com/asc/acs-api/account-registrations\",\n  \"writesEnabled\": true,\n  \"liveAcsReady\": false,\n  \"testData\": {\n    \"accountRange\": \"585240844\",\n    \"pan\": \"5555555555554444\",\n    \"maskedPan\": \"555555******4444\",\n    \"expiryMmYy\": \"1223\",\n    \"sourceProductCode\": \"MCG\",\n    \"swaggerProductCode\": \"MCW\",\n    \"targetProductCode\": \"MWE\",\n    \"binLookupProductCode\": \"MCO\",\n    \"almServiceCode\": \"00616\",\n    \"requestId\": \"21ad4488-615b-4004-6158-ec5abff7d58f\",\n    \"effectiveDate\": \"2026-09-04\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "OpenAPI / swagger.json",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('swagger is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "pm.test('documents card and demo routes', function () {",
+                  "  pm.expect(JSON.stringify(body.paths)).to.include('/api/cards');",
+                  "  pm.expect(JSON.stringify(body.paths)).to.include('/api/demo/e2e');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{localBaseUrl}}/swagger/v1/swagger.json"
           }
         }
-      ],
-      "request": {
-        "method": "GET",
-        "url": "{{localBaseUrl}}/api/mastercard/sandbox/status"
-      }
+      ]
     },
     {
-      "name": "1 - Sandbox BIN Lookup (official 585240844)",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"panOrAccountRange\": \"{{accountRange}}\"\n}"
-        },
-        "url": "{{localBaseUrl}}/api/mastercard/sandbox/bin-lookup"
-      }
-    },
-    {
-      "name": "2 - Local BIN Lookup (official 585240844)",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"panOrAccountRange\": \"{{accountRange}}\"\n}"
-        },
-        "url": "{{localBaseUrl}}/api/mastercard/bin-lookup"
-      }
-    },
-    {
-      "name": "3 - End-to-end demo (MCG → MWE, PAN 5555555555554444)",
-      "event": [
+      "name": "01 Products",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "const body = pm.response.json();",
-              "if (body.card) pm.environment.set('cardId', body.card.cardId);",
-              "if (body.upgrade) {",
-              "  pm.environment.set('migrationId', body.upgrade.migrationId);",
-              "  pm.environment.set('mastercardReference', body.upgrade.mastercardRequestId);",
-              "}"
-            ]
+          "name": "List products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const codes = pm.response.json().map(p => p.code);",
+                  "pm.test('graduation products plus MCO', function () {",
+                  "  pm.expect(codes).to.include.members(['MCG', 'MCW', 'MWE', 'MCO']);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "description": "Catalog: MCG/MCW/MWE can graduate on the same PAN. MCO (BIN Lookup native product) cannot.",
+            "url": "{{localBaseUrl}}/api/products"
+          },
+          "response": [
+            {
+              "name": "200 Products",
+              "originalRequest": { "method": "GET", "url": "{{localBaseUrl}}/api/products" },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "[\n  { \"code\": \"MCG\", \"name\": \"Mastercard Gold\", \"lineOfBusiness\": \"CONSUMER_CREDIT\" },\n  { \"code\": \"MCW\", \"name\": \"Mastercard World\", \"lineOfBusiness\": \"CONSUMER_CREDIT\" },\n  { \"code\": \"MWE\", \"name\": \"Mastercard World Elite\", \"lineOfBusiness\": \"CONSUMER_CREDIT\" },\n  { \"code\": \"MCO\", \"name\": \"Mastercard Corporate\", \"lineOfBusiness\": \"COMMERCIAL\" }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Cards",
+      "description": "Create/list/get issuer cards. Use unique PAN for Collection Runner; official PAN for the documented Postman example.",
+      "item": [
+        {
+          "name": "Create MCG (unique PAN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('created', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201]); });",
+                  "const body = pm.response.json();",
+                  "if (body.cardId) {",
+                  "  pm.environment.set('cardId', body.cardId);",
+                  "}",
+                  "pm.test('MCG issued, PAN masked', function () {",
+                  "  pm.expect(body.productCode).to.eql('MCG');",
+                  "  pm.expect(body.status).to.eql('Issued');",
+                  "  pm.expect(body.maskedPan).to.include('******');",
+                  "  pm.expect(body.bin).to.match(/^555555/);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"{{sourceProductCode}}\",\n  \"pan\": \"{{runPan}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards",
+            "description": "Issuer create. Saves cardId. Run Setup → Allocate unique PAN first."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"productCode\": \"MCG\",\n  \"pan\": \"5555555555554444\",\n  \"expiryMmYy\": \"1223\",\n  \"lookupBin\": false\n}" },
+                "url": "{{localBaseUrl}}/api/cards"
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"cardId\": \"card_0123456789abcdef\",\n  \"maskedPan\": \"555555******4444\",\n  \"bin\": \"55555555\",\n  \"productCode\": \"MCG\",\n  \"productDescription\": \"Mastercard Gold\",\n  \"ica\": null,\n  \"status\": \"Issued\",\n  \"acsProductRuleId\": null,\n  \"networkProductCode\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create MCG (official Postman PAN 5555555555554444)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 422) {",
+                  "  pm.test('duplicate official PAN is 422 if already issued', function () {",
+                  "    pm.expect(pm.response.code).to.eql(422);",
+                  "  });",
+                  "  return;",
+                  "}",
+                  "pm.test('created', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201]); });",
+                  "const body = pm.response.json();",
+                  "if (body.cardId) pm.environment.set('cardId', body.cardId);",
+                  "pm.test('official masked PAN', function () {",
+                  "  pm.expect(body.maskedPan).to.eql('555555******4444');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"{{sourceProductCode}}\",\n  \"pan\": \"{{pan}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards",
+            "description": "Documented Card Upgrade Postman PAN. 422 if that PAN is already in the store."
+          }
+        },
+        {
+          "name": "Create MCG (generated PAN, omit pan)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('created', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201]); });",
+                  "const body = pm.response.json();",
+                  "pm.test('API generated Mastercard-range PAN', function () {",
+                  "  pm.expect(body.bin).to.match(/^555555/);",
+                  "  pm.expect(body.productCode).to.eql('MCG');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"{{sourceProductCode}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards",
+            "description": "Server generates a Mastercard test PAN (prefix 555555) when pan is omitted."
+          }
+        },
+        {
+          "name": "Create MCG with BIN Lookup enrichment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"{{sourceProductCode}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": true\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards",
+            "description": "Omits pan so Collection Runner does not collide with runPan. lookupBin=true calls Mastercard BIN Lookup when credentials are configured; otherwise create still succeeds."
+          }
+        },
+        {
+          "name": "Create MCW",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"{{swaggerProductCode}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards",
+            "description": "Issue already on ACS swagger product MCW (World)."
+          }
+        },
+        {
+          "name": "Create MCO (BIN Lookup native product)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('created', function () { pm.expect(pm.response.code).to.be.oneOf([200, 201]); });",
+                  "const body = pm.response.json();",
+                  "if (body.cardId) pm.environment.set('mcoCardId', body.cardId);",
+                  "pm.test('MCO', function () { pm.expect(body.productCode).to.eql('MCO'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"{{binLookupProductCode}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards",
+            "description": "Mastercard Corporate from BIN Lookup examples. No MCG/MCW/MWE graduation path. Saves mcoCardId."
+          }
+        },
+        {
+          "name": "List cards",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('array of masked cards', function () {",
+                  "  const list = pm.response.json();",
+                  "  pm.expect(list).to.be.an('array');",
+                  "  pm.expect(JSON.stringify(list)).to.not.match(/\\d{13,19}/);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{localBaseUrl}}/api/cards"
+          }
+        },
+        {
+          "name": "Get card by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('matches saved cardId', function () {",
+                  "  pm.expect(pm.response.json().cardId).to.eql(pm.environment.get('cardId'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}"
+          }
+        },
+        {
+          "name": "Get missing card (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('not found', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{localBaseUrl}}/api/cards/card_does_not_exist"
+          },
+          "response": [
+            {
+              "name": "404 Not Found",
+              "originalRequest": { "method": "GET", "url": "{{localBaseUrl}}/api/cards/card_does_not_exist" },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"title\": \"Mastercard Card Upgrade error\",\n  \"status\": 404,\n  \"detail\": \"Card 'card_does_not_exist' was not found.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 Register PAN",
+      "item": [
+        {
+          "name": "Register PAN (unique correlation id)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);",
+                  "if (body.migrationId) {",
+                  "  pm.environment.set('migrationId', body.migrationId);",
+                  "  pm.environment.set('registerMigrationId', body.migrationId);",
+                  "}",
+                  "pm.test('registered Active, same PAN/BIN', function () {",
+                  "  pm.expect(body.status).to.eql('Active');",
+                  "  pm.expect(body.samePan).to.eql(true);",
+                  "  pm.expect(body.sameBin).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "description": "POST /asc/acs-api/account-registrations with Universal-Spec-Api-Request-Id. Local ACS returns INTERIM then FINAL.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register?correlationId={{registerCorrelationId}}"
+          },
+          "response": [
+            {
+              "name": "200 Active",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register?correlationId={{registerCorrelationId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"migrationId\": \"mig_0123456789abcdef\",\n  \"status\": \"Active\",\n  \"sourceProductCode\": \"MCG\",\n  \"targetProductCode\": \"MCG\",\n  \"samePan\": true,\n  \"sameBin\": true,\n  \"almMode\": \"Local\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Register PAN (idempotent replay)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('same migrationId', function () {",
+                  "  pm.expect(pm.response.json().migrationId).to.eql(pm.environment.get('registerMigrationId'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "description": "Same correlation id + same operation returns the original migration.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register?correlationId={{registerCorrelationId}}"
+          }
+        },
+        {
+          "name": "Register PAN (ACS swagger request id)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 on a fresh card, 422 if already registered, 409 if id reused', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 409, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "description": "Official swagger Universal-Spec-Api-Request-Id 21ad4488-615b-4004-6158-ec5abff7d58f. Use on a fresh card; 409 if that id was used for another operation.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register?correlationId={{correlationId}}"
+          }
+        },
+        {
+          "name": "Register PAN (server-generated request id)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 on Issued card, 422 if already registered', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "description": "Omit correlationId; the API allocates a GUID that matches [0-9A-Za-z-].",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register"
           }
         }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"sourceProductCode\": \"{{sourceProductCode}}\",\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"pan\": \"{{pan}}\"\n}"
-        },
-        "url": "{{localBaseUrl}}/api/demo/e2e"
-      }
+      ]
     },
     {
-      "name": "4 - Create card (Postman PAN + ACS expiry 1223)",
-      "event": [
+      "name": "04 Upgrade",
+      "description": "Same PAN/BIN Product Graduation: MCG ↔ MCW ↔ MWE. Numeric 00616 is ALM service code, not a product.",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "const body = pm.response.json();",
-              "if (body.cardId) pm.environment.set('cardId', body.cardId);"
-            ]
+          "name": "Upgrade MCG → MCW (ACS swagger product)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);",
+                  "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);",
+                  "pm.test('MCW Active', function () {",
+                  "  pm.expect(body.targetProductCode).to.eql('MCW');",
+                  "  pm.expect(body.status).to.eql('Active');",
+                  "  pm.expect(body.samePan).to.eql(true);",
+                  "  pm.expect(body.sameBin).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetProductCode\": \"{{swaggerProductCode}}\",\n  \"reason\": \"CUSTOMER_UPGRADE\",\n  \"correlationId\": \"{{upgradeMcwCorrelationId}}\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades",
+            "description": "PUT account-registrations with productGraduationProductCode=MCW."
+          }
+        },
+        {
+          "name": "Upgrade MCW → MWE (same PAN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);",
+                  "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);",
+                  "pm.test('MWE Active', function () {",
+                  "  pm.expect(body.targetProductCode).to.eql('MWE');",
+                  "  pm.expect(body.status).to.eql('Active');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"reason\": \"CUSTOMER_UPGRADE\",\n  \"correlationId\": \"{{upgradeMweCorrelationId}}\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+          },
+          "response": [
+            {
+              "name": "200 Active MWE",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"targetProductCode\": \"MWE\",\n  \"reason\": \"CUSTOMER_UPGRADE\"\n}" },
+                "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"Active\",\n  \"sourceProductCode\": \"MCW\",\n  \"targetProductCode\": \"MWE\",\n  \"samePan\": true,\n  \"sameBin\": true,\n  \"almMode\": \"Local\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Upgrade MCG → MWE (direct)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 on MCG, 422 if already MWE', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"reason\": \"CUSTOMER_UPGRADE\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades",
+            "description": "Allowed catalog hop. Auto-registers if the card is still Issued. Skip if this card is already MWE."
+          }
+        },
+        {
+          "name": "List upgrades / migrations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('has migrations', function () {",
+                  "  pm.expect(pm.response.json().length).to.be.at.least(1);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+          }
+        },
+        {
+          "name": "Legacy POST /api/mastercard/upgrade",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.response.ok) {",
+                  "  pm.test('422 if this PAN is already MWE from the step-by-step path', function () {",
+                  "    pm.expect(pm.response.code).to.eql(422);",
+                  "  });",
+                  "  return;",
+                  "}",
+                  "const body = pm.response.json();",
+                  "pm.test('00616 is ALM service not a product', function () {",
+                  "  pm.expect(body.targetProductCode).to.eql('MWE');",
+                  "  pm.expect(body.submissionStatus).to.eql('Active');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pan\": \"{{runPan}}\",\n  \"sourceProductCode\": \"{{sourceProductCode}}\",\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"effectiveDate\": \"{{effectiveDate}}\",\n  \"serviceCode\": \"{{almServiceCode}}\",\n  \"correlationId\": \"{{upgradeMweCorrelationId}}-legacy\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/mastercard/upgrade",
+            "description": "Older payload shape. serviceCode 00616 is ALM, not a product code. Uses runPan from Setup."
           }
         }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"productCode\": \"{{sourceProductCode}}\",\n  \"pan\": \"{{pan}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
-        },
-        "url": "{{localBaseUrl}}/api/cards"
-      }
+      ]
     },
     {
-      "name": "5 - Register PAN (swagger request id)",
-      "event": [
+      "name": "05 Treatment",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "const body = pm.response.json();",
-              "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);",
-              "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);"
-            ]
+          "name": "Treatment check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "pm.test('MATCH after FINAL upgrade', function () {",
+                  "  pm.expect(body.outcome).to.be.oneOf(['MATCH', 'UNVERIFIED', 'MISMATCH']);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "description": "MATCH when issuer product equals ACS FINAL product. UNVERIFIED if Issued or open/Unknown migrations. MISMATCH if they differ.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/treatment"
+          },
+          "response": [
+            {
+              "name": "200 MATCH",
+              "originalRequest": { "method": "GET", "url": "{{localBaseUrl}}/api/cards/{{cardId}}/treatment" },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"issuerProductCode\": \"MWE\",\n  \"networkProductCode\": \"MWE\",\n  \"outcome\": \"MATCH\",\n  \"openMigrationIds\": []\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 Reconcile",
+      "description": "GET ACS by correlation_id. Use after Unknown (timeout/408). Do not retry the same request id.",
+      "item": [
+        {
+          "name": "Reconcile one migration",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/{{migrationId}}/reconcile"
+          }
+        },
+        {
+          "name": "Reconcile all open migrations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('reconciled count', function () {",
+                  "  pm.expect(pm.response.json()).to.have.property('reconciled');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{localBaseUrl}}/api/migrations/reconcile"
+          },
+          "response": [
+            {
+              "name": "200 Reconciled",
+              "originalRequest": { "method": "POST", "url": "{{localBaseUrl}}/api/migrations/reconcile" },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{ \"reconciled\": 0 }"
+            }
+          ]
+        },
+        {
+          "name": "Reconcile missing migration (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('not found', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/mig_does_not_exist/reconcile"
           }
         }
-      ],
-      "request": {
-        "method": "POST",
-        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register?correlationId={{correlationId}}"
-      }
+      ]
     },
     {
-      "name": "6 - Upgrade to MCW (ACS swagger productGraduationProductCode)",
-      "event": [
+      "name": "07 Rollback and close",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "const body = pm.response.json();",
-              "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);",
-              "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);"
-            ]
+          "name": "Rollback last upgrade",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 rollback or 422 if migration is register/close', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "description": "Graduates back to the upgrade's source product on the same PAN. Register/close migrations cannot roll back.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/{{migrationId}}/rollback"
+          }
+        },
+        {
+          "name": "Close / delete-registrations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 close or 422 if already closed', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "description": "POST account-registrations/delete-registrations. Card status becomes Closed.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/close?correlationId={{closeCorrelationId}}"
           }
         }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"targetProductCode\": \"{{swaggerProductCode}}\",\n  \"reason\": \"CUSTOMER_UPGRADE\",\n  \"correlationId\": \"{{correlationId}}-mcw\"\n}"
-        },
-        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
-      }
+      ]
     },
     {
-      "name": "7 - Upgrade to MWE (same PAN)",
-      "event": [
+      "name": "08 Demo",
+      "description": "One-shot create → register → upgrade → treatment. Official PAN collides if already issued.",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "const body = pm.response.json();",
-              "if (body.migrationId) pm.environment.set('migrationId', body.migrationId);",
-              "if (body.mastercardRequestId) pm.environment.set('mastercardReference', body.mastercardRequestId);"
-            ]
+          "name": "Demo E2E (official PAN MCG → MWE)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 422) {",
+                  "  pm.test('official PAN already exists — restart API or use unique PAN demo', function () {",
+                  "    pm.expect(pm.response.code).to.eql(422);",
+                  "  });",
+                  "  return;",
+                  "}",
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "if (body.card) pm.environment.set('cardId', body.card.cardId);",
+                  "if (body.upgrade) {",
+                  "  pm.environment.set('migrationId', body.upgrade.migrationId);",
+                  "  pm.environment.set('mastercardReference', body.upgrade.mastercardRequestId);",
+                  "}",
+                  "pm.test('same PAN/BIN and MATCH', function () {",
+                  "  pm.expect(body.card.productCode).to.eql('MWE');",
+                  "  pm.expect(body.upgrade.status).to.eql('Active');",
+                  "  pm.expect(body.upgrade.samePan).to.eql(true);",
+                  "  pm.expect(body.upgrade.sameBin).to.eql(true);",
+                  "  pm.expect(body.treatment.outcome).to.eql('MATCH');",
+                  "});",
+                  "pm.test('no clear PAN in body', function () {",
+                  "  pm.expect(pm.response.text()).to.not.include('5555555555554444');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceProductCode\": \"{{sourceProductCode}}\",\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"pan\": \"{{pan}}\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/demo/e2e"
+          },
+          "response": [
+            {
+              "name": "200 Demo MATCH",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"sourceProductCode\": \"MCG\",\n  \"targetProductCode\": \"MWE\",\n  \"pan\": \"5555555555554444\"\n}" },
+                "url": "{{localBaseUrl}}/api/demo/e2e"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"card\": { \"productCode\": \"MWE\", \"maskedPan\": \"555555******4444\", \"status\": \"Registered\" },\n  \"upgrade\": { \"status\": \"Active\", \"samePan\": true, \"sameBin\": true },\n  \"treatment\": { \"outcome\": \"MATCH\" },\n  \"almMode\": \"Local\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Demo E2E (unique PAN)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "function luhnCheckDigit(digits) {",
+                  "  let sum = 0, alt = true;",
+                  "  for (let i = digits.length - 1; i >= 0; i--) {",
+                  "    let n = digits.charCodeAt(i) - 48;",
+                  "    if (alt) { n *= 2; if (n > 9) n -= 9; }",
+                  "    sum += n; alt = !alt;",
+                  "  }",
+                  "  return String((10 - (sum % 10)) % 10);",
+                  "}",
+                  "const prefix = '555555';",
+                  "const seq = String(Math.floor(Math.random() * 1e9)).padStart(9, '0');",
+                  "const body = (prefix + seq).slice(0, 15);",
+                  "pm.environment.set('runPan', body + luhnCheckDigit(body));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () { pm.response.to.have.status(200); });",
+                  "const body = pm.response.json();",
+                  "if (body.card) pm.environment.set('cardId', body.card.cardId);",
+                  "if (body.upgrade) pm.environment.set('migrationId', body.upgrade.migrationId);",
+                  "pm.test('MATCH unique PAN', function () {",
+                  "  pm.expect(body.upgrade.samePan).to.eql(true);",
+                  "  pm.expect(body.treatment.outcome).to.eql('MATCH');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceProductCode\": \"{{sourceProductCode}}\",\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"pan\": \"{{runPan}}\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/demo/e2e"
+          }
+        },
+        {
+          "name": "Demo E2E (empty body uses configured defaults)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 on a fresh store, 422 if official PAN already exists', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "description": "Defaults: MCG → MWE with SandboxSamplePan (5555555555554444).",
+            "url": "{{localBaseUrl}}/api/demo/e2e"
           }
         }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"reason\": \"CUSTOMER_UPGRADE\"\n}"
+      ]
+    },
+    {
+      "name": "09 Mastercard sandbox APIs",
+      "description": "Calls that leave this process: BIN Lookup hits sandbox.api.mastercard.com when credentials are set. ALM status uses Local ACS by default.",
+      "item": [
+        {
+          "name": "Sandbox BIN Lookup (official 585240844)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.response.ok) {",
+                  "  pm.test('expected without credentials (4xx/5xx)', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(400, 599);",
+                  "  });",
+                  "  return;",
+                  "}",
+                  "const body = pm.response.json();",
+                  "pm.test('BIN payload', function () {",
+                  "  pm.expect(body).to.satisfy(b => b.productCode || b.lowAccountRange);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"panOrAccountRange\": \"{{accountRange}}\"\n}"
+            },
+            "description": "Mastercard Developers Postman example accountRange 585240844 (productCode MCO). Needs OAuth1 .p12 or Bearer token.",
+            "url": "{{localBaseUrl}}/api/mastercard/sandbox/bin-lookup"
+          },
+          "response": [
+            {
+              "name": "200 BIN range",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"panOrAccountRange\": \"585240844\"\n}" },
+                "url": "{{localBaseUrl}}/api/mastercard/sandbox/bin-lookup"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"lowAccountRange\": 58524084400,\n  \"highAccountRange\": 58524084499,\n  \"productCode\": \"MCO\",\n  \"productDescription\": \"MASTERCARD CORPORATE\",\n  \"ica\": \"00000023460\"\n}"
+            }
+          ]
         },
-        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
-      }
-    },
-    {
-      "name": "8 - Upgrade Card (legacy /api/mastercard/upgrade)",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"pan\": \"{{pan}}\",\n  \"sourceProductCode\": \"{{sourceProductCode}}\",\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"effectiveDate\": \"{{effectiveDate}}\",\n  \"serviceCode\": \"{{almServiceCode}}\",\n  \"correlationId\": \"{{correlationId}}-upgrade\"\n}"
+        {
+          "name": "Sandbox BIN Lookup (empty body uses configured accountRange)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": "{{localBaseUrl}}/api/mastercard/sandbox/bin-lookup"
+          }
         },
-        "url": "{{localBaseUrl}}/api/mastercard/upgrade"
-      }
+        {
+          "name": "BIN Lookup (same client, /api/mastercard/bin-lookup)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"panOrAccountRange\": \"{{accountRange}}\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/mastercard/bin-lookup"
+          }
+        },
+        {
+          "name": "ALM status by correlation_id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 when mastercardReference is set, 404/400 otherwise', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "description": "GET account-registrations?correlation_id=. Local ACS returns FINAL after register/upgrade.",
+            "url": "{{localBaseUrl}}/api/mastercard/alm/status/{{mastercardReference}}"
+          }
+        }
+      ]
     },
     {
-      "name": "9 - Treatment check",
-      "request": {
-        "method": "GET",
-        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/treatment"
-      }
-    },
-    {
-      "name": "10 - ALM Status (correlation_id)",
-      "request": {
-        "method": "GET",
-        "url": "{{localBaseUrl}}/api/mastercard/alm/status/{{mastercardReference}}"
-      }
-    },
-    {
-      "name": "11 - Reconcile",
-      "request": {
-        "method": "POST",
-        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/{{migrationId}}/reconcile"
-      }
-    },
-    {
-      "name": "12 - Rollback",
-      "request": {
-        "method": "POST",
-        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/{{migrationId}}/rollback"
-      }
-    },
-    {
-      "name": "13 - Close / delete-registrations",
-      "request": {
-        "method": "POST",
-        "url": "{{localBaseUrl}}/api/cards/{{cardId}}/close"
-      }
+      "name": "10 Negative examples",
+      "item": [
+        {
+          "name": "Create unknown product (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"ZZZ\",\n  \"pan\": \"{{runPan}}\",\n  \"lookupBin\": false\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards"
+          },
+          "response": [
+            {
+              "name": "422 Unknown product",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"productCode\": \"ZZZ\",\n  \"lookupBin\": false\n}" },
+                "url": "{{localBaseUrl}}/api/cards"
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"title\": \"Eligibility failed\",\n  \"status\": 422,\n  \"detail\": \"Unknown product code 'ZZZ'.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create duplicate PAN (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productCode\": \"{{sourceProductCode}}\",\n  \"pan\": \"{{runPan}}\",\n  \"expiryMmYy\": \"{{expiryMmYy}}\",\n  \"lookupBin\": false\n}"
+            },
+            "description": "Re-posts the unique PAN from Setup. 422 once Create MCG (unique PAN) has run.",
+            "url": "{{localBaseUrl}}/api/cards"
+          }
+        },
+        {
+          "name": "Upgrade unknown product (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetProductCode\": \"ZZZ\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+          }
+        },
+        {
+          "name": "Upgrade already on target (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetProductCode\": \"{{sourceProductCode}}\"\n}"
+            },
+            "description": "After rollback the card is MCG again; upgrading to MCG fails. After MWE upgrade, send MWE instead.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+          }
+        },
+        {
+          "name": "MCO cannot graduate to MWE (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetProductCode\": \"{{targetProductCode}}\"\n}"
+            },
+            "url": "{{localBaseUrl}}/api/cards/{{mcoCardId}}/upgrades"
+          }
+        },
+        {
+          "name": "Invalid correlation id (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "description": "Universal-Spec-Api-Request-Id allows 1-255 of [0-9A-Za-z-].",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/register?correlationId=not%20a%20valid%20id"
+          }
+        },
+        {
+          "name": "Idempotency conflict same request id different operation (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('409 if register id reused, 422 if card already closed', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([409, 422]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetProductCode\": \"{{targetProductCode}}\",\n  \"correlationId\": \"{{registerCorrelationId}}\"\n}"
+            },
+            "description": "Reuses the register correlation id for an upgrade.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+          },
+          "response": [
+            {
+              "name": "409 Conflict",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"targetProductCode\": \"MWE\",\n  \"correlationId\": \"21ad4488-615b-4004-6158-ec5abff7d58f\"\n}" },
+                "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades"
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"title\": \"Idempotency conflict\",\n  \"status\": 409,\n  \"detail\": \"Request id was already used for ACS_REGISTER.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Rollback a register migration (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/upgrades/{{registerMigrationId}}/rollback"
+          }
+        },
+        {
+          "name": "Close twice (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('unprocessable', function () { pm.response.to.have.status(422); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "description": "Run after Close in folder 07.",
+            "url": "{{localBaseUrl}}/api/cards/{{cardId}}/close"
+          }
+        }
+      ]
     }
   ]
 }

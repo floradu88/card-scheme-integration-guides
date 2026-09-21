@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MastercardCardUpgrade.UnitT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MastercardCardUpgrade.E2ETests", "tests\MastercardCardUpgrade.E2ETests\MastercardCardUpgrade.E2ETests.csproj", "{73249656-7D20-4C27-AF8A-F66E42B176C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,11 +61,24 @@ Global
 		{C0AA8C86-A589-4559-BB8F-21C4ED558772}.Release|x64.Build.0 = Release|Any CPU
 		{C0AA8C86-A589-4559-BB8F-21C4ED558772}.Release|x86.ActiveCfg = Release|Any CPU
 		{C0AA8C86-A589-4559-BB8F-21C4ED558772}.Release|x86.Build.0 = Release|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Debug|x64.Build.0 = Debug|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Debug|x86.Build.0 = Debug|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Release|x64.ActiveCfg = Release|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Release|x64.Build.0 = Release|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Release|x86.ActiveCfg = Release|Any CPU
+		{73249656-7D20-4C27-AF8A-F66E42B176C1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C0AA8C86-A589-4559-BB8F-21C4ED558772} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{73249656-7D20-4C27-AF8A-F66E42B176C1} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal
