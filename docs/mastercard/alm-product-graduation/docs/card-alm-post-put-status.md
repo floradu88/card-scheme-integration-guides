@@ -230,6 +230,27 @@ A build that implemented only `PUT` would still receive a synchronous 202, and a
 
 Adding `POST` before `PUT` covers enrollment and a later product change. It does not close the status gap for non-final responses.
 
+## Implementation check: POST, PUT, and GET
+
+Checked on 2026-10-17 against `samples/mastercard-card-upgrade`. This is a comparison of the sample with the decision to keep POST, PUT, and GET, to skip delete, and to store each response for later. It is not a workplace finding. Records outside this repository were not reviewed.
+
+The POST, PUT, and GET decision matches the sample. Leaving out delete does not: the sample still closes a card by calling delete.
+
+| Claim | What the code does | Result |
+| --- | --- | --- |
+| POST registers the PAN | `RegisterPanAsync` sends `POST /asc/acs-api/account-registrations`. `UpgradeAsync` registers first when the card is not registered. | Confirmed |
+| PUT changes an existing registration | `UpdatePanProductAsync` sends `PUT` to the same path, with the stored `productRuleId`. | Confirmed |
+| GET resolves an unfinished write | A `Submitted` register or upgrade immediately calls `GetStatusAsync`, which is `GET ?correlation_id=`. HTTP 408 and a dropped connection are stored as `Unknown` and are not retried with the same request id. | Confirmed |
+| Store the response for later | Each migration keeps `CorrelationId`, `MastercardRequestId`, `ProductRuleId`, and `MastercardRawResponse`. The card keeps `LastAcsRequestId`, `AcsProductRuleId`, and `NetworkProductCode`. The issuer product changes only when the stored result is `ACCEPTED` and `FINAL` (`MigrationStatus.Active`). `INTERIM` and `PENDING` stay `Submitted`. | Confirmed for this sample |
+| No delete | `CloseAsync` calls `DeleteRegistrationAsync`, which is `POST /account-registrations/delete-registrations?services=ALM`. Rollback is another PUT, not a delete. | The sample goes beyond the decision |
+
+Two storage limits matter if these responses are kept for a later PUT:
+
+- The saved PUT body is only PAN, expiry, product code, and product-rule id. That is enough for this sample. It is not the full ACS registration. A later PUT that omits group, rewards, or co-brand fields would still wipe them at Mastercard.
+- Persistence is off unless `CardStorePath` is set. The default in `appsettings.json` is empty, so the stored responses last only for the process. The example file `App_Data/cards.json` would also store the clear PAN.
+
+The end-to-end set to keep is POST, PUT, and GET, with the request id and the response stored, and with the local product updated only from a `FINAL` acceptance. Delete remains a separate close operation. Dropping it matches the decision and removes something the current sample still does.
+
 ## Scope that this note does not decide
 
 - Which source and target product codes and which BIN ranges this issuer is allowed to use.
