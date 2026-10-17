@@ -10,6 +10,7 @@ Purpose: implement and certify an API-based Mastercard Account Catalog Services 
 - `docs/watchouts-risks-rollback.md` — risks, failure modes, reconciliation, rollback, security and operational watch-outs.
 - `docs/mastercard-verification-certification-runbook.md` — environment, evidence, Mastercard/CIS engagement and production gates.
 - `docs/official-mastercard-references.md` — authoritative Mastercard documentation to validate against.
+- `docs/card-alm-post-put-status.md` — card ALM `POST` then `PUT` response status, with the workflow in Mermaid and SVG. Links checked 2026-10-17.
 - `docs/mastercard-alm-dev-and-testing-estimate.md` — **recommended** incremental development + developer-testing estimate (**6 MD** baseline, **5–8 MD** range).
 - `docs/development-testing-certification-estimate.md` — full end-to-end project estimate (~55 MD); retained for greenfield / certification-inclusive planning.
 - `checklists/mastercard-alm-master-checklist.md` — stage-by-stage checklist.

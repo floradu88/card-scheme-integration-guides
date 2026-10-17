@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1720" viewBox="0 0 1280 1720" role="img" aria-labelledby="title desc">
+  <title id="title">Card ALM POST then PUT workflow</title>
+  <desc id="desc">Synchronous Account Catalog Services registration and update. The updated card is visible on the HTTP 202 body only when responseIndicator is ACCEPTED and responseType is FINAL. INTERIM, PENDING, and HTTP 408 stay unfinished without GET.</desc>
+  <style>
+    text { font-family: "Segoe UI", Arial, sans-serif; fill: #1b2830; }
+    .h { font-size: 22px; font-weight: 700; fill: #ffffff; }
+    .s { font-size: 13px; fill: #d6e4ee; }
+    .t { font-size: 15px; font-weight: 650; }
+    .b { font-size: 13px; }
+    .small { font-size: 12px; }
+  </style>
+  <rect width="1280" height="1720" fill="#f4f7f8"/>
+  <rect x="0" y="0" width="1280" height="92" fill="#0b3d5c"/>
+  <text class="h" x="40" y="40">Card ALM  POST, then PUT</text>
+  <text class="s" x="40" y="68">Account Catalog Services API 3.1.1. GET and delete are outside this build.</text>
+
+  <rect x="430" y="116" width="420" height="64" rx="8" fill="#ffffff" stroke="#0b3d5c" stroke-width="2"/>
+  <text class="t" x="640" y="142" text-anchor="middle">Card is not registered in ALM</text>
+  <text class="small" x="640" y="164" text-anchor="middle">PUT cannot be the first call</text>
+  <line x1="640" y1="180" x2="640" y2="204" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="640,214 634,204 646,204" fill="#0b3d5c"/>
+
+  <rect x="360" y="214" width="560" height="78" rx="8" fill="#e7f0f7" stroke="#0b3d5c" stroke-width="2"/>
+  <text class="t" x="640" y="244" text-anchor="middle">POST /asc/acs-api/account-registrations</text>
+  <text class="small" x="640" y="268" text-anchor="middle">Register one PAN. New Universal-Spec-Api-Request-Id. JWE payload.</text>
+
+  <line x1="640" y1="292" x2="640" y2="318" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="640,328 634,318 646,318" fill="#0b3d5c"/>
+
+  <polygon points="640,328 790,388 640,448 490,388" fill="#fff8e8" stroke="#8a6a12" stroke-width="2"/>
+  <text class="t" x="640" y="384" text-anchor="middle">HTTP result</text>
+  <text class="small" x="640" y="404" text-anchor="middle">same call, synchronous</text>
+
+  <line x1="490" y1="388" x2="210" y2="388" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="200,388 210,382 210,394" fill="#0b3d5c"/>
+  <rect x="24" y="352" width="176" height="72" rx="8" fill="#fdecea" stroke="#8c2f2f"/>
+  <text class="t" x="112" y="380" text-anchor="middle">400</text>
+  <text class="small" x="112" y="402" text-anchor="middle">Validation failed.</text>
+
+  <line x1="790" y1="360" x2="1040" y2="300" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="1048,294 1036,300 1042,310" fill="#0b3d5c"/>
+  <rect x="1048" y="258" width="208" height="72" rx="8" fill="#fdecea" stroke="#8c2f2f"/>
+  <text class="t" x="1152" y="286" text-anchor="middle">401</text>
+  <text class="small" x="1152" y="308" text-anchor="middle">Consumer not provisioned.</text>
+
+  <line x1="790" y1="416" x2="1040" y2="470" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="1048,476 1038,466 1036,478" fill="#0b3d5c"/>
+  <rect x="1048" y="440" width="208" height="88" rx="8" fill="#fff4e5" stroke="#8a6a12"/>
+  <text class="t" x="1152" y="468" text-anchor="middle">408 or no body</text>
+  <text class="small" x="1152" y="490" text-anchor="middle">Outcome unknown.</text>
+  <text class="small" x="1152" y="508" text-anchor="middle">Do not reuse the request id.</text>
+
+  <line x1="640" y1="448" x2="640" y2="478" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="640,488 634,478 646,478" fill="#0b3d5c"/>
+  <text class="small" x="652" y="472">202</text>
+
+  <polygon points="640,488 860,568 640,648 420,568" fill="#fff8e8" stroke="#8a6a12" stroke-width="2"/>
+  <text class="t" x="640" y="560" text-anchor="middle">Product-rule status</text>
+  <text class="small" x="640" y="582" text-anchor="middle">responseIndicator + responseType</text>
+
+  <line x1="420" y1="568" x2="230" y2="568" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="220,568 230,562 230,574" fill="#0b3d5c"/>
+  <rect x="24" y="520" width="196" height="96" rx="8" fill="#e7f6ee" stroke="#1d6b45"/>
+  <text class="t" x="122" y="548" text-anchor="middle">ACCEPTED + FINAL</text>
+  <text class="small" x="122" y="570" text-anchor="middle">Registration is finished.</text>
+  <text class="small" x="122" y="588" text-anchor="middle">Product is on this body.</text>
+
+  <line x1="860" y1="548" x2="1048" y2="548" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="1056,548 1046,542 1046,554" fill="#0b3d5c"/>
+  <rect x="1056" y="512" width="200" height="80" rx="8" fill="#fdecea" stroke="#8c2f2f"/>
+  <text class="t" x="1156" y="542" text-anchor="middle">REJECTED + FINAL</text>
+  <text class="small" x="1156" y="566" text-anchor="middle">Read rejectCodes.</text>
+
+  <line x1="640" y1="648" x2="640" y2="678" stroke="#8a6a12" stroke-width="2"/>
+  <polygon points="640,688 634,678 646,678" fill="#8a6a12"/>
+  <rect x="390" y="688" width="500" height="72" rx="8" fill="#fff4e5" stroke="#8a6a12"/>
+  <text class="t" x="640" y="716" text-anchor="middle">PENDING or INTERIM</text>
+  <text class="small" x="640" y="740" text-anchor="middle">Not finished. The card on this body can still change. GET is the status channel.</text>
+
+  <line x1="122" y1="616" x2="122" y2="800" stroke="#1d6b45" stroke-width="2"/>
+  <line x1="122" y1="800" x2="640" y2="800" stroke="#1d6b45" stroke-width="2"/>
+  <line x1="640" y1="800" x2="640" y2="828" stroke="#1d6b45" stroke-width="2"/>
+  <polygon points="640,838 634,828 646,828" fill="#1d6b45"/>
+
+  <rect x="360" y="838" width="560" height="78" rx="8" fill="#e7f0f7" stroke="#0b3d5c" stroke-width="2"/>
+  <text class="t" x="640" y="868" text-anchor="middle">PUT /asc/acs-api/account-registrations</text>
+  <text class="small" x="640" y="892" text-anchor="middle">Update the already registered PAN. Send the full payload. New request id.</text>
+
+  <line x1="640" y1="916" x2="640" y2="942" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="640,952 634,942 646,942" fill="#0b3d5c"/>
+  <polygon points="640,952 790,1012 640,1072 490,1012" fill="#fff8e8" stroke="#8a6a12" stroke-width="2"/>
+  <text class="t" x="640" y="1008" text-anchor="middle">HTTP result</text>
+  <text class="small" x="640" y="1028" text-anchor="middle">same rules as POST</text>
+
+  <line x1="490" y1="1012" x2="230" y2="1012" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="220,1012 230,1006 230,1018" fill="#0b3d5c"/>
+  <rect x="24" y="976" width="196" height="72" rx="8" fill="#fdecea" stroke="#8c2f2f"/>
+  <text class="t" x="122" y="1004" text-anchor="middle">400 or 401</text>
+  <text class="small" x="122" y="1026" text-anchor="middle">No product change.</text>
+
+  <line x1="790" y1="1012" x2="1048" y2="1012" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="1056,1012 1046,1006 1046,1018" fill="#0b3d5c"/>
+  <rect x="1056" y="976" width="200" height="88" rx="8" fill="#fff4e5" stroke="#8a6a12"/>
+  <text class="t" x="1156" y="1006" text-anchor="middle">408 or no body</text>
+  <text class="small" x="1156" y="1028" text-anchor="middle">Unknown. Keep the id.</text>
+  <text class="small" x="1156" y="1046" text-anchor="middle">GET to recover.</text>
+
+  <line x1="640" y1="1072" x2="640" y2="1100" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="640,1110 634,1100 646,1100" fill="#0b3d5c"/>
+  <text class="small" x="652" y="1094">202</text>
+  <polygon points="640,1110 860,1190 640,1270 420,1190" fill="#fff8e8" stroke="#8a6a12" stroke-width="2"/>
+  <text class="t" x="640" y="1182" text-anchor="middle">Product-rule status</text>
+  <text class="small" x="640" y="1204" text-anchor="middle">on the PUT body</text>
+
+  <line x1="420" y1="1190" x2="230" y2="1190" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="220,1190 230,1184 230,1196" fill="#0b3d5c"/>
+  <rect x="24" y="1148" width="196" height="112" rx="8" fill="#e7f6ee" stroke="#1d6b45"/>
+  <text class="t" x="122" y="1178" text-anchor="middle">ACCEPTED + FINAL</text>
+  <text class="small" x="122" y="1200" text-anchor="middle">Updated card is visible</text>
+  <text class="small" x="122" y="1218" text-anchor="middle">on this response.</text>
+  <text class="small" x="122" y="1236" text-anchor="middle">No GET required.</text>
+
+  <line x1="860" y1="1170" x2="1048" y2="1170" stroke="#0b3d5c" stroke-width="2"/>
+  <polygon points="1056,1170 1046,1164 1046,1176" fill="#0b3d5c"/>
+  <rect x="1056" y="1132" width="200" height="80" rx="8" fill="#fdecea" stroke="#8c2f2f"/>
+  <text class="t" x="1156" y="1162" text-anchor="middle">REJECTED + FINAL</text>
+  <text class="small" x="1156" y="1186" text-anchor="middle">Upgrade did not apply.</text>
+
+  <line x1="640" y1="1270" x2="640" y2="1300" stroke="#8a6a12" stroke-width="2"/>
+  <polygon points="640,1310 634,1300 646,1300" fill="#8a6a12"/>
+  <rect x="360" y="1310" width="560" height="72" rx="8" fill="#fff4e5" stroke="#8a6a12"/>
+  <text class="t" x="640" y="1338" text-anchor="middle">PENDING or INTERIM</text>
+  <text class="small" x="640" y="1362" text-anchor="middle">Upgrade status is not finished. Without GET it stays unknown.</text>
+
+  <rect x="40" y="1420" width="1200" height="260" rx="8" fill="#ffffff" stroke="#c5d0d6"/>
+  <text class="t" x="64" y="1452">Read this with the diagram</text>
+  <text class="b" x="64" y="1482">POST registers the PAN. The documented Product Graduation call is this POST. PUT updates a PAN that is already registered.</text>
+  <text class="b" x="64" y="1508">Both calls are synchronous. Success is HTTP 202 with the decision on each product rule. Commit the local product only for ACCEPTED or REJECTED with responseType FINAL.</text>
+  <text class="b" x="64" y="1534">GET /account-registrations?correlation_id= re-reads that request id. It does not look the card up by PAN. It is required only for INTERIM, PENDING, HTTP 408, or a dropped connection.</text>
+  <text class="b" x="64" y="1560">Delete is POST /account-registrations/delete-registrations. It is a separate operation. Omitting fields on PUT stores them as blank and overwrites the current registration.</text>
+  <text class="b" x="64" y="1586">Public docs define INTERIM and PENDING. They do not list which products or regions return them. Confirm with a sandbox POST and PUT for this program.</text>
+  <text class="b" x="64" y="1612">The testing guide limits current PUT and delete support to Mastercard One Credential and ALM Commercial Flexible Interchange PAN.</text>
+  <text class="small" x="64" y="1648">Sources: ACS overview, API 3.1.1 swagger, Product Graduation use case, testing guide, codes and formats, support FAQ. Checked 2026-10-17.</text>
+</svg>
